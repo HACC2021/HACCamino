@@ -135,6 +135,10 @@ class ReportCollection extends BaseCollection {
     return null;
   }
 
+  getCurrentReports() {
+    return this._collection.find({}, { sort: { date: 1 } }).fetch();
+  }
+
 }
 
 /**
