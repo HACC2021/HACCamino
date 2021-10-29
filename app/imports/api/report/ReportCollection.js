@@ -21,10 +21,10 @@ class ReportCollection extends BaseCollection {
       lat: Number,
       lng: Number,
       people: Number,
-      phone: Number,
+      phone: String,
       notes: {
         type: String,
-        option: false,
+        optional: false,
       },
     }));
   }
@@ -63,7 +63,7 @@ class ReportCollection extends BaseCollection {
     if (_.isNumber(people)) {
       updateData.people = people;
     }
-    if (_.isNumber(phone)) {
+    if (phone) {
       updateData.phone = phone;
     }
     if (characteristics) {
