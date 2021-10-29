@@ -12,6 +12,7 @@ export const reportPublications = {
 class ReportCollection extends BaseCollection {
   constructor() {
     super('Reports', new SimpleSchema({
+      title: String,
       name: String,
       date: Date,
       accessKey: String,
@@ -29,8 +30,9 @@ class ReportCollection extends BaseCollection {
     }));
   }
 
-  define({ name, date, accessKey, location, characteristics, lat, lng, people, phone, notes, animalBehavior }) {
+  define({ title, name, date, accessKey, location, characteristics, lat, lng, people, phone, notes, animalBehavior }) {
     const docID = this._collection.insert({
+      title,
       name,
       date,
       accessKey,
@@ -46,8 +48,11 @@ class ReportCollection extends BaseCollection {
     return docID;
   }
 
-  update(docID, { name, accessKey, location, characteristics, people, phone, notes, animalBehavior }) {
+  update(docID, { title, name, accessKey, location, characteristics, people, phone, notes, animalBehavior }) {
     const updateData = {};
+    if (title) {
+      updateData.name = title;
+    }
     if (name) {
       updateData.name = name;
     }

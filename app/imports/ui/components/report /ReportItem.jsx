@@ -1,16 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Meteor } from 'meteor/meteor';
-import { Container, Card } from 'semantic-ui-react';
+import { Card } from 'semantic-ui-react';
 
-const ReportItem = ({ report }) => {
-  const placeHolder = 'place holder';
-  return (
-    <Container>
-      {placeHolder}
-    </Container>
+const ReportItem = ({ report }) => (
+    <Card>
+      <Card.Content>
+        <Card.Header>{report.title}</Card.Header>
+      </Card.Content>
+    </Card>
   );
-};
 
 ReportItem.propTypes = {
   report: PropTypes.object.isRequired,

@@ -1,24 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Meteor } from 'meteor/meteor';
-import { Container, Loader } from 'semantic-ui-react';
+import { Container, Loader, Card } from 'semantic-ui-react';
 import { withTracker } from 'meteor/react-meteor-data';
 import { Reports } from '../../../api/report/ReportCollection';
+import ReportItem from '../../components/report /ReportItem';
 
-const ViewReport = ({ ready, allReports }) => {
-  const placeHolder = 'placeHolder';
-  console.log(allReports);
-  return (
+const ViewReport = ({ ready, allReports }) => (
   <Container>
     { ready ?
     <div>
-      {placeHolder}
+      <Card.Group>
+        {allReports.map((report) => <ReportItem report={report} key={report._id} />)}
+      </Card.Group>
     </div>
     : <Loader>Loading</Loader>
     }
   </Container>
   );
-};
 
 ViewReport.propTypes = {
   ready: PropTypes.bool.isRequired,

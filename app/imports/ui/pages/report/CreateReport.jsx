@@ -27,6 +27,7 @@ const CreateReport = () => {
   }, []);
 
   // Form Hooks
+  const [finalTitle, setFinalTitle] = useState(() => '');
   const [finalName, setFinalName] = useState(() => '');
   const [finalLocation, setFinalLocation] = useState(() => '');
   const [finalCharacteristics, setFinalCharacteristics] = useState(() => '');
@@ -37,6 +38,7 @@ const CreateReport = () => {
 
   const onSubmit = () => {
     const definitionData = {};
+    definitionData.title = finalTitle;
     definitionData.name = finalName;
     definitionData.date = new Date();
     definitionData.location = finalLocation;
@@ -69,6 +71,14 @@ const CreateReport = () => {
     <Container>
       <h2>Create Report</h2>
       <Form>
+        <Form.Group>
+          <Form.Field
+          width={16}
+          label='Title Of Report'
+          placeholder='title'
+          onChange={ e => setFinalTitle(e.target.value)}
+          />
+        </Form.Group>
         <Form.Group widths='equal'>
           <Form.Field width={8}>
             <label>Name</label>
