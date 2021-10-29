@@ -3,6 +3,8 @@
   "private": true,
   "dependencies": {
     "@babel/runtime": "^7.14.6",
+    "@reach/combobox": "^0.16.3",
+    "@react-google-maps/api": "^2.5.0",
     "classnames": "^2.3.1",
     "core-js": "^3.15.1",
     "cross-env": "^7.0.3",
@@ -20,9 +22,11 @@
     "sweetalert": "^2.1.2",
     "uniforms": "^2.6.9",
     "uniforms-bridge-simple-schema-2": "^2.6.9",
-    "uniforms-semantic": "^2.6.9"
+    "uniforms-semantic": "^2.6.9",
+    "use-places-autocomplete": "^1.10.0"
   },
   "devDependencies": {
+    "@types/googlemaps": "^3.43.3",
     "babel-eslint": "^10.1.0",
     "chai": "^4.3.4",
     "enzyme": "^3.11.0",
