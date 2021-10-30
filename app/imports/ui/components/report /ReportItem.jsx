@@ -1,50 +1,73 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Card, Modal, Button } from 'semantic-ui-react';
+import { Card, Modal, Button, Icon } from 'semantic-ui-react';
 import ReviewButton from './ReviewButton';
 
 const ReportItem = ({ report }) => {
-  const [open, setOpen] = useState(false);
+  const [firstOpen, setFirstOpen] = useState(false);
+  const [secondOpen, setSecondOpen] = useState(false);
 
   return (
-  <Modal
-    onClose={() => setOpen(false)}
-    onOpen={() => setOpen(true)}
-    open={open}
-    trigger={<Card>
-      <Card.Content>
-        <Card.Header>{report.title}</Card.Header>
-        <Card.Description>
-          <p>{report.date.toLocaleString()}</p>
-          <p>{report.location}</p>
-        </Card.Description>
-      </Card.Content>
-    </Card>}
-  >
-    <Modal.Header>{report.title}</Modal.Header>
-    <Modal.Content>
-      <Modal.Description>
-        <p>Reporter Name: {report.name}</p>
-        <p>Phone: {report.phone}</p>
-        <p>Date: {report.date.toLocaleString()}</p>
-        <p>Location: {report.location}</p>
-        <p>Animal Characteristics: {report.characteristics}</p>
-        <p>Animal Behavior: {report.animalBehavior}</p>
-        <p>Number Of People Around The Area: {report.people}</p>
-        <p>Notes: {report.notes}</p>
-      </Modal.Description>
-    </Modal.Content>
-    <Modal.Actions>
-      <ReviewButton />
-      <Button
-      primary
-      onClick={() => setOpen(false)}
+  <>
+    <Modal
+    onClose={() => setFirstOpen(false)}
+    onOpen={() => setFirstOpen(true)}
+    open={firstOpen}
+    trigger={
+      <Card>
+        <Card.Content>
+          <Card.Header>{report.title}</Card.Header>
+          <Card.Description>
+            <p>{report.date.toLocaleString()}</p>
+            <p>{report.location}</p>
+          </Card.Description>
+        </Card.Content>
+      </Card>
+    }
+    >
+      <Modal.Header>{report.title}</Modal.Header>
+      <Modal.Content>
+        <Modal.Description>
+          <p>Reporter Name: {report.name}</p>
+          <p>Phone: {report.phone}</p>
+          <p>Date: {report.date.toLocaleString()}</p>
+          <p>Location: {report.location}</p>
+          <p>Animal Characteristics: {report.characteristics}</p>
+          <p>Animal Behavior: {report.animalBehavior}</p>
+          <p>Number Of People Around The Area: {report.people}</p>
+          <p>Notes: {report.notes}</p>
+        </Modal.Description>
+      </Modal.Content>
+      <Modal.Actions>
+        <Button
+        primary
+        onClick={() => setFirstOpen(false)}>
+          Close
+        </Button>
+        <Button onClick={() => setSecondOpen(true)} primary>
+          Review <Icon name='right chevron' />
+        </Button>
+      </Modal.Actions>
+
+      <Modal
+      onClose={() => setSecondOpen(false)}
+      open={secondOpen}
+      size='small'
       >
-        Close
-      </Button>
-    </Modal.Actions>
-  </Modal>
-  );
+        <Modal.Header>Modal #2</Modal.Header>
+        <Modal.Content>
+          <ReviewButton report={report}/>
+        </Modal.Content>
+        <Modal.Actions>
+          <Button
+          icon='check'
+          content='All Done'
+          onClick={() => setSecondOpen(false)}
+          />
+        </Modal.Actions>
+      </Modal>
+    </Modal>
+  </>);
 };
 
 ReportItem.propTypes = {

@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Button } from 'semantic-ui-react';
+import { Container } from 'semantic-ui-react';
 
 const ReviewButton = ({ report }) => {
   const placeHolder = 'place holder';
   return (
-    <Button positive>
-      Review
-    </Button>
+    <Container>
+      Welcome {report.name}
+    </Container>
   );
 };
 
