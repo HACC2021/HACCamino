@@ -13,6 +13,7 @@ import Signup from '../pages/Signup';
 import Signout from '../pages/Signout';
 import CreateReport from '../pages/report/CreateReport';
 import ViewReport from '../pages/report/ViewReport';
+import ListVolunteers from '../pages/admin-exclusive/ListVolunteers';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 class App extends React.Component {
@@ -30,6 +31,7 @@ class App extends React.Component {
               {/* <ProtectedRoute path="/list" component={ListStuff}/> */}
               {/* DELETE: <ProtectedRoute path="/edit/:_id" component={EditStuff}/>  */}
               {/* DELETE: <AdminProtectedRoute path="/admin" component={ListStuffAdmin}/> */}
+              <AdminProtectedRoute path="/volunteers-list" component={ListVolunteers}/>
               <ProtectedRoute path="/signout" component={Signout}/>
               <Route component={NotFound}/>
             </Switch>
