@@ -27,6 +27,7 @@ const CreateReport = () => {
   }, []);
 
   // Form Hooks
+  const [finalTitle, setFinalTitle] = useState(() => '');
   const [finalName, setFinalName] = useState(() => '');
   const [finalLocation, setFinalLocation] = useState(() => '');
   const [finalCharacteristics, setFinalCharacteristics] = useState(() => '');
@@ -37,6 +38,7 @@ const CreateReport = () => {
 
   const onSubmit = () => {
     const definitionData = {};
+    definitionData.title = finalTitle;
     definitionData.name = finalName;
     definitionData.date = new Date();
     definitionData.location = finalLocation;
@@ -47,56 +49,65 @@ const CreateReport = () => {
     definitionData.notes = finalNotes;
     definitionData.lat = markers[0].lat;
     definitionData.lng = markers[0].lng;
+    definitionData.link = 'empty';
     definitionData.accessKey = 'blank';
     reportDefineMethod.call(definitionData,
     error => {
       if (error) {
         swal('Error', error.message, 'error');
       } else {
-        swal('Success', 'Report Created Successfully',
-        'success');
+        swal('Success', 'Report Added Successfully', 'success');
+        setFinalTitle('');
+        setFinalName('');
+        setFinalLocation('');
+        setFinalCharacteristics('');
+        setFinalAnimalBehavior('');
+        setFinalPeople(1);
+        setFinalPhone('');
+        setFinalNotes('');
       }
-      setFinalName('');
-      setFinalLocation('');
-      setFinalCharacteristics('');
-      setFinalAnimalBehavior('');
-      setFinalPeople(1);
-      setFinalPhone('');
-      setFinalNotes('');
     });
   };
   return (
     <Container>
       <h2>Create Report</h2>
       <Form>
+        <Form.Group>
+          <Form.Field width={16}>
+            <label>Title Of Report</label>
+            <input placeholder='Title' value={finalTitle} onChange={ e => setFinalTitle(e.target.value)}/>
+          </Form.Field>
+        </Form.Group>
         <Form.Group widths='equal'>
           <Form.Field width={8}>
             <label>Name</label>
-            <input placeholder='Name' onChange={ e => setFinalName(e.target.value)}/>
+            <input placeholder='Name' value={finalName} onChange={ e => setFinalName(e.target.value)}/>
           </Form.Field>
           <Form.Field width={8}>
             <label>Location</label>
-            <input placeholder='Location' onChange={ e => setFinalLocation(e.target.value)}/>
+            <input placeholder='Location' value={finalLocation} onChange={ e => setFinalLocation(e.target.value)}/>
           </Form.Field>
         </Form.Group>
         <Form.Group width='equal'>
           <Form.Field width={8}>
             <label>Animal Characteristics</label>
-            <input placeholder='characteristics' onChange={ e => setFinalCharacteristics(e.target.value)}/>
+            <input placeholder='characteristics'
+                   value={finalCharacteristics} onChange={ e => setFinalCharacteristics(e.target.value)}/>
           </Form.Field>
           <Form.Field width={8}>
             <label>Animal Behavior</label>
-            <input placeholder='behavior' onChange={ e => setFinalAnimalBehavior(e.target.value)}/>
+            <input placeholder='behavior'
+                   value={finalAnimalBehavior} onChange={ e => setFinalAnimalBehavior(e.target.value)}/>
           </Form.Field>
         </Form.Group>
         <Form.Group width='equal'>
           <Form.Field width={8}>
             <label>Number Of People Around The Area</label>
-            <input placeholder='people' onChange={ e => setFinalPeople(e.target.value)}/>
+            <input placeholder='people' value={finalPeople} onChange={ e => setFinalPeople(e.target.value)}/>
           </Form.Field>
           <Form.Field width={8}>
             <label>Phone Number</label>
-            <input placeholder='(xxx)' onChange={ e => setFinalPhone(e.target.value)}/>
+            <input placeholder='(xxx)' value={finalPhone} onChange={ e => setFinalPhone(e.target.value)}/>
           </Form.Field>
         </Form.Group>
         <Form.Group>
@@ -106,6 +117,7 @@ const CreateReport = () => {
           control={TextArea}
           label='Notes'
           placeholder='Notes'
+          value={finalNotes}
           onChange={ e => setFinalNotes(e.target.value)}
           />
         </Form.Group>
