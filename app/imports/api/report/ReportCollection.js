@@ -2,16 +2,16 @@ import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 import { check } from 'meteor/check';
 import { _ } from 'meteor/underscore';
+import { Roles } from 'meteor/alanning:roles';
 import BaseCollection from '../base/BaseCollection';
 
 export const reportPublications = {
-  report: 'Report',
-  reportAdmin: 'ReportAdmin',
+  reportAdminVolunteer: 'ReportAdminVolunteer',
 };
 
 class ReportCollection extends BaseCollection {
   constructor() {
-    super('Reports', new SimpleSchema({
+    super('Report', new SimpleSchema({
       title: String,
       name: String,
       date: Date,
@@ -31,8 +31,8 @@ class ReportCollection extends BaseCollection {
     }));
   }
 
-  define({ title, name, date,
-           accessKey, location, characteristics, lat, lng, people, phone, notes, animalBehavior, link }) {
+  define({ name, date, accessKey, location, characteristics, lat, lng, people, phone, notes, animalBehavior }) {
+    // add duplicate verifier here, create a new method/function if you have to
     const docID = this._collection.insert({
       title,
       name,
@@ -103,18 +103,11 @@ class ReportCollection extends BaseCollection {
     if (Meteor.isServer) {
       // get the ReportCollection instance.
       const instance = this;
-      /** This subscription publishes only the documents associated with the logged in user */
-      Meteor.publish(reportPublications.report, function publish() {
-        if (this.userId) {
-          const username = Meteor.users.findOne(this.userId).username;
-          return instance._collection.find({ owner: username });
-        }
-        return this.ready();
-      });
 
+      // only publish reports when logged in.
       /** This subscription publishes all documents regardless of user, but only if the logged in user is the Admin. */
       Meteor.publish(reportPublications.reportAdmin, function publish() {
-        if (this.userId) {
+        if (this.userId && Roles.userIsInRole(this.userId, ['admin', 'volunteer'])) {
           return instance._collection.find();
         }
         return this.ready();
@@ -123,22 +116,12 @@ class ReportCollection extends BaseCollection {
   }
 
   /**
-   * Subscription method for report owned by the current user.
-   */
-  subscribeReport() {
-    if (Meteor.isClient) {
-      return Meteor.subscribe(reportPublications.report);
-    }
-    return null;
-  }
-
-  /**
    * Subscription method for admin users.
    * It subscribes to the entire collection.
    */
   subscribeReportAdmin() {
     if (Meteor.isClient) {
-      return Meteor.subscribe(reportPublications.reportAdmin);
+      return Meteor.subscribe(reportPublications.reportAdminVolunteer);
     }
     return null;
   }
