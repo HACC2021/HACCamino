@@ -10,7 +10,7 @@ import { Reports } from './ReportCollection';
  * @memberOf api/base
  */
 export const reportDefineMethod = new ValidatedMethod({
-  name: 'ReportsCollection.define',
+  name: 'ReportCollection.define',
   mixins: [CallPromiseMixin],
   validate: null,
   run(definitionData) {
@@ -25,7 +25,7 @@ export const reportDefineMethod = new ValidatedMethod({
 });
 
 export const reportUpdateMethod = new ValidatedMethod({
-  name: 'ReportsCollection.update',
+  name: 'ReportCollection.update',
   mixins: [CallPromiseMixin],
   validate: null,
   run(updateData) {
@@ -35,7 +35,7 @@ export const reportUpdateMethod = new ValidatedMethod({
 });
 
 export const reportRemoveItMethod = new ValidatedMethod({
-  name: 'ReportsCollection.removeIt',
+  name: 'ReportCollection.removeIt',
   mixins: [CallPromiseMixin],
   validate: null,
   run(instance) {

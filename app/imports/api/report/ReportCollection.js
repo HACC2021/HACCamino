@@ -11,7 +11,7 @@ export const reportPublications = {
 
 class ReportCollection extends BaseCollection {
   constructor() {
-    super('Reports', new SimpleSchema({
+    super('Report', new SimpleSchema({
       name: String,
       date: Date,
       accessKey: String,
