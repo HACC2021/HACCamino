@@ -51,7 +51,7 @@ class ReportCollection extends BaseCollection {
   update(docID, { title, name, accessKey, location, characteristics, people, phone, notes, animalBehavior }) {
     const updateData = {};
     if (title) {
-      updateData.name = title;
+      updateData.title = title;
     }
     if (name) {
       updateData.name = name;

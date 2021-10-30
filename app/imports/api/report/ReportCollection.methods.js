@@ -29,7 +29,7 @@ export const reportUpdateMethod = new ValidatedMethod({
   mixins: [CallPromiseMixin],
   validate: null,
   run(updateData) {
-    Reports.update(updateData.id, updateData);
+    Reports.update(updateData._id, updateData);
     return true;
   },
 });

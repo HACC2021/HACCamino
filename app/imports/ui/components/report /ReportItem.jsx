@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Card, Modal, Button, Icon } from 'semantic-ui-react';
 import ReviewButton from './ReviewButton';
+import DeleteButton from './DeleteButton';
 
 const ReportItem = ({ report }) => {
   const [firstOpen, setFirstOpen] = useState(false);
@@ -39,6 +40,7 @@ const ReportItem = ({ report }) => {
         </Modal.Description>
       </Modal.Content>
       <Modal.Actions>
+        <DeleteButton report={report} />
         <Button
         primary
         onClick={() => setFirstOpen(false)}>
