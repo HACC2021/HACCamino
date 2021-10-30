@@ -31,7 +31,7 @@ class ReportCollection extends BaseCollection {
     }));
   }
 
-  define({ name, date, accessKey, location, characteristics, lat, lng, people, phone, notes, animalBehavior }) {
+  define({ title, name, date, accessKey, location, characteristics, lat, lng, people, phone, notes, animalBehavior, link }) {
     // add duplicate verifier here, create a new method/function if you have to
     const docID = this._collection.insert({
       title,
