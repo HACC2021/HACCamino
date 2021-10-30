@@ -41,7 +41,6 @@ const ReviewButton = ({ report }) => {
 
   return (
     <Container>
-      <h2>Edit Report</h2>
       <Form>
         <Form.Group>
           <Form.Field width={16}>

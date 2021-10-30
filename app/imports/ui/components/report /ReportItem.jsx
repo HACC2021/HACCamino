@@ -14,6 +14,7 @@ const ReportItem = ({ report }) => {
     onClose={() => setFirstOpen(false)}
     onOpen={() => setFirstOpen(true)}
     open={firstOpen}
+    size='small'
     trigger={
       <Card>
         <Card.Content>
@@ -56,7 +57,7 @@ const ReportItem = ({ report }) => {
       open={secondOpen}
       size='small'
       >
-        <Modal.Header>Modal #2</Modal.Header>
+        <Modal.Header>Edit Report</Modal.Header>
         <Modal.Content>
           <ReviewButton report={report}/>
         </Modal.Content>
