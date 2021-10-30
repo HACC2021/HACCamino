@@ -5,12 +5,14 @@ import { Container, Loader, Card } from 'semantic-ui-react';
 import { withTracker } from 'meteor/react-meteor-data';
 import { Reports } from '../../../api/report/ReportCollection';
 import ReportItem from '../../components/report /ReportItem';
+import Maps from '../../components/report /Maps';
 
 const ViewReport = ({ ready, allReports }) => (
   <Container>
     { ready ?
     <div>
-      <Card.Group>
+      <Maps allReports={allReports} />
+      <Card.Group style={{ marginTop: '10px' }}>
         {allReports.map((report) => <ReportItem report={report} key={report._id} />)}
       </Card.Group>
     </div>
