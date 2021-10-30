@@ -25,12 +25,14 @@ class ReportCollection extends BaseCollection {
       phone: String,
       notes: {
         type: String,
-        optional: false,
+        optional: true,
       },
+      link: String,
     }));
   }
 
-  define({ title, name, date, accessKey, location, characteristics, lat, lng, people, phone, notes, animalBehavior }) {
+  define({ title, name, date,
+           accessKey, location, characteristics, lat, lng, people, phone, notes, animalBehavior, link }) {
     const docID = this._collection.insert({
       title,
       name,
@@ -44,6 +46,7 @@ class ReportCollection extends BaseCollection {
       phone,
       notes,
       animalBehavior,
+      link,
     });
     return docID;
   }

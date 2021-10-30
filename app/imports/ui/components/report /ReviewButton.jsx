@@ -28,6 +28,7 @@ const ReviewButton = ({ report }) => {
     updateData.notes = finalNotes;
     updateData.lat = report.lat;
     updateData.lng = report.lng;
+    updateData.link = report.link;
     updateData.accessKey = report.accessKey;
     reportUpdateMethod.call(updateData,
     error => {

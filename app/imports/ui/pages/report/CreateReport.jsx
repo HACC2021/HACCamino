@@ -49,6 +49,7 @@ const CreateReport = () => {
     definitionData.notes = finalNotes;
     definitionData.lat = markers[0].lat;
     definitionData.lng = markers[0].lng;
+    definitionData.link = 'empty';
     definitionData.accessKey = 'blank';
     reportDefineMethod.call(definitionData,
     error => {
