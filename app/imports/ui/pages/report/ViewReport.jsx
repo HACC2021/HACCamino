@@ -4,8 +4,8 @@ import { Meteor } from 'meteor/meteor';
 import { Container, Loader, Card } from 'semantic-ui-react';
 import { withTracker } from 'meteor/react-meteor-data';
 import { Reports } from '../../../api/report/ReportCollection';
-import ReportItem from '../../components/report /ReportItem';
-import Maps from '../../components/report /Maps';
+import ReportItem from '../../components/report/ReportItem';
+import Maps from '../../components/report/Maps';
 
 const ViewReport = ({ ready, allReports }) => (
   <Container>
