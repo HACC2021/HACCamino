@@ -57,14 +57,15 @@ const CreateReport = () => {
       } else {
         swal('Success', 'Report Created Successfully',
         'success');
+        setFinalTitle('');
+        setFinalName('');
+        setFinalLocation('');
+        setFinalCharacteristics('');
+        setFinalAnimalBehavior('');
+        setFinalPeople(1);
+        setFinalPhone('');
+        setFinalNotes('');
       }
-      setFinalName('');
-      setFinalLocation('');
-      setFinalCharacteristics('');
-      setFinalAnimalBehavior('');
-      setFinalPeople(1);
-      setFinalPhone('');
-      setFinalNotes('');
     });
   };
   return (
@@ -72,12 +73,10 @@ const CreateReport = () => {
       <h2>Create Report</h2>
       <Form>
         <Form.Group>
-          <Form.Field
-          width={16}
-          label='Title Of Report'
-          placeholder='title'
-          onChange={ e => setFinalTitle(e.target.value)}
-          />
+          <Form.Field width={16}>
+            <label>Title Of Report</label>
+            <input placeholder='Title' onChange={ e => setFinalTitle(e.target.value)}/>
+          </Form.Field>
         </Form.Group>
         <Form.Group widths='equal'>
           <Form.Field width={8}>
