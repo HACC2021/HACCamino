@@ -31,7 +31,8 @@ class ReportCollection extends BaseCollection {
     }));
   }
 
-  define({ title, name, date, accessKey, location, characteristics, lat, lng, people, phone, notes, animalBehavior, link }) {
+  define({ title, name, date, accessKey,
+           location, characteristics, lat, lng, people, phone, notes, animalBehavior, link }) {
     // add duplicate verifier here, create a new method/function if you have to
     const docID = this._collection.insert({
       title,
@@ -106,7 +107,7 @@ class ReportCollection extends BaseCollection {
 
       // only publish reports when logged in.
       /** This subscription publishes all documents regardless of user, but only if the logged in user is the Admin. */
-      Meteor.publish(reportPublications.reportAdmin, function publish() {
+      Meteor.publish(reportPublications.reportAdminVolunteer, function publish() {
         if (this.userId && Roles.userIsInRole(this.userId, ['admin', 'volunteer'])) {
           return instance._collection.find();
         }
