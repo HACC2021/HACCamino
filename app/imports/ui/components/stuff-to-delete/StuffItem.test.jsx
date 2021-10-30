@@ -6,7 +6,7 @@ import Adapter from 'enzyme-adapter-react-16';
 import { expect } from 'chai';
 import faker from 'faker';
 import StuffItem from './StuffItem';
-import { stuffConditions } from '../../api/stuff/StuffCollection';
+import { stuffConditions } from '../../../api/stuff/StuffCollection';
 
 configure({ adapter: new Adapter() });
 

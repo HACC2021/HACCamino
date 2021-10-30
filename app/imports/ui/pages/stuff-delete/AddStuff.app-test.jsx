@@ -4,8 +4,8 @@ import { configure, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import sinon from 'sinon';
 import AddStuff from './AddStuff';
-import { defineTestUser, withLoggedInUser, withSubscriptions } from '../../test-utils/test-utilities';
-import { stuffDefineMethod } from '../../api/stuff/StuffCollection.methods';
+import { defineTestUser, withLoggedInUser, withSubscriptions } from '../../../test-utils/test-utilities';
+import { stuffDefineMethod } from '../../../api/stuff/StuffCollection.methods';
 
 configure({ adapter: new Adapter() });
 
