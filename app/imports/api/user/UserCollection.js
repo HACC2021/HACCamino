@@ -18,21 +18,24 @@ class UserCollection extends BaseCollection {
       photoAWSKey: {
         type: String,
         optional: true,
+        defaultValue: 'default-photo.png',
       },
       active: {
         type: Boolean,
-        defaultValue: true,
+        defaultValue: false,
       },
+      role: String,
     }));
   }
 
-  define({ firstName, lastName, owner, photoAWSKey, active }) {
+  define({ firstName, lastName, owner, photoAWSKey, active, role }) {
     const docID = this._collection.insert({
       firstName,
       lastName,
       owner,
       photoAWSKey,
       active,
+      role,
     });
     return docID;
   }
@@ -96,6 +99,14 @@ class UserCollection extends BaseCollection {
       return Meteor.subscribe(userPublications.userAdmin);
     }
     return null;
+  }
+
+  getUserVolunteers() {
+    return this._collection.find({ role: 'volunteer' }, { sort: { lastName: 1 } }).fetch();
+  }
+
+  getUserAdmins() {
+    return this._collection.find({ role: 'admin' }, { sort: { lastName: 1 } }).fetch();
   }
 }
 
