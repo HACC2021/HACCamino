@@ -17,12 +17,12 @@ class ReportCollection extends BaseCollection {
       date: Date,
       accessKey: String,
       location: String,
-      characteristics: String,
+      animalCharacteristics: String,
       animalBehavior: String,
       lat: Number,
       lng: Number,
       people: Number,
-      phone: String,
+      phoneNumber: String,
       notes: {
         type: String,
         optional: true,
@@ -32,7 +32,7 @@ class ReportCollection extends BaseCollection {
   }
 
   define({ title, name, date, accessKey,
-           location, characteristics, lat, lng, people, phone, notes, animalBehavior, link }) {
+           location, animalCharacteristics, lat, lng, people, phoneNumber, notes, animalBehavior, link }) {
     // add duplicate verifier here, create a new method/function if you have to
     const docID = this._collection.insert({
       title,
@@ -40,11 +40,11 @@ class ReportCollection extends BaseCollection {
       date,
       accessKey,
       location,
-      characteristics,
+      animalCharacteristics,
       lat,
       lng,
       people,
-      phone,
+      phoneNumber,
       notes,
       animalBehavior,
       link,
@@ -52,7 +52,8 @@ class ReportCollection extends BaseCollection {
     return docID;
   }
 
-  update(docID, { title, name, accessKey, location, characteristics, people, phone, notes, animalBehavior }) {
+  update(docID, { title, name, accessKey,
+    location, animalCharacteristics, people, phoneNumber, notes, animalBehavior }) {
     const updateData = {};
     if (title) {
       updateData.title = title;
@@ -72,11 +73,11 @@ class ReportCollection extends BaseCollection {
     if (_.isNumber(people)) {
       updateData.people = people;
     }
-    if (phone) {
-      updateData.phone = phone;
+    if (phoneNumber) {
+      updateData.phoneNumber = phoneNumber;
     }
-    if (characteristics) {
-      updateData.characteristics = characteristics;
+    if (animalCharacteristics) {
+      updateData.animalCharacteristics = animalCharacteristics;
     }
     if (notes) {
       updateData.notes = notes;

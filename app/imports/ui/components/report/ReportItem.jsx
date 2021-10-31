@@ -31,10 +31,10 @@ const ReportItem = ({ report }) => {
       <Modal.Content>
         <Modal.Description>
           <p>Reporter Name: {report.name}</p>
-          <p>Phone: {report.phone}</p>
+          <p>Phone Number: {report.phoneNumber}</p>
           <p>Date: {report.date.toLocaleString()}</p>
           <p>Location: {report.location}</p>
-          <p>Animal Characteristics: {report.characteristics}</p>
+          <p>Animal Characteristics: {report.animalCharacteristics}</p>
           <p>Animal Behavior: {report.animalBehavior}</p>
           <p>Number Of People Around The Area: {report.people}</p>
           <p>Notes: {report.notes}</p>

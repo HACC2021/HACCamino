@@ -8,10 +8,10 @@ const ReviewButton = ({ report }) => {
   const [finalTitle, setFinalTitle] = useState(report.title);
   const [finalName, setFinalName] = useState(report.name);
   const [finalLocation, setFinalLocation] = useState(report.location);
-  const [finalCharacteristics, setFinalCharacteristics] = useState(report.characteristics);
+  const [finalCharacteristics, setFinalCharacteristics] = useState(report.animalCharacteristics);
   const [finalAnimalBehavior, setFinalAnimalBehavior] = useState(report.animalBehavior);
   const [finalPeople, setFinalPeople] = useState(report.people);
-  const [finalPhone, setFinalPhone] = useState(report.phone);
+  const [finalPhone, setFinalPhone] = useState(report.phoneNumber);
   const [finalNotes, setFinalNotes] = useState(report.notes);
 
   const onSubmit = () => {
@@ -21,10 +21,10 @@ const ReviewButton = ({ report }) => {
     updateData.name = finalName;
     updateData.date = report.date;
     updateData.location = finalLocation;
-    updateData.characteristics = finalCharacteristics;
+    updateData.animalCharacteristics = finalCharacteristics;
     updateData.animalBehavior = finalAnimalBehavior;
     updateData.people = finalPeople;
-    updateData.phone = finalPhone;
+    updateData.phoneNumber = finalPhone;
     updateData.notes = finalNotes;
     updateData.lat = report.lat;
     updateData.lng = report.lng;

@@ -42,19 +42,27 @@ const CreateReport = () => {
     definitionData.name = finalName;
     definitionData.date = new Date();
     definitionData.location = finalLocation;
-    definitionData.characteristics = finalCharacteristics;
+    definitionData.animalCharacteristics = finalCharacteristics;
     definitionData.animalBehavior = finalAnimalBehavior;
     definitionData.people = finalPeople;
-    definitionData.phone = finalPhone;
+    definitionData.phoneNumber = finalPhone;
     definitionData.notes = finalNotes;
-    definitionData.lat = markers[0].lat;
-    definitionData.lng = markers[0].lng;
+    if (markers[0] !== undefined) {
+      definitionData.lat = markers[0].lat;
+      definitionData.lng = markers[0].lng;
+    }
     definitionData.link = 'empty';
     definitionData.accessKey = 'blank';
     reportDefineMethod.call(definitionData,
     error => {
       if (error) {
-        swal('Error', error.message, 'error');
+        let errorMessage = ' ';
+        if (error.message.indexOf('Lat') < 0) {
+          errorMessage = ' Please Place A Marker On The Google Map ';
+        } else {
+          errorMessage = error.message.substring(0, error.message.indexOf('required') + 8);
+        }
+        swal('Error', errorMessage, 'error');
       } else {
         swal('Success', 'Report Added Successfully', 'success');
         setFinalTitle('');
@@ -73,39 +81,40 @@ const CreateReport = () => {
       <h2>Create Report</h2>
       <Form>
         <Form.Group>
-          <Form.Field width={16}>
+          <Form.Field width={16} required>
             <label>Title Of Report</label>
             <input placeholder='Title' value={finalTitle} onChange={ e => setFinalTitle(e.target.value)}/>
           </Form.Field>
         </Form.Group>
         <Form.Group widths='equal'>
-          <Form.Field width={8}>
+          <Form.Field width={8} required>
             <label>Name</label>
             <input placeholder='Name' value={finalName} onChange={ e => setFinalName(e.target.value)}/>
           </Form.Field>
-          <Form.Field width={8}>
+          <Form.Field width={8} required>
             <label>Location</label>
             <input placeholder='Location' value={finalLocation} onChange={ e => setFinalLocation(e.target.value)}/>
           </Form.Field>
         </Form.Group>
         <Form.Group width='equal'>
-          <Form.Field width={8}>
+          <Form.Field width={8} required>
             <label>Animal Characteristics</label>
             <input placeholder='characteristics'
                    value={finalCharacteristics} onChange={ e => setFinalCharacteristics(e.target.value)}/>
           </Form.Field>
-          <Form.Field width={8}>
+          <Form.Field width={8} required>
             <label>Animal Behavior</label>
             <input placeholder='behavior'
                    value={finalAnimalBehavior} onChange={ e => setFinalAnimalBehavior(e.target.value)}/>
           </Form.Field>
         </Form.Group>
         <Form.Group width='equal'>
-          <Form.Field width={8}>
+          <Form.Field width={8} required>
             <label>Number Of People Around The Area</label>
-            <input placeholder='people' value={finalPeople} onChange={ e => setFinalPeople(e.target.value)}/>
+            <input type='number' placeholder='people' value={finalPeople}
+                   onChange={ e => setFinalPeople(e.target.value)}/>
           </Form.Field>
-          <Form.Field width={8}>
+          <Form.Field width={8} required>
             <label>Phone Number</label>
             <input placeholder='(xxx)' value={finalPhone} onChange={ e => setFinalPhone(e.target.value)}/>
           </Form.Field>
@@ -121,6 +130,9 @@ const CreateReport = () => {
           onChange={ e => setFinalNotes(e.target.value)}
           />
         </Form.Group>
+        <Form.Field required>
+          <label>Please Place A Marker On The Google Map</label>
+        </Form.Field>
       </Form>
       { isLoaded ?
       <GoogleMap
