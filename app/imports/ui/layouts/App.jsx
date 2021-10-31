@@ -28,9 +28,8 @@ class App extends React.Component {
               <Route path="/signup" component={Signup}/>
               <Route path="/viewReport" component={ViewReport}/>
               <Route path="/createReport" component={CreateReport}/>
-              {/* <ProtectedRoute path="/list" component={ListStuff}/> */}
+              {/* DELETE: <ProtectedRoute path="/list" component={ListStuff}/> */}
               {/* DELETE: <ProtectedRoute path="/edit/:_id" component={EditStuff}/>  */}
-              {/* DELETE: <AdminProtectedRoute path="/admin" component={ListStuffAdmin}/> */}
               <AdminProtectedRoute path="/volunteers-list" component={ListVolunteers}/>
               <ProtectedRoute path="/signout" component={Signout}/>
               <Route component={NotFound}/>
@@ -52,7 +51,8 @@ const ProtectedRoute = ({ component: Component, ...rest }) => (
     {...rest}
     render={(props) => {
       const isLogged = Meteor.userId() !== null;
-      return isLogged ?
+      const isVolunteer = Roles.userIsInRole(Meteor.userId(), 'volunteer');
+      return (isLogged && isVolunteer) ?
           (<Component {...props} />) :
           (<Redirect to={{ pathname: '/signin', state: { from: props.location } }}/>
       );
