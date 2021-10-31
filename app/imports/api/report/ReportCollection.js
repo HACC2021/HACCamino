@@ -1,7 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 import { check } from 'meteor/check';
-import { _ } from 'meteor/underscore';
 import { Roles } from 'meteor/alanning:roles';
 import BaseCollection from '../base/BaseCollection';
 
@@ -70,7 +69,7 @@ class ReportCollection extends BaseCollection {
     if (location) {
       updateData.location = location;
     }
-    if (_.isNumber(people)) {
+    if (people > 0) {
       updateData.people = people;
     }
     if (phoneNumber) {

@@ -57,7 +57,7 @@ const CreateReport = () => {
     error => {
       if (error) {
         let errorMessage = ' ';
-        if (error.message.indexOf('Lat') < 0) {
+        if (error.message.substring(0, 3) === 'Lat') {
           errorMessage = ' Please Place A Marker On The Google Map ';
         } else {
           errorMessage = error.message.substring(0, error.message.indexOf('required') + 8);

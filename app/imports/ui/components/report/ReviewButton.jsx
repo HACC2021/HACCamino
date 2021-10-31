@@ -74,7 +74,8 @@ const ReviewButton = ({ report }) => {
         <Form.Group width='equal'>
           <Form.Field width={8}>
             <label>Number Of People Around The Area</label>
-            <input placeholder='people' value={finalPeople} onChange={ e => setFinalPeople(e.target.value)}/>
+            <input type='number' placeholder='people'
+                   value={finalPeople} onChange={ e => setFinalPeople(e.target.value)}/>
           </Form.Field>
           <Form.Field width={8}>
             <label>Phone Number</label>
