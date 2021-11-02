@@ -24,7 +24,10 @@ class UserCollection extends BaseCollection {
         type: Boolean,
         defaultValue: false,
       },
-      role: String,
+      role: {
+        type: String,
+        allowedValues: ['admin', 'volunteer'],
+      },
     }));
   }
 
