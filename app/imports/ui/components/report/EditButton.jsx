@@ -15,7 +15,7 @@ const EditButton = ({ report }) => {
   const [finalPhone, setFinalPhone] = useState(report.phoneNumber);
   const [finalNotes, setFinalNotes] = useState(report.notes);
   const [firstOpen, setFirstOpen] = useState(false);
-  const [finalAnimal, setFinalAnimal] = useState(report.animal);
+  const [finalAnimal, setFinalAnimal] = useState({ value: report.animal, label: report.animal });
 
   const animalDropdown = [
     { value: 'Hawaiian Monk Seal', label: 'Hawaiian Monk Seal' },
@@ -38,7 +38,11 @@ const EditButton = ({ report }) => {
     updateData.lat = report.lat;
     updateData.lng = report.lng;
     updateData.link = report.link;
-    updateData.animal = finalAnimal;
+    if (finalAnimal.value) {
+      updateData.animal = finalAnimal.value;
+    } else {
+      updateData.animal = finalAnimal;
+    }
     updateData.accessKey = report.accessKey;
     reportUpdateMethod.call(updateData,
     error => {
