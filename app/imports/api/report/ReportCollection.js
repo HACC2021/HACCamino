@@ -12,21 +12,46 @@ class ReportCollection extends BaseCollection {
   constructor() {
     super('Report', new SimpleSchema({
       title: String,
-      name: String,
-      date: Date,
-      accessKey: String,
+      name: {
+        type: Array,
+        defaultValue: [],
+      },
+      'name.$': { type: String },
+      date: {
+        type: Array,
+        defaultValue: [],
+      },
+      'date.$': { type: Date },
+      accessKey: {
+        type: Array,
+        defaultValue: [],
+      },
+      'accessKey.$': { type: String },
       location: String,
       animal: String,
-      animalCharacteristics: String,
-      animalBehavior: String,
+      animalCharacteristics: {
+        type: Array,
+        defaultValue: [],
+      },
+      'animalCharacteristics.$': { type: String },
+      animalBehavior: {
+        type: Array,
+        defaultValue: [],
+      },
+      'animalBehavior.$': { type: String },
       lat: Number,
       lng: Number,
       people: Number,
-      phoneNumber: String,
-      notes: {
-        type: String,
-        optional: true,
+      phoneNumber: {
+        type: Array,
+        defaultValue: [],
       },
+      'phoneNumber.$': { type: String },
+      notes: {
+        type: Array,
+        defaultValue: [],
+      },
+      'notes.$': { type: String },
       link: String,
       status: String,
     }));
