@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Card, Modal, Button, Icon } from 'semantic-ui-react';
 import EditButton from './EditButton';
+import ReviewButton from './ReviewButton';
 import DeleteButton from './DeleteButton';
 
 const ReportItem = ({ report }) => {
@@ -39,6 +40,7 @@ const ReportItem = ({ report }) => {
           <p>Animal Behavior: {report.animalBehavior}</p>
           <p>Number Of People Around The Area: {report.people}</p>
           <p>Notes: {report.notes}</p>
+          <EditButton report={report} />
         </Modal.Description>
       </Modal.Content>
       <Modal.Actions>
@@ -60,7 +62,7 @@ const ReportItem = ({ report }) => {
       >
         <Modal.Header>Edit Report</Modal.Header>
         <Modal.Content>
-          <EditButton report={report}/>
+          <ReviewButton report={report}/>
         </Modal.Content>
         <Modal.Actions>
           <Button

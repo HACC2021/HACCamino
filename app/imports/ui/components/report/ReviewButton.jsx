@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Form, Modal } from 'semantic-ui-react';
+import { Button, Form, Container } from 'semantic-ui-react';
 import Select from 'react-select';
 import swal from 'sweetalert';
 import { reportUpdateMethod } from '../../../api/report/ReportCollection.methods';
 
 const ReviewButton = ({ report }) => {
   const [status, setStatus] = useState('');
-  const [firstOpen, setFirstOpen] = useState(false);
   const statusDropdown = [
     { value: 'pending', label: 'pending' },
     { value: 'approved', label: 'approved' },
@@ -15,33 +14,19 @@ const ReviewButton = ({ report }) => {
 
   const onSubmit = () => {
     const updateData = report;
-    updateData.status = status;
+    updateData.status = status.value;
     reportUpdateMethod.call(updateData,
     error => {
       if (error) {
         swal('Error', error.message, 'error');
       } else {
-        swal('Success', 'Report Reviewed Successfully', 'success').then(() => {
-          setFirstOpen(false);
-        });
+        swal('Success', 'Report Reviewed Successfully', 'success');
       }
     });
   };
 
   return (
-    <div>
-      <Modal
-      onClose={() => setFirstOpen(false)}
-      onOpen={() => setFirstOpen(true)}
-      open={firstOpen}
-      size='small'
-      trigger={
-        <Button>
-          Review
-        </Button>
-      }
-      >
-        <Modal.Header>Review Report</Modal.Header>
+    <Container>
         <Form>
           <Form.Group>
             <Form.Field width={16}>
@@ -58,8 +43,7 @@ const ReviewButton = ({ report }) => {
         <Button onClick={onSubmit}>
           Submit
         </Button>
-      </Modal>
-    </div>
+    </Container>
   );
 };
 
