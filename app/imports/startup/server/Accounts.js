@@ -4,7 +4,7 @@ import { Roles } from 'meteor/alanning:roles';
 
 /* eslint-disable no-console */
 
-const createUser = ({ email, password, role }) => {
+function createUser(email, password, role) {
   console.log(`  Creating user ${email}.`);
   const userID = Accounts.createUser({
     username: email,
@@ -15,7 +15,7 @@ const createUser = ({ email, password, role }) => {
     Roles.createRole(role, { unlessExists: true });
     Roles.addUsersToRoles(userID, role);
   }
-};
+}
 
 /** When running app for first time, pass a settings file to set up a default user account. */
 if (Meteor.users.find().count() === 0) {
