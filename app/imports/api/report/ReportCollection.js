@@ -1,7 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
 import { check } from 'meteor/check';
-import { _ } from 'meteor/underscore';
 import { Roles } from 'meteor/alanning:roles';
 import BaseCollection from '../base/BaseCollection';
 
@@ -17,22 +16,24 @@ class ReportCollection extends BaseCollection {
       date: Date,
       accessKey: String,
       location: String,
-      characteristics: String,
+      animal: String,
+      animalCharacteristics: String,
       animalBehavior: String,
       lat: Number,
       lng: Number,
       people: Number,
-      phone: String,
+      phoneNumber: String,
       notes: {
         type: String,
         optional: true,
       },
       link: String,
+      status: String,
     }));
   }
 
-  define({ title, name, date, accessKey,
-           location, characteristics, lat, lng, people, phone, notes, animalBehavior, link }) {
+  define({ title, name, date, accessKey, animal,
+           location, animalCharacteristics, lat, lng, people, phoneNumber, notes, animalBehavior, link, status }) {
     // add duplicate verifier here, create a new method/function if you have to
     const docID = this._collection.insert({
       title,
@@ -40,19 +41,22 @@ class ReportCollection extends BaseCollection {
       date,
       accessKey,
       location,
-      characteristics,
+      animalCharacteristics,
       lat,
       lng,
       people,
-      phone,
+      phoneNumber,
       notes,
       animalBehavior,
       link,
+      status,
+      animal,
     });
     return docID;
   }
 
-  update(docID, { title, name, accessKey, location, characteristics, people, phone, notes, animalBehavior }) {
+  update(docID, { title, name, accessKey, animal,
+    location, animalCharacteristics, people, phoneNumber, notes, animalBehavior, status }) {
     const updateData = {};
     if (title) {
       updateData.title = title;
@@ -69,17 +73,23 @@ class ReportCollection extends BaseCollection {
     if (location) {
       updateData.location = location;
     }
-    if (_.isNumber(people)) {
+    if (people > 0) {
       updateData.people = people;
     }
-    if (phone) {
-      updateData.phone = phone;
+    if (phoneNumber) {
+      updateData.phoneNumber = phoneNumber;
     }
-    if (characteristics) {
-      updateData.characteristics = characteristics;
+    if (animalCharacteristics) {
+      updateData.animalCharacteristics = animalCharacteristics;
     }
     if (notes) {
       updateData.notes = notes;
+    }
+    if (status) {
+      updateData.status = status;
+    }
+    if (animal) {
+      updateData.animal = animal;
     }
     this._collection.update(docID, { $set: updateData });
   }
@@ -129,6 +139,31 @@ class ReportCollection extends BaseCollection {
 
   getCurrentReports() {
     return this._collection.find({}, { sort: { date: 1 } }).fetch();
+  }
+
+  getPendingReports() {
+    const reports = this.getCurrentReports();
+    return reports.filter(report => report.status === 'pending');
+  }
+
+  getApprovedReports() {
+    const reports = this.getCurrentReports();
+    return reports.filter(report => report.status === 'approved');
+  }
+
+  getSealReports() {
+    const reports = this.getCurrentReports();
+    return reports.filter(report => report.animal === 'Hawaiian Monk Seal');
+  }
+
+  getTurtleReports() {
+    const reports = this.getCurrentReports();
+    return reports.filter(report => report.animal === 'Sea Turtles');
+  }
+
+  getBirdReports() {
+    const reports = this.getCurrentReports();
+    return reports.filter(report => report.animal === 'Sea Birds');
   }
 
 }
