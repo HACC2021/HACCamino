@@ -1,37 +1,97 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Meteor } from 'meteor/meteor';
-import { Container, Loader, Card } from 'semantic-ui-react';
-import { withTracker } from 'meteor/react-meteor-data';
+import { Container, Loader, Card, Tab } from 'semantic-ui-react';
+import { useTracker } from 'meteor/react-meteor-data';
 import { Reports } from '../../../api/report/ReportCollection';
 import ReportItem from '../../components/report/ReportItem';
 import Maps from '../../components/report/Maps';
 
-const ViewReport = ({ ready, allReports }) => (
+const ViewReport = () => {
+  const listLoading = useTracker(() => {
+    const handle = Reports.subscribeReportAdmin();
+    return handle.ready();
+  }, []);
+  const pendingReports = Reports.getPendingReports();
+  const approvedReports = Reports.getApprovedReports();
+  const sealReports = Reports.getSealReports();
+  const turtleReports = Reports.getTurtleReports();
+  const birdReports = Reports.getBirdReports();
+  const panes = [
+    {
+      menuItem: 'Pending Reports',
+      render: function name() {
+        return (
+          <Tab.Pane attached={false}>
+            <Maps allReports={pendingReports} />
+            <Card.Group style={{ paddingTop: '10px' }}>
+              {pendingReports.map((report) => <ReportItem report={report} key={report._id} />)}
+            </Card.Group>
+          </Tab.Pane>
+        );
+      },
+    },
+    {
+      menuItem: 'Approved Reports',
+      render: function name() {
+        return (
+          <Tab.Pane attached={false}>
+            <Maps allReports={approvedReports} />
+            <Card.Group style={{ paddingTop: '10px' }}>
+              {approvedReports.map((report) => <ReportItem report={report} key={report._id} />)}
+            </Card.Group>
+          </Tab.Pane>
+        );
+      },
+    },
+    {
+      menuItem: 'Hawaiian Monk Seal',
+      render: function name() {
+        return (
+        <Tab.Pane attached={false}>
+          <Maps allReports={sealReports} />
+          <Card.Group style={{ paddingTop: '10px' }}>
+            {sealReports.map((report) => <ReportItem report={report} key={report._id} />)}
+          </Card.Group>
+        </Tab.Pane>
+        );
+      },
+    },
+    {
+      menuItem: 'Sea Turtles',
+      render: function name() {
+        return (
+        <Tab.Pane attached={false}>
+          <Maps allReports={turtleReports} />
+          <Card.Group style={{ paddingTop: '10px' }}>
+            {turtleReports.map((report) => <ReportItem report={report} key={report._id} />)}
+          </Card.Group>
+        </Tab.Pane>
+        );
+      },
+    },
+    {
+      menuItem: 'Sea Birds',
+      render: function name() {
+        return (
+        <Tab.Pane attached={false}>
+          <Maps allReports={birdReports} />
+          <Card.Group style={{ paddingTop: '10px' }}>
+            {birdReports.map((report) => <ReportItem report={report} key={report._id} />)}
+          </Card.Group>
+        </Tab.Pane>
+        );
+      },
+    },
+  ];
+  return (
   <Container>
-    { ready ?
+    { listLoading ?
     <div>
-      <Maps allReports={allReports} />
-      <Card.Group style={{ marginTop: '10px' }}>
-        {allReports.map((report) => <ReportItem report={report} key={report._id} />)}
-      </Card.Group>
+      <Tab menu={{ secondary: true, pointing: true }} panes={panes} />
     </div>
     : <Loader>Loading</Loader>
     }
   </Container>
   );
-
-ViewReport.propTypes = {
-  ready: PropTypes.bool.isRequired,
-  allReports: PropTypes.array.isRequired,
 };
 
-export default withTracker(() => {
-  const username = Meteor.user()?.username;
-  const ready = Reports.subscribeReportAdmin().ready() && username !== undefined;
-  const allReports = Reports.getCurrentReports();
-  return {
-    ready,
-    allReports,
-  };
-})(ViewReport);
+export default ViewReport;

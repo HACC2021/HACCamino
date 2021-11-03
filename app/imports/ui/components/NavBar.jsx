@@ -16,7 +16,8 @@ class NavBar extends React.Component {
           <Header inverted as='h1'>meteor-application-template</Header>
         </Menu.Item>
         {this.props.currentUser ? (
-            [
+            [<Menu.Item as={NavLink} activeClassName="active" exact to="/createReport" key='createReport'>
+              Create Report</Menu.Item>,
               <Menu.Item as={NavLink} activeClassName="active" exact to="/viewReport" key='viewReport'>
                 View Report</Menu.Item>]
         ) :

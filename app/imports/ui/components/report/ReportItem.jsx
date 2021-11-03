@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Card, Modal, Button, Icon } from 'semantic-ui-react';
+import EditButton from './EditButton';
 import ReviewButton from './ReviewButton';
 import DeleteButton from './DeleteButton';
 
@@ -18,26 +19,28 @@ const ReportItem = ({ report }) => {
     trigger={
       <Card>
         <Card.Content>
-          <Card.Header>{report.title}</Card.Header>
+          <Card.Header>{report.title} - {report.animal}</Card.Header>
           <Card.Description>
             <p>{report.date.toLocaleString()}</p>
             <p>{report.location}</p>
+            <p>{report.status}</p>
           </Card.Description>
         </Card.Content>
       </Card>
     }
     >
-      <Modal.Header>{report.title}</Modal.Header>
+      <Modal.Header>{report.title} - {report.animal}</Modal.Header>
       <Modal.Content>
         <Modal.Description>
           <p>Reporter Name: {report.name}</p>
-          <p>Phone: {report.phone}</p>
+          <p>Phone Number: {report.phoneNumber}</p>
           <p>Date: {report.date.toLocaleString()}</p>
           <p>Location: {report.location}</p>
-          <p>Animal Characteristics: {report.characteristics}</p>
+          <p>Animal Characteristics: {report.animalCharacteristics}</p>
           <p>Animal Behavior: {report.animalBehavior}</p>
           <p>Number Of People Around The Area: {report.people}</p>
           <p>Notes: {report.notes}</p>
+          <EditButton report={report} />
         </Modal.Description>
       </Modal.Content>
       <Modal.Actions>
