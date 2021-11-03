@@ -29,8 +29,8 @@ const ListVolunteers = () => {
 
         <Grid.Row>
           <Grid.Column>
-            <Table celled>
-              <Table.Header selectable>
+            <Table celled selectable>
+              <Table.Header>
                 <Table.Row>
                   <Table.HeaderCell>Last Name</Table.HeaderCell>
                   <Table.HeaderCell>First Name</Table.HeaderCell>

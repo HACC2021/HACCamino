@@ -111,6 +111,10 @@ class UserCollection extends BaseCollection {
   getUserAdmins() {
     return this._collection.find({ role: 'admin' }, { sort: { lastName: 1 } }).fetch();
   }
+
+  getUserDetailFromID(userID) {
+    return this._collection.findOne({ _id: userID });
+  }
 }
 
 export const Users = new UserCollection();
