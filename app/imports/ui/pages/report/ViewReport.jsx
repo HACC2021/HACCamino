@@ -13,14 +13,15 @@ const ViewReport = () => {
   const allReports = Reports.getCurrentReports();
   const pendingReports = Reports.getPendingReports();
   const approvedReports = Reports.getApprovedReports();
-  // const [select, setSelected] = useState(pendingReports);
   const panes = [
     {
       menuItem: 'Pending Reports',
       render: function one() {
         return (
-        <Tab.Pane attached={false}>
-          {pendingReports.map((report) => <ReportItem report={report} key={report._id} />)}</Tab.Pane>
+        <Card.Group style={{ marginTop: '10px' }}>
+          <Tab.Pane attached={false}>
+            {pendingReports.map((report) => <ReportItem report={report} key={report._id} />)}</Tab.Pane>
+        </Card.Group>
         );
       },
     },
@@ -28,9 +29,11 @@ const ViewReport = () => {
       menuItem: 'Approved Reports',
       render: function two() {
         return (
-        <Tab.Pane attached={false}>
-          {approvedReports.map((report) => <ReportItem report={report} key={report._id} />)}
-        </Tab.Pane>
+        <Card.Group style={{ marginTop: '10px' }}>
+          <Tab.Pane attached={false}>
+            {approvedReports.map((report) => <ReportItem report={report} key={report._id} />)}
+          </Tab.Pane>
+        </Card.Group>
         );
       },
     },
@@ -40,9 +43,7 @@ const ViewReport = () => {
     { listLoading ?
     <div>
       <Maps allReports={allReports} />
-      <Card.Group style={{ marginTop: '10px' }}>
-        <Tab menu={{ secondary: true, pointing: true }} panes={panes} />
-      </Card.Group>
+      <Tab menu={{ secondary: true, pointing: true }} panes={panes} />
     </div>
     : <Loader>Loading</Loader>
     }

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Card, Container, Form, TextArea, Modal } from 'semantic-ui-react';
 import swal from 'sweetalert';
+import Select from 'react-select';
 import { reportUpdateMethod } from '../../../api/report/ReportCollection.methods';
 
 const EditButton = ({ report }) => {
@@ -14,6 +15,13 @@ const EditButton = ({ report }) => {
   const [finalPhone, setFinalPhone] = useState(report.phoneNumber);
   const [finalNotes, setFinalNotes] = useState(report.notes);
   const [firstOpen, setFirstOpen] = useState(false);
+  const [finalAnimal, setFinalAnimal] = useState(report.animal);
+
+  const animalDropdown = [
+    { value: 'Hawaiian Monk Seal', label: 'Hawaiian Monk Seal' },
+    { value: 'Sea Turtles', label: 'Sea Turtles' },
+    { value: 'Sea Birds', label: 'Sea Birds' },
+  ];
 
   const onSubmit = () => {
     const updateData = {};
@@ -30,6 +38,7 @@ const EditButton = ({ report }) => {
     updateData.lat = report.lat;
     updateData.lng = report.lng;
     updateData.link = report.link;
+    updateData.animal = finalAnimal;
     updateData.accessKey = report.accessKey;
     reportUpdateMethod.call(updateData,
     error => {
@@ -60,10 +69,19 @@ const EditButton = ({ report }) => {
       <Modal.Content>
         <Container>
           <Form>
-            <Form.Group>
-              <Form.Field width={16}>
+            <Form.Group widths='equal'>
+              <Form.Field width={8} required>
                 <label>Title Of Report</label>
                 <input placeholder='Title' value={finalTitle} onChange={ e => setFinalTitle(e.target.value)}/>
+              </Form.Field>
+              <Form.Field width={8} required>
+                <label>Type Of Animal</label>
+                <Select
+                options={animalDropdown}
+                name='animal'
+                onChange={setFinalAnimal}
+                defaultValue={finalAnimal}
+                />
               </Form.Field>
             </Form.Group>
             <Form.Group widths='equal'>

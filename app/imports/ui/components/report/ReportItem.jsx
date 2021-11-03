@@ -19,7 +19,7 @@ const ReportItem = ({ report }) => {
     trigger={
       <Card>
         <Card.Content>
-          <Card.Header>{report.title}</Card.Header>
+          <Card.Header>{report.title}: {report.animal}</Card.Header>
           <Card.Description>
             <p>{report.date.toLocaleString()}</p>
             <p>{report.location}</p>
@@ -29,7 +29,7 @@ const ReportItem = ({ report }) => {
       </Card>
     }
     >
-      <Modal.Header>{report.title}</Modal.Header>
+      <Modal.Header>{report.title}: {report.animal}</Modal.Header>
       <Modal.Content>
         <Modal.Description>
           <p>Reporter Name: {report.name}</p>

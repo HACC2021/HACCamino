@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Button, Form, TextArea } from 'semantic-ui-react';
+import Select from 'react-select';
 import swal from 'sweetalert';
 import { GoogleMap, Marker, InfoWindow, useLoadScript } from '@react-google-maps/api';
 import { reportDefineMethod } from '../../../api/report/ReportCollection.methods';
@@ -35,6 +36,13 @@ const CreateReport = () => {
   const [finalPeople, setFinalPeople] = useState(0);
   const [finalPhone, setFinalPhone] = useState(() => '');
   const [finalNotes, setFinalNotes] = useState(() => '');
+  const [finalAnimal, setFinalAnimal] = useState('');
+
+  const animalDropdown = [
+    { value: 'Hawaiian Monk Seal', label: 'Hawaiian Monk Seal' },
+    { value: 'Sea Turtles', label: 'Sea Turtles' },
+    { value: 'Sea Birds', label: 'Sea Birds' },
+  ];
 
   const onSubmit = () => {
     const definitionData = {};
@@ -54,6 +62,7 @@ const CreateReport = () => {
     definitionData.link = 'empty';
     definitionData.accessKey = 'blank';
     definitionData.status = 'pending';
+    definitionData.animal = finalAnimal.value;
     reportDefineMethod.call(definitionData,
     error => {
       if (error) {
@@ -67,6 +76,7 @@ const CreateReport = () => {
       } else {
         swal('Success', 'Report Added Successfully', 'success');
         setFinalTitle('');
+        setFinalAnimal('');
         setFinalName('');
         setFinalLocation('');
         setFinalCharacteristics('');
@@ -81,10 +91,19 @@ const CreateReport = () => {
     <Container>
       <h2>Create Report</h2>
       <Form>
-        <Form.Group>
-          <Form.Field width={16} required>
+        <Form.Group widths='equal'>
+          <Form.Field width={8} required>
             <label>Title Of Report</label>
             <input placeholder='Title' value={finalTitle} onChange={ e => setFinalTitle(e.target.value)}/>
+          </Form.Field>
+          <Form.Field width={8} required>
+            <label>Type Of Animal</label>
+            <Select
+            options={animalDropdown}
+            name='animal'
+            onChange={setFinalAnimal}
+            defaultValue={finalAnimal}
+            />
           </Form.Field>
         </Form.Group>
         <Form.Group widths='equal'>

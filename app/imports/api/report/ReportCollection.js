@@ -16,6 +16,7 @@ class ReportCollection extends BaseCollection {
       date: Date,
       accessKey: String,
       location: String,
+      animal: String,
       animalCharacteristics: String,
       animalBehavior: String,
       lat: Number,
@@ -31,7 +32,7 @@ class ReportCollection extends BaseCollection {
     }));
   }
 
-  define({ title, name, date, accessKey,
+  define({ title, name, date, accessKey, animal,
            location, animalCharacteristics, lat, lng, people, phoneNumber, notes, animalBehavior, link, status }) {
     // add duplicate verifier here, create a new method/function if you have to
     const docID = this._collection.insert({
@@ -49,11 +50,12 @@ class ReportCollection extends BaseCollection {
       animalBehavior,
       link,
       status,
+      animal,
     });
     return docID;
   }
 
-  update(docID, { title, name, accessKey,
+  update(docID, { title, name, accessKey, animal,
     location, animalCharacteristics, people, phoneNumber, notes, animalBehavior, status }) {
     const updateData = {};
     if (title) {
@@ -85,6 +87,9 @@ class ReportCollection extends BaseCollection {
     }
     if (status) {
       updateData.status = status;
+    }
+    if (animal) {
+      updateData.animal = animal;
     }
     this._collection.update(docID, { $set: updateData });
   }
