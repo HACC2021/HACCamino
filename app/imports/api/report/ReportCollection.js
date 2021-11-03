@@ -27,11 +27,12 @@ class ReportCollection extends BaseCollection {
         optional: true,
       },
       link: String,
+      status: String,
     }));
   }
 
   define({ title, name, date, accessKey,
-           location, animalCharacteristics, lat, lng, people, phoneNumber, notes, animalBehavior, link }) {
+           location, animalCharacteristics, lat, lng, people, phoneNumber, notes, animalBehavior, link, status }) {
     // add duplicate verifier here, create a new method/function if you have to
     const docID = this._collection.insert({
       title,
@@ -47,12 +48,13 @@ class ReportCollection extends BaseCollection {
       notes,
       animalBehavior,
       link,
+      status,
     });
     return docID;
   }
 
   update(docID, { title, name, accessKey,
-    location, animalCharacteristics, people, phoneNumber, notes, animalBehavior }) {
+    location, animalCharacteristics, people, phoneNumber, notes, animalBehavior, status }) {
     const updateData = {};
     if (title) {
       updateData.title = title;
@@ -80,6 +82,9 @@ class ReportCollection extends BaseCollection {
     }
     if (notes) {
       updateData.notes = notes;
+    }
+    if (status) {
+      updateData.status = status;
     }
     this._collection.update(docID, { $set: updateData });
   }
@@ -129,6 +134,16 @@ class ReportCollection extends BaseCollection {
 
   getCurrentReports() {
     return this._collection.find({}, { sort: { date: 1 } }).fetch();
+  }
+
+  getPendingReports() {
+    const reports = this.getCurrentReports();
+    return reports.filter(report => report.status === 'pending');
+  }
+
+  getApprovedReports() {
+    const reports = this.getCurrentReports();
+    return reports.filter(report => report.status === 'approved');
   }
 
 }

@@ -53,6 +53,7 @@ const CreateReport = () => {
     }
     definitionData.link = 'empty';
     definitionData.accessKey = 'blank';
+    definitionData.status = 'pending';
     reportDefineMethod.call(definitionData,
     error => {
       if (error) {

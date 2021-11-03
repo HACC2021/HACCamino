@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Card, Modal, Button, Icon } from 'semantic-ui-react';
-import ReviewButton from './ReviewButton';
+import EditButton from './EditButton';
 import DeleteButton from './DeleteButton';
 
 const ReportItem = ({ report }) => {
@@ -22,6 +22,7 @@ const ReportItem = ({ report }) => {
           <Card.Description>
             <p>{report.date.toLocaleString()}</p>
             <p>{report.location}</p>
+            <p>{report.status}</p>
           </Card.Description>
         </Card.Content>
       </Card>
@@ -59,7 +60,7 @@ const ReportItem = ({ report }) => {
       >
         <Modal.Header>Edit Report</Modal.Header>
         <Modal.Content>
-          <ReviewButton report={report}/>
+          <EditButton report={report}/>
         </Modal.Content>
         <Modal.Actions>
           <Button
