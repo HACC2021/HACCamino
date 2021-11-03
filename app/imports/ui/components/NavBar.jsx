@@ -13,7 +13,11 @@ class NavBar extends React.Component {
     return (
       <Menu style={menuStyle} attached="top" borderless inverted>
         <Menu.Item as={NavLink} activeClassName="" exact to="/">
-          <Header inverted as='h1'>meteor-application-template</Header>
+          <Header inverted as='h1'>HACCamino</Header>
+        </Menu.Item>
+        {/* This is the temp menu item for preReport page */}
+        <Menu.Item as={NavLink} activeClassName='' exact to='/PreReport'>
+          <Header inverted as='h2'>PreReport</Header>
         </Menu.Item>
         {this.props.currentUser ? (
             [
