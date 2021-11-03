@@ -18,10 +18,11 @@ const ViewReport = () => {
       menuItem: 'Pending Reports',
       render: function one() {
         return (
-        <Card.Group style={{ marginTop: '10px' }}>
           <Tab.Pane attached={false}>
-            {pendingReports.map((report) => <ReportItem report={report} key={report._id} />)}</Tab.Pane>
-        </Card.Group>
+            <Card.Group>
+              {pendingReports.map((report) => <ReportItem report={report} key={report._id} />)}
+            </Card.Group>
+        </Tab.Pane>
         );
       },
     },
@@ -29,11 +30,11 @@ const ViewReport = () => {
       menuItem: 'Approved Reports',
       render: function two() {
         return (
-        <Card.Group style={{ marginTop: '10px' }}>
-          <Tab.Pane attached={false}>
+        <Tab.Pane attached={false}>
+          <Card.Group>
             {approvedReports.map((report) => <ReportItem report={report} key={report._id} />)}
-          </Tab.Pane>
-        </Card.Group>
+          </Card.Group>
+        </Tab.Pane>
         );
       },
     },
