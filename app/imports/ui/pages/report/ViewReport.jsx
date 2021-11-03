@@ -10,7 +10,6 @@ const ViewReport = () => {
     const handle = Reports.subscribeReportAdmin();
     return handle.ready();
   }, []);
-  const allReports = Reports.getCurrentReports();
   const pendingReports = Reports.getPendingReports();
   const approvedReports = Reports.getApprovedReports();
   const sealReports = Reports.getSealReports();
@@ -22,10 +21,11 @@ const ViewReport = () => {
       render: function name() {
         return (
           <Tab.Pane attached={false}>
-            <Card.Group>
+            <Maps allReports={pendingReports} />
+            <Card.Group style={{ paddingTop: '10px' }}>
               {pendingReports.map((report) => <ReportItem report={report} key={report._id} />)}
             </Card.Group>
-        </Tab.Pane>
+          </Tab.Pane>
         );
       },
     },
@@ -33,11 +33,12 @@ const ViewReport = () => {
       menuItem: 'Approved Reports',
       render: function name() {
         return (
-        <Tab.Pane attached={false}>
-          <Card.Group>
-            {approvedReports.map((report) => <ReportItem report={report} key={report._id} />)}
-          </Card.Group>
-        </Tab.Pane>
+          <Tab.Pane attached={false}>
+            <Maps allReports={approvedReports} />
+            <Card.Group style={{ paddingTop: '10px' }}>
+              {approvedReports.map((report) => <ReportItem report={report} key={report._id} />)}
+            </Card.Group>
+          </Tab.Pane>
         );
       },
     },
@@ -46,7 +47,8 @@ const ViewReport = () => {
       render: function name() {
         return (
         <Tab.Pane attached={false}>
-          <Card.Group>
+          <Maps allReports={sealReports} />
+          <Card.Group style={{ paddingTop: '10px' }}>
             {sealReports.map((report) => <ReportItem report={report} key={report._id} />)}
           </Card.Group>
         </Tab.Pane>
@@ -58,7 +60,8 @@ const ViewReport = () => {
       render: function name() {
         return (
         <Tab.Pane attached={false}>
-          <Card.Group>
+          <Maps allReports={turtleReports} />
+          <Card.Group style={{ paddingTop: '10px' }}>
             {turtleReports.map((report) => <ReportItem report={report} key={report._id} />)}
           </Card.Group>
         </Tab.Pane>
@@ -70,7 +73,8 @@ const ViewReport = () => {
       render: function name() {
         return (
         <Tab.Pane attached={false}>
-          <Card.Group>
+          <Maps allReports={birdReports} />
+          <Card.Group style={{ paddingTop: '10px' }}>
             {birdReports.map((report) => <ReportItem report={report} key={report._id} />)}
           </Card.Group>
         </Tab.Pane>
@@ -82,7 +86,6 @@ const ViewReport = () => {
   <Container>
     { listLoading ?
     <div>
-      <Maps allReports={allReports} />
       <Tab menu={{ secondary: true, pointing: true }} panes={panes} />
     </div>
     : <Loader>Loading</Loader>
