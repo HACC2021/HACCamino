@@ -13,10 +13,13 @@ const ViewReport = () => {
   const allReports = Reports.getCurrentReports();
   const pendingReports = Reports.getPendingReports();
   const approvedReports = Reports.getApprovedReports();
+  const sealReports = Reports.getSealReports();
+  const turtleReports = Reports.getTurtleReports();
+  const birdReports = Reports.getBirdReports();
   const panes = [
     {
       menuItem: 'Pending Reports',
-      render: function one() {
+      render: function name() {
         return (
           <Tab.Pane attached={false}>
             <Card.Group>
@@ -28,11 +31,47 @@ const ViewReport = () => {
     },
     {
       menuItem: 'Approved Reports',
-      render: function two() {
+      render: function name() {
         return (
         <Tab.Pane attached={false}>
           <Card.Group>
             {approvedReports.map((report) => <ReportItem report={report} key={report._id} />)}
+          </Card.Group>
+        </Tab.Pane>
+        );
+      },
+    },
+    {
+      menuItem: 'Hawaiian Monk Seal',
+      render: function name() {
+        return (
+        <Tab.Pane attached={false}>
+          <Card.Group>
+            {sealReports.map((report) => <ReportItem report={report} key={report._id} />)}
+          </Card.Group>
+        </Tab.Pane>
+        );
+      },
+    },
+    {
+      menuItem: 'Sea Turtles',
+      render: function name() {
+        return (
+        <Tab.Pane attached={false}>
+          <Card.Group>
+            {turtleReports.map((report) => <ReportItem report={report} key={report._id} />)}
+          </Card.Group>
+        </Tab.Pane>
+        );
+      },
+    },
+    {
+      menuItem: 'Sea Birds',
+      render: function name() {
+        return (
+        <Tab.Pane attached={false}>
+          <Card.Group>
+            {birdReports.map((report) => <ReportItem report={report} key={report._id} />)}
           </Card.Group>
         </Tab.Pane>
         );

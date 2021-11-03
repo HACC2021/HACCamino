@@ -151,6 +151,21 @@ class ReportCollection extends BaseCollection {
     return reports.filter(report => report.status === 'approved');
   }
 
+  getSealReports() {
+    const reports = this.getCurrentReports();
+    return reports.filter(report => report.animal === 'Hawaiian Monk Seal');
+  }
+
+  getTurtleReports() {
+    const reports = this.getCurrentReports();
+    return reports.filter(report => report.animal === 'Sea Turtles');
+  }
+
+  getBirdReports() {
+    const reports = this.getCurrentReports();
+    return reports.filter(report => report.animal === 'Sea Birds');
+  }
+
 }
 
 /**
