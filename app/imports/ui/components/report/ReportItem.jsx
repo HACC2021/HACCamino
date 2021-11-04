@@ -23,7 +23,6 @@ const ReportItem = ({ report }) => {
     temp.animalCharacteristics = report.animalCharacteristics[index];
     temp.notes = report.notes[index];
     temp.people = report.people[index];
-    temp.location = report.location;
     temp.date = report.date[index];
     panes.push(
     {
@@ -34,7 +33,6 @@ const ReportItem = ({ report }) => {
           <p>Reporter Name: {temp.name}</p>
           <p>Phone Number: {temp.phoneNumber}</p>
           <p>Date: {temp.date}</p>
-          <p>Location: {temp.location}</p>
           <p>Animal Characteristics: {temp.animalCharacteristics}</p>
           <p>Animal Behavior: {temp.animalBehavior}</p>
           <p>Number Of People Around The Area: {temp.people}</p>
@@ -70,7 +68,6 @@ const ReportItem = ({ report }) => {
       <Modal.Content>
         <Modal.Description>
           <Tab menu={{ secondary: true, pointing: true }} panes={panes} />
-          <EditButton report={report} />
           <br/>
           <h3>Related Reports</h3>
           <Card.Group style={{ paddingTop: '10px' }}>
@@ -80,6 +77,7 @@ const ReportItem = ({ report }) => {
       </Modal.Content>
       <Modal.Actions>
         <DeleteButton report={report} />
+        <EditButton report={report} />
         <Button
         primary
         onClick={() => setFirstOpen(false)}>
