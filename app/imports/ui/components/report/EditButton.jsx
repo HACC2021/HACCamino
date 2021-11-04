@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Container, Form, Modal } from 'semantic-ui-react';
+import { Button, Container, Form, Modal, TextArea } from 'semantic-ui-react';
 import Select from 'react-select';
 import Swal from 'sweetalert2';
 import { reportUpdateMethod } from '../../../api/report/ReportCollection.methods';
@@ -9,6 +9,7 @@ const EditButton = ({ report }) => {
   const [finalTitle, setFinalTitle] = useState(report.title);
   const [finalLocation, setFinalLocation] = useState(report.location);
   const [firstOpen, setFirstOpen] = useState(false);
+  const [comments, setComments] = useState(report.link);
   const [finalAnimal, setFinalAnimal] = useState({ value: report.animal, label: report.animal });
   const animalDropdown = [
     { value: 'Hawaiian Monk Seal', label: 'Hawaiian Monk Seal' },
@@ -20,6 +21,7 @@ const EditButton = ({ report }) => {
     const updateData = {};
     updateData._id = report._id;
     updateData.title = finalTitle;
+    updateData.link = comments;
     updateData.name = report.name;
     updateData.date = report.date;
     updateData.location = finalLocation;
@@ -30,7 +32,6 @@ const EditButton = ({ report }) => {
     updateData.notes = report.notes;
     updateData.lat = report.lat;
     updateData.lng = report.lng;
-    updateData.link = report.link;
     if (finalAnimal.value) {
       updateData.animal = finalAnimal.value;
     } else {
@@ -80,10 +81,21 @@ const EditButton = ({ report }) => {
               </Form.Field>
             </Form.Group>
             <Form.Group widths='equal'>
-              <Form.Field width={8}>
+              <Form.Field width={16}>
                 <label>Location</label>
                 <input placeholder='Location' value={finalLocation} onChange={ e => setFinalLocation(e.target.value)}/>
               </Form.Field>
+            </Form.Group>
+            <Form.Group width={16}>
+              <Form.Field
+              width={16}
+              id='form-textarea-control-opinion'
+              control={TextArea}
+              label='Comments'
+              placeholder='Comments'
+              value={comments}
+              onChange={ e => setComments(e.target.value)}
+              />
             </Form.Group>
           </Form>
           <Button onClick={onSubmit}>
