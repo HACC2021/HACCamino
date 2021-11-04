@@ -22,6 +22,8 @@ const CompareReports = ({ report, oreport }) => {
     updateData.animalBehavior.push(report.animalBehavior[0]);
     updateData.accessKey = [...oreport.accessKey];
     updateData.accessKey.push(report.accessKey[0]);
+    updateData.people = [...oreport.people];
+    updateData.people.push(report.people[0]);
     reportUpdateMethod.call(updateData,
     error => {
       if (error) {
@@ -75,6 +77,11 @@ const CompareReports = ({ report, oreport }) => {
               <Table.Cell>Behavior</Table.Cell>
               <Table.Cell>{oreport.animalBehavior}</Table.Cell>
               <Table.Cell>{report.animalBehavior}</Table.Cell>
+            </Table.Row>
+            <Table.Row>
+              <Table.Cell>Number Of People</Table.Cell>
+              <Table.Cell>{oreport.people}</Table.Cell>
+              <Table.Cell>{report.people}</Table.Cell>
             </Table.Row>
           </Table.Body>
         </Table>

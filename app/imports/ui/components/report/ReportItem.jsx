@@ -19,6 +19,8 @@ const ReportItem = ({ report }) => {
     const temp = {};
     temp.name = report.name[index];
     temp.phoneNumber = report.phoneNumber[index];
+    temp.accessKey = report.accessKey[index];
+    temp.animalBehavior = report.animalBehavior[index];
     individualReport.push(temp);
     index++;
   });

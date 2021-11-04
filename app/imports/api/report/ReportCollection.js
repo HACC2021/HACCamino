@@ -41,7 +41,11 @@ class ReportCollection extends BaseCollection {
       'animalBehavior.$': { type: String },
       lat: Number,
       lng: Number,
-      people: Number,
+      people: {
+        type: Array,
+        defaultValue: [],
+      },
+      'people.$': { type: Number },
       phoneNumber: {
         type: Array,
         defaultValue: [],
