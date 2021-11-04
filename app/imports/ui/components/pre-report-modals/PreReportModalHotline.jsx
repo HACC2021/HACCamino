@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Button, Header, Modal, Form, Select, Label, Dropdown } from 'semantic-ui-react';
 
-const PreReportModal = () => {
+const PreReportModalRedirect = () => {
     const [open, setOpen] = useState(false);
     const [animal, setAnimal] = useState(() => '');
     const [finalAnimal, setFinalAnimal] = useState('');
@@ -14,7 +14,7 @@ const PreReportModal = () => {
     ]
 
     const Hotline = () => (
-        <Header as='h3'>Later send to report page</Header>
+        <Header as='h3'>Please call hotline at: xxx-xxx-xxxx</Header>
     );
 
     const onSubmit = () => {
@@ -109,4 +109,4 @@ const PreReportModal = () => {
     );
 }
 
-export default PreReportModal;
+export default PreReportModalRedirect;
