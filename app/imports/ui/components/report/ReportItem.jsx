@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Card, Modal, Button, Icon } from 'semantic-ui-react';
+import { Card, Modal, Button, Icon, Tab } from 'semantic-ui-react';
 import { Reports } from '../../../api/report/ReportCollection';
 import EditButton from './EditButton';
 import ReviewButton from './ReviewButton';
@@ -11,20 +11,42 @@ const ReportItem = ({ report }) => {
   const [firstOpen, setFirstOpen] = useState(false);
   const [secondOpen, setSecondOpen] = useState(false);
   const relatedReport = Reports.getRelatedReports(report);
-  const individualReport = [];
   let index = 0;
-  const test = [1, 2];
+  const test = [0, 1];
+  const panes = [];
   test.forEach(function () {
-    console.log(index);
     const temp = {};
     temp.name = report.name[index];
     temp.phoneNumber = report.phoneNumber[index];
-    temp.accessKey = report.accessKey[index];
+    // temp.accessKey = report.accessKey[index];
     temp.animalBehavior = report.animalBehavior[index];
-    individualReport.push(temp);
+    temp.animalCharacteristics = report.animalCharacteristics[index];
+    temp.notes = report.notes[index];
+    temp.people = report.people;
+    temp.location = report.location;
+    temp.date = 'date here';
+    panes.push(
+    {
+      menuItem: index.toString(),
+      render: function name() {
+        return (
+        <div>
+          <p>Reporter Name: {temp.name}</p>
+          <p>Phone Number: {temp.phoneNumber}</p>
+          <p>Date: {temp.date.toLocaleString()}</p>
+          <p>Location: {temp.location}</p>
+          <p>Animal Characteristics: {temp.animalCharacteristics}</p>
+          <p>Animal Behavior: {temp.animalBehavior}</p>
+          <p>Number Of People Around The Area: {temp.people}</p>
+          <p>Notes: {temp.notes}</p>
+        </div>
+        );
+      },
+    },
+    );
     index++;
   });
-  console.log(individualReport);
+  console.log(panes);
   return (
   <>
     <Modal
@@ -48,14 +70,7 @@ const ReportItem = ({ report }) => {
       <Modal.Header>{report.title} - {report.animal}</Modal.Header>
       <Modal.Content>
         <Modal.Description>
-          <p>Reporter Name: {report.name}</p>
-          <p>Phone Number: {report.phoneNumber}</p>
-          <p>Date: {report.date.toLocaleString()}</p>
-          <p>Location: {report.location}</p>
-          <p>Animal Characteristics: {report.animalCharacteristics}</p>
-          <p>Animal Behavior: {report.animalBehavior}</p>
-          <p>Number Of People Around The Area: {report.people}</p>
-          <p>Notes: {report.notes}</p>
+          <Tab menu={{ secondary: true, pointing: true }} panes={panes} />
           <EditButton report={report} />
           <br/>
           <h3>Related Reports</h3>
