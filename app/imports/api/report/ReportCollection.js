@@ -191,6 +191,24 @@ class ReportCollection extends BaseCollection {
     return reports.filter(report => report.animal === 'Sea Birds');
   }
 
+  getRelatedReports(userReport) {
+    let reports = ' ';
+    if (userReport.animal === 'Hawaiian Monk Seal') {
+      reports = this.getSealReports();
+    } else if (userReport.animal === 'Sea Turtles') {
+      reports = this.getTurtleReports();
+    } else {
+      reports = this.getBirdReports();
+    }
+    reports = reports.filter(report => report._id !== userReport._id);
+    const minLat = userReport.lat - 0.015;
+    const maxLat = userReport.lat + 0.015;
+    const minLng = userReport.lng - 0.015;
+    const maxLng = userReport.lng + 0.015;
+    return reports.filter(report => (report.lat >= minLat && report.lat <= maxLat)
+    && (report.lng >= minLng && report.lng <= maxLng) && (report._id !== userReport._id));
+  }
+
 }
 
 /**

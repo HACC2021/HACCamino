@@ -1,14 +1,16 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Card, Modal, Button, Icon } from 'semantic-ui-react';
+import { Reports } from '../../../api/report/ReportCollection';
 import EditButton from './EditButton';
 import ReviewButton from './ReviewButton';
 import DeleteButton from './DeleteButton';
+import CompareReports from './CompareReports';
 
 const ReportItem = ({ report }) => {
   const [firstOpen, setFirstOpen] = useState(false);
   const [secondOpen, setSecondOpen] = useState(false);
-
+  const relatedReport = Reports.getRelatedReports(report);
   return (
   <>
     <Modal
@@ -41,6 +43,11 @@ const ReportItem = ({ report }) => {
           <p>Number Of People Around The Area: {report.people}</p>
           <p>Notes: {report.notes}</p>
           <EditButton report={report} />
+          <br/>
+          <h3>Related Reports</h3>
+          <Card.Group style={{ paddingTop: '10px' }}>
+            {relatedReport.map((reports) => <CompareReports report={reports} key={reports._id} />)}
+          </Card.Group>
         </Modal.Description>
       </Modal.Content>
       <Modal.Actions>
