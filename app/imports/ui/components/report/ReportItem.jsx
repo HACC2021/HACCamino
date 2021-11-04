@@ -12,7 +12,7 @@ const ReportItem = ({ report }) => {
   const [secondOpen, setSecondOpen] = useState(false);
   const relatedReport = Reports.getRelatedReports(report);
   let index = 0;
-  const test = [0, 1];
+  const test = report.name;
   const panes = [];
   test.forEach(function () {
     const temp = {};
@@ -22,9 +22,9 @@ const ReportItem = ({ report }) => {
     temp.animalBehavior = report.animalBehavior[index];
     temp.animalCharacteristics = report.animalCharacteristics[index];
     temp.notes = report.notes[index];
-    temp.people = report.people;
+    temp.people = report.people[index];
     temp.location = report.location;
-    temp.date = 'date here';
+    temp.date = report.date[index];
     panes.push(
     {
       menuItem: index.toString(),
@@ -33,7 +33,7 @@ const ReportItem = ({ report }) => {
         <div>
           <p>Reporter Name: {temp.name}</p>
           <p>Phone Number: {temp.phoneNumber}</p>
-          <p>Date: {temp.date.toLocaleString()}</p>
+          <p>Date: {temp.date}</p>
           <p>Location: {temp.location}</p>
           <p>Animal Characteristics: {temp.animalCharacteristics}</p>
           <p>Animal Behavior: {temp.animalBehavior}</p>
@@ -46,7 +46,6 @@ const ReportItem = ({ report }) => {
     );
     index++;
   });
-  console.log(panes);
   return (
   <>
     <Modal
@@ -59,7 +58,7 @@ const ReportItem = ({ report }) => {
         <Card.Content>
           <Card.Header>{report.title} - {report.animal}</Card.Header>
           <Card.Description>
-            <p>{report.date.toLocaleString()}</p>
+            <p>{report.date[0]}</p>
             <p>{report.location}</p>
             <p>{report.status}</p>
           </Card.Description>

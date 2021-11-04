@@ -48,7 +48,7 @@ const CreateReport = () => {
     const definitionData = {};
     definitionData.title = finalTitle;
     definitionData.name = finalName;
-    definitionData.date = new Date();
+    definitionData.date = new Date().toLocaleString();
     definitionData.location = finalLocation;
     definitionData.animalCharacteristics = finalCharacteristics;
     definitionData.animalBehavior = finalAnimalBehavior;

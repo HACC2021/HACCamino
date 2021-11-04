@@ -21,7 +21,7 @@ class ReportCollection extends BaseCollection {
         type: Array,
         defaultValue: [],
       },
-      'date.$': { type: Date },
+      'date.$': { type: String },
       accessKey: {
         type: Array,
         defaultValue: [],
@@ -45,7 +45,7 @@ class ReportCollection extends BaseCollection {
         type: Array,
         defaultValue: [],
       },
-      'people.$': { type: Number },
+      'people.$': { type: String },
       phoneNumber: {
         type: Array,
         defaultValue: [],
@@ -102,7 +102,7 @@ class ReportCollection extends BaseCollection {
     if (location) {
       updateData.location = location;
     }
-    if (people > 0) {
+    if (people) {
       updateData.people = people;
     }
     if (phoneNumber) {
