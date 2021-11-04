@@ -13,7 +13,7 @@ const EditButton = ({ report }) => {
   const [finalAnimalBehavior, setFinalAnimalBehavior] = useState(report.animalBehavior);
   const [finalPeople, setFinalPeople] = useState(report.people);
   const [finalPhone, setFinalPhone] = useState(report.phoneNumber);
-  const [finalNotes, setFinalNotes] = useState(report.notes);
+  const [finalNotes, setFinalNotes] = useState(report.notes[0]);
   const [firstOpen, setFirstOpen] = useState(false);
   const [finalAnimal, setFinalAnimal] = useState({ value: report.animal, label: report.animal });
 

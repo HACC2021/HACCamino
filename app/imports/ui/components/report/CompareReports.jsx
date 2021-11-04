@@ -1,9 +1,37 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Card, Modal, Table } from 'semantic-ui-react';
+import { Card, Modal, Table, Button } from 'semantic-ui-react';
+import swal from 'sweetalert';
+import { reportUpdateMethod } from '../../../api/report/ReportCollection.methods';
 
 const CompareReports = ({ report, oreport }) => {
   const [firstOpen, setFirstOpen] = useState(false);
+  const AppendHandle = () => {
+    const updateData = oreport;
+    updateData.name = [...oreport.name];
+    updateData.name.push(report.name[0]);
+    updateData.date = [...oreport.date];
+    updateData.date.push(report.date[0]);
+    updateData.notes = [...oreport.notes];
+    updateData.notes.push(report.notes[0]);
+    updateData.animalCharacteristics = [...oreport.animalCharacteristics];
+    updateData.animalCharacteristics.push(report.animalCharacteristics[0]);
+    updateData.phoneNumber = [...oreport.phoneNumber];
+    updateData.phoneNumber.push(report.phoneNumber[0]);
+    updateData.animalBehavior = [...oreport.animalBehavior];
+    updateData.animalBehavior.push(report.animalBehavior[0]);
+    updateData.accessKey = [...oreport.accessKey];
+    updateData.accessKey.push(report.accessKey[0]);
+    console.log(updateData);
+    reportUpdateMethod.call(updateData,
+    error => {
+      if (error) {
+        swal('Error', error.message, 'error');
+      } else {
+        swal('Success', 'Report Merged Successfully', 'success');
+      }
+    });
+  };
   return (
   <>
     <Modal
@@ -51,6 +79,9 @@ const CompareReports = ({ report, oreport }) => {
             </Table.Row>
           </Table.Body>
         </Table>
+        <Button onClick={AppendHandle}>
+          Append
+        </Button>
       </Modal.Content>
     </Modal>
   </>);
