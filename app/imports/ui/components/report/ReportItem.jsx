@@ -11,6 +11,18 @@ const ReportItem = ({ report }) => {
   const [firstOpen, setFirstOpen] = useState(false);
   const [secondOpen, setSecondOpen] = useState(false);
   const relatedReport = Reports.getRelatedReports(report);
+  const individualReport = [];
+  let index = 0;
+  const test = [1, 2];
+  test.forEach(function () {
+    console.log(index);
+    const temp = {};
+    temp.name = report.name[index];
+    temp.phoneNumber = report.phoneNumber[index];
+    individualReport.push(temp);
+    index++;
+  });
+  console.log(individualReport);
   return (
   <>
     <Modal

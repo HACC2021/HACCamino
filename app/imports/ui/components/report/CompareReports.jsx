@@ -22,7 +22,6 @@ const CompareReports = ({ report, oreport }) => {
     updateData.animalBehavior.push(report.animalBehavior[0]);
     updateData.accessKey = [...oreport.accessKey];
     updateData.accessKey.push(report.accessKey[0]);
-    console.log(updateData);
     reportUpdateMethod.call(updateData,
     error => {
       if (error) {
