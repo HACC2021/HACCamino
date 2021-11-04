@@ -41,20 +41,33 @@ export const defineAccountRoleUser = new ValidatedMethod({
   name: 'UserRoleAccount.define',
   mixins: [CallPromiseMixin],
   validate: null,
-  run({ email, password, role, definitionData }) {
+  run({ email, role, definitionData }) {
     if (Meteor.isServer) {
       const accountID = Accounts.createUser({
         username: email,
         email: email,
-        password: password,
       });
       if (role) {
         Roles.createRole(role, { unlessExists: true });
         Roles.addUsersToRoles(accountID, role);
       }
       const userID = Users.define(definitionData);
-      return { userID, accountID, password };
+      return { userID, accountID };
     }
     return null;
+  },
+});
+
+export const setNewPassword = new ValidatedMethod({
+  name: 'Accounts.setNewPassword',
+  mixins: [CallPromiseMixin],
+  validate: null,
+  run({ email, password }) {
+    if (Meteor.isServer) {
+      const accountID = Accounts.findUserByUsername(email)._id;
+      Accounts.setPassword(accountID, password);
+      return accountID;
+    }
+    return '';
   },
 });

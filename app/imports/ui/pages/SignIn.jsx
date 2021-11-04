@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Button, Container, Form, Grid, Header, Icon, Message } from 'semantic-ui-react';
 import { Meteor } from 'meteor/meteor';
+import Swal from 'sweetalert2';
+import { setNewPassword } from '../../api/user/UserCollection.methods';
 
 export const SignIn = () => {
   const [email, setEmail] = useState('');
@@ -9,14 +11,15 @@ export const SignIn = () => {
   const [passwordAgain, setPasswordAgain] = useState('');
   const [error, setError] = useState('');
   const [page, setPage] = useState(0);
+  const [disableEmail, setDisableEmail] = useState(false);
   const [showNext, setShowNext] = useState(true);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showMessage, setShowMessage] = useState(false);
+  const [isSubmit, setIsSubmit] = useState(false);
 
   const history = useHistory();
-  const goToPage = () => {
-    const pageLink = '/dashboard';
+  const goToPage = (pageLink) => {
     history.push(pageLink);
   };
 
@@ -31,36 +34,70 @@ export const SignIn = () => {
   };
 
   const handleSubmit = () => {
-    if (page === 0) {
+    if (isSubmit && page === 0) { // to check if password exists
+      setIsSubmit(false);
       Meteor.loginWithPassword(email, password, (err => {
         if (err.reason === 'User has no password set') {
+          setError('');
           setPage(1);
-          setError('');
         } else if (err.reason === 'Incorrect password') {
-          setPage(2);
           setError('');
+          setPage(2);
         } else {
           setError(err.reason);
         }
       }));
-    } else if ([1, 2].includes(page)) {
+    } else if (isSubmit && page === 1) {
+      setIsSubmit(false);
+      if (password !== passwordAgain) {
+        setError('Passwords do not match, please retype.');
+      } else {
+        setNewPassword.call({ email, password },
+          (err) => {
+          if (err) {
+            setError(err.message);
+          } else {
+            Swal.fire('Password has been set!',
+              'Please log in using your new password.',
+              'success').then(() => history.go(0));
+          }
+        });
+      }
+    } else if (isSubmit && page === 2) {
+      setIsSubmit(false);
       Meteor.loginWithPassword(email, password, (err => {
         if (err) {
           setError(err.reason);
         } else {
-          setError('');
-          goToPage();
+          Swal.fire('Log in successful',
+            '',
+            'success').then(() => {
+              setError('');
+              goToPage('/dashboard');
+          });
         }
       }));
+    } else if (!isSubmit) {
+      setPage(0);
+      setError('');
     }
   };
 
   useEffect(() => {
-    if (page === 1) {
+    if (page === 0) { // reset everything except email
+      setDisableEmail(false);
+      setShowNewPassword(false);
+      setShowPassword(false);
+      setShowNext(true);
+      setPassword('');
+      setPasswordAgain('');
+    } else if (page === 1) {
+      setDisableEmail(true);
       setShowNewPassword(true);
       setShowPassword(true);
       setShowNext(false);
     } else if (page === 2) {
+      setDisableEmail(true);
       setShowNewPassword(false);
       setShowPassword(true);
       setShowNext(false);
@@ -74,7 +111,7 @@ export const SignIn = () => {
   }, [page, error]);
 
   const nextButton = (
-    <Form.Button animated>
+    <Form.Button animated onClick={() => setIsSubmit(true)}>
       <Button.Content visible>Next</Button.Content>
       <Button.Content hidden>
         <Icon name='arrow right'/>
@@ -83,12 +120,19 @@ export const SignIn = () => {
   );
 
   const submitButton = (
-    <Form.Button content='Submit'/>
+    <Form.Group inline>
+      <Form.Button animated>
+        <Button.Content visible>Back</Button.Content>
+        <Button.Content hidden>
+          <Icon name='arrow left'/>
+        </Button.Content>
+      </Form.Button>
+      <Form.Button content='Submit' onClick={() => setIsSubmit(true)}/>
+    </Form.Group>
   );
 
   const passwordForm = (
     <Form.Input
-      required
       icon='lock'
       iconPosition='left'
       type='password'
@@ -102,7 +146,6 @@ export const SignIn = () => {
 
   const newPasswordForm = (
     <Form.Input
-      required
       icon='lock'
       iconPosition='left'
       type='password'
@@ -135,6 +178,7 @@ export const SignIn = () => {
                 placeholder='Email'
                 name='email'
                 value={email}
+                readOnly={disableEmail}
                 onChange={handleChange}
               />
               {showPassword ? passwordForm : null}
