@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Button } from 'semantic-ui-react';
-import swal from 'sweetalert';
+import Swal from 'sweetalert2';
 import { reportRemoveItMethod } from '../../../api/report/ReportCollection.methods';
 
 const DeleteButton = ({ report }) => {
@@ -11,9 +11,9 @@ const DeleteButton = ({ report }) => {
     reportRemoveItMethod.call({ _id },
     error => {
       if (error) {
-        swal('Error', error.message, 'error');
+        Swal.fire('Error', error.message, 'error');
       } else {
-        swal('Success', 'Report Deleted Successfully', 'success');
+        Swal.fire('Success', 'Report Deleted Successfully', 'success');
       }
     });
   };

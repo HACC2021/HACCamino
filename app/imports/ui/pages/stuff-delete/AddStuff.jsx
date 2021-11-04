@@ -1,10 +1,10 @@
 import React from 'react';
 import { Grid, Segment, Header } from 'semantic-ui-react';
 import { AutoForm, ErrorsField, NumField, SelectField, SubmitField, TextField } from 'uniforms-semantic';
-import swal from 'sweetalert';
 import { Meteor } from 'meteor/meteor';
 import 'uniforms-bridge-simple-schema-2'; // required for Uniforms
 import SimpleSchema from 'simpl-schema';
+import Swal from 'sweetalert2';
 import { stuffDefineMethod } from '../../../api/stuff/StuffCollection.methods';
 
 /** Create a schema to specify the structure of the data to appear in the form. */
@@ -30,10 +30,10 @@ class AddStuff extends React.Component {
     stuffDefineMethod.call({ name, quantity, condition, owner },
       (error) => {
         if (error) {
-          swal('Error', error.message, 'error');
+          Swal.fire('Error', error.message, 'error');
           // console.error(error.message);
         } else {
-          swal('Success', 'Item added successfully', 'success');
+          Swal.fire('Success', 'Item added successfully', 'success');
           formRef.reset();
           // console.log('Success');
         }

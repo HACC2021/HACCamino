@@ -8,13 +8,12 @@ import NavBar from '../components/NavBar';
 import Footer from '../components/Footer';
 import Landing from '../pages/Landing';
 import NotFound from '../pages/NotFound';
-import Signin from '../pages/Signin';
 import Signout from '../pages/Signout';
 import CreateReport from '../pages/report/CreateReport';
 import ViewReport from '../pages/report/ViewReport';
 import ListVolunteers from '../pages/admin-exclusive/ListVolunteers';
 import CreateAccount from '../pages/admin-exclusive/CreateAccount';
-import CreateAccountSuccess from '../pages/admin-exclusive/CreateAccountSuccess';
+import SignIn from '../pages/SignIn';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 class App extends React.Component {
@@ -25,14 +24,13 @@ class App extends React.Component {
             <NavBar/>
             <Switch>
               <Route exact path="/" component={Landing}/>
-              <Route path="/signin" component={Signin}/>
+              <Route path="/signin" component={SignIn}/>
               <Route path="/viewReport" component={ViewReport}/>
               <Route path="/createReport" component={CreateReport}/>
               {/* DELETE: <ProtectedRoute path="/list" component={ListStuff}/> */}
               {/* DELETE: <ProtectedRoute path="/edit/:_id" component={EditStuff}/>  */}
               <AdminProtectedRoute path="/volunteers-list" component={ListVolunteers}/>
               <AdminProtectedRoute path="/create-account/create" component={CreateAccount}/>
-              <AdminProtectedRoute path="/create-account/success" component={CreateAccountSuccess}/>
               <ProtectedRoute path="/signout" component={Signout}/>
               <Route component={NotFound}/>
             </Switch>

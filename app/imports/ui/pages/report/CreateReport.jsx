@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Container, Button, Form, TextArea } from 'semantic-ui-react';
 import Select from 'react-select';
-import swal from 'sweetalert';
 import { GoogleMap, Marker, InfoWindow, useLoadScript } from '@react-google-maps/api';
+import Swal from 'sweetalert2';
 import { reportDefineMethod } from '../../../api/report/ReportCollection.methods';
 
 const containerStyle = {
@@ -76,9 +76,9 @@ const CreateReport = () => {
         } else {
           errorMessage = error.message.substring(0, error.message.indexOf('required') + 8);
         }
-        swal('Error', errorMessage, 'error');
+        Swal.fire('Error', errorMessage, 'error');
       } else {
-        swal('Success', 'Report Added Successfully', 'success');
+        Swal.fire('Success', 'Report Added Successfully', 'success');
         setFinalTitle('');
         setFinalAnimal('');
         setFinalName('');

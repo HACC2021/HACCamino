@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Card, Modal, Table, Button } from 'semantic-ui-react';
-import swal from 'sweetalert';
+import Swal from 'sweetalert2';
 import { reportRemoveItMethod, reportUpdateMethod } from '../../../api/report/ReportCollection.methods';
 
 const CompareReports = ({ report, oreport }) => {
@@ -29,9 +29,9 @@ const CompareReports = ({ report, oreport }) => {
     reportUpdateMethod.call(updateData,
     error => {
       if (error) {
-        swal('Error', error.message, 'error');
+        Swal.fire('Error', error.message, 'error');
       } else {
-        swal('Success', 'Report Merged Successfully', 'success');
+        Swal.fire('Success', 'Report Merged Successfully', 'success');
       }
     });
   };

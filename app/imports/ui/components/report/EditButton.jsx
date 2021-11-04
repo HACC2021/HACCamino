@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Container, Form, Modal } from 'semantic-ui-react';
-import swal from 'sweetalert';
 import Select from 'react-select';
+import Swal from 'sweetalert2';
 import { reportUpdateMethod } from '../../../api/report/ReportCollection.methods';
 
 const EditButton = ({ report }) => {
@@ -40,9 +40,9 @@ const EditButton = ({ report }) => {
     reportUpdateMethod.call(updateData,
     error => {
       if (error) {
-        swal('Error', error.message, 'error');
+        Swal.fire('Error', error.message, 'error');
       } else {
-        swal('Success', 'Report Edit Successfully', 'success');
+        Swal.fire('Success', 'Report Edit Successfully', 'success');
       }
     });
   };
