@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Card, Modal, Table, Button } from 'semantic-ui-react';
 import swal from 'sweetalert';
-import { reportUpdateMethod } from '../../../api/report/ReportCollection.methods';
+import { reportRemoveItMethod, reportUpdateMethod } from '../../../api/report/ReportCollection.methods';
 
 const CompareReports = ({ report, oreport }) => {
   const [firstOpen, setFirstOpen] = useState(false);
@@ -24,6 +24,8 @@ const CompareReports = ({ report, oreport }) => {
     updateData.accessKey.push(report.accessKey[0]);
     updateData.people = [...oreport.people];
     updateData.people.push(report.people[0]);
+    const _id = report._id;
+    reportRemoveItMethod.call({ _id });
     reportUpdateMethod.call(updateData,
     error => {
       if (error) {
@@ -64,9 +66,19 @@ const CompareReports = ({ report, oreport }) => {
           </Table.Header>
           <Table.Body>
             <Table.Row>
+              <Table.Cell>Reporters Name</Table.Cell>
+              <Table.Cell>{oreport.name}</Table.Cell>
+              <Table.Cell>{report.name}</Table.Cell>
+            </Table.Row>
+              <Table.Row>
+                <Table.Cell>Reporters Phone Number</Table.Cell>
+                <Table.Cell>{oreport.phoneNumber}</Table.Cell>
+                <Table.Cell>{report.phoneNumber}</Table.Cell>
+              </Table.Row>
+            <Table.Row>
               <Table.Cell>Date</Table.Cell>
-              <Table.Cell>{oreport.date.toLocaleString()}</Table.Cell>
-              <Table.Cell>{report.date.toLocaleString()}</Table.Cell>
+              <Table.Cell>{oreport.date}</Table.Cell>
+              <Table.Cell>{report.date}</Table.Cell>
             </Table.Row>
             <Table.Row>
               <Table.Cell>Characteristics</Table.Cell>
@@ -82,6 +94,11 @@ const CompareReports = ({ report, oreport }) => {
               <Table.Cell>Number Of People</Table.Cell>
               <Table.Cell>{oreport.people}</Table.Cell>
               <Table.Cell>{report.people}</Table.Cell>
+            </Table.Row>
+            <Table.Row>
+              <Table.Cell>Notes</Table.Cell>
+              <Table.Cell>{oreport.notes}</Table.Cell>
+              <Table.Cell>{report.notes}</Table.Cell>
             </Table.Row>
           </Table.Body>
         </Table>

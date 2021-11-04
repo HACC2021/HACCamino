@@ -84,7 +84,7 @@ class ReportCollection extends BaseCollection {
     return docID;
   }
 
-  update(docID, { title, name, accessKey, animal,
+  update(docID, { title, name, accessKey, animal, date,
     location, animalCharacteristics, people, phoneNumber, notes, animalBehavior, status }) {
     const updateData = {};
     if (title) {
@@ -92,6 +92,9 @@ class ReportCollection extends BaseCollection {
     }
     if (name) {
       updateData.name = name;
+    }
+    if (date) {
+      updateData.date = date;
     }
     if (animalBehavior) {
       updateData.animalBehavior = animalBehavior;
