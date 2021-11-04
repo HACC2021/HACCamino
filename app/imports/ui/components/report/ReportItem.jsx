@@ -46,7 +46,7 @@ const ReportItem = ({ report }) => {
           <br/>
           <h3>Related Reports</h3>
           <Card.Group style={{ paddingTop: '10px' }}>
-            {relatedReport.map((reports) => <CompareReports report={reports} key={reports._id} />)}
+            {relatedReport.map((reports) => <CompareReports report={reports} key={reports._id} oreport={report} />)}
           </Card.Group>
         </Modal.Description>
       </Modal.Content>
