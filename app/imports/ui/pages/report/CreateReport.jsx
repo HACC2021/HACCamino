@@ -63,7 +63,7 @@ const CreateReport = () => {
       definitionData.lat = markers[0].lat;
       definitionData.lng = markers[0].lng;
     }
-    definitionData.link = '';
+    definitionData.link = 'pending';
     definitionData.accessKey = 'blank';
     definitionData.status = 'pending';
     definitionData.animal = finalAnimal.value;
