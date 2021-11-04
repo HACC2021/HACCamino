@@ -1,6 +1,7 @@
 import React from 'react';
 import { Grid, Image, Header } from 'semantic-ui-react';
-import PreReportModal from '../components/PreReportModal';
+import PreReportModalRedirect from '../components/pre-report-modals/PreReportModalRedirect';
+import PreReportModalHotline from '../components/pre-report-modals/PreReportModalHotline';
 
 /** A simple static component to render some text for the landing page. */
 const Landing = () => {
@@ -14,7 +15,14 @@ const Landing = () => {
             </Grid.Row>
             <Grid.Row>
                 <Grid.Column>
-                    <PreReportModal/>
+                    <Header as='h3'>Redirect</Header>
+                    <PreReportModalRedirect/>
+                </Grid.Column>
+            </Grid.Row>
+            <Grid.Row>
+                <Grid.Column>
+                    <Header as='h3'>Hotline</Header>
+                    <PreReportModalHotline/>
                 </Grid.Column>
             </Grid.Row>
         </Grid>
