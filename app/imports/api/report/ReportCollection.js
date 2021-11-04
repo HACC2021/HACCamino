@@ -12,21 +12,50 @@ class ReportCollection extends BaseCollection {
   constructor() {
     super('Report', new SimpleSchema({
       title: String,
-      name: String,
-      date: Date,
-      accessKey: String,
+      name: {
+        type: Array,
+        defaultValue: [],
+      },
+      'name.$': { type: String },
+      date: {
+        type: Array,
+        defaultValue: [],
+      },
+      'date.$': { type: String },
+      accessKey: {
+        type: Array,
+        defaultValue: [],
+      },
+      'accessKey.$': { type: String },
       location: String,
       animal: String,
-      animalCharacteristics: String,
-      animalBehavior: String,
+      animalCharacteristics: {
+        type: Array,
+        defaultValue: [],
+      },
+      'animalCharacteristics.$': { type: String },
+      animalBehavior: {
+        type: Array,
+        defaultValue: [],
+      },
+      'animalBehavior.$': { type: String },
       lat: Number,
       lng: Number,
-      people: Number,
-      phoneNumber: String,
-      notes: {
-        type: String,
-        optional: true,
+      people: {
+        type: Array,
+        defaultValue: [],
       },
+      'people.$': { type: String },
+      phoneNumber: {
+        type: Array,
+        defaultValue: [],
+      },
+      'phoneNumber.$': { type: String },
+      notes: {
+        type: Array,
+        defaultValue: [],
+      },
+      'notes.$': { type: String },
       link: String,
       status: String,
     }));
@@ -55,7 +84,7 @@ class ReportCollection extends BaseCollection {
     return docID;
   }
 
-  update(docID, { title, name, accessKey, animal,
+  update(docID, { title, name, accessKey, animal, date,
     location, animalCharacteristics, people, phoneNumber, notes, animalBehavior, status }) {
     const updateData = {};
     if (title) {
@@ -63,6 +92,9 @@ class ReportCollection extends BaseCollection {
     }
     if (name) {
       updateData.name = name;
+    }
+    if (date) {
+      updateData.date = date;
     }
     if (animalBehavior) {
       updateData.animalBehavior = animalBehavior;
@@ -73,7 +105,7 @@ class ReportCollection extends BaseCollection {
     if (location) {
       updateData.location = location;
     }
-    if (people > 0) {
+    if (people) {
       updateData.people = people;
     }
     if (phoneNumber) {
@@ -164,6 +196,24 @@ class ReportCollection extends BaseCollection {
   getBirdReports() {
     const reports = this.getCurrentReports();
     return reports.filter(report => report.animal === 'Sea Birds');
+  }
+
+  getRelatedReports(userReport) {
+    let reports = ' ';
+    if (userReport.animal === 'Hawaiian Monk Seal') {
+      reports = this.getSealReports();
+    } else if (userReport.animal === 'Sea Turtles') {
+      reports = this.getTurtleReports();
+    } else {
+      reports = this.getBirdReports();
+    }
+    reports = reports.filter(report => report._id !== userReport._id);
+    const minLat = userReport.lat - 0.015;
+    const maxLat = userReport.lat + 0.015;
+    const minLng = userReport.lng - 0.015;
+    const maxLng = userReport.lng + 0.015;
+    return reports.filter(report => (report.lat >= minLat && report.lat <= maxLat)
+    && (report.lng >= minLng && report.lng <= maxLng) && (report._id !== userReport._id));
   }
 
 }

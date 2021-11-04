@@ -1,22 +1,15 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Card, Container, Form, TextArea, Modal } from 'semantic-ui-react';
+import { Button, Container, Form, Modal } from 'semantic-ui-react';
 import swal from 'sweetalert';
 import Select from 'react-select';
 import { reportUpdateMethod } from '../../../api/report/ReportCollection.methods';
 
 const EditButton = ({ report }) => {
   const [finalTitle, setFinalTitle] = useState(report.title);
-  const [finalName, setFinalName] = useState(report.name);
   const [finalLocation, setFinalLocation] = useState(report.location);
-  const [finalCharacteristics, setFinalCharacteristics] = useState(report.animalCharacteristics);
-  const [finalAnimalBehavior, setFinalAnimalBehavior] = useState(report.animalBehavior);
-  const [finalPeople, setFinalPeople] = useState(report.people);
-  const [finalPhone, setFinalPhone] = useState(report.phoneNumber);
-  const [finalNotes, setFinalNotes] = useState(report.notes);
   const [firstOpen, setFirstOpen] = useState(false);
   const [finalAnimal, setFinalAnimal] = useState({ value: report.animal, label: report.animal });
-
   const animalDropdown = [
     { value: 'Hawaiian Monk Seal', label: 'Hawaiian Monk Seal' },
     { value: 'Sea Turtles', label: 'Sea Turtles' },
@@ -27,14 +20,14 @@ const EditButton = ({ report }) => {
     const updateData = {};
     updateData._id = report._id;
     updateData.title = finalTitle;
-    updateData.name = finalName;
+    updateData.name = report.name;
     updateData.date = report.date;
     updateData.location = finalLocation;
-    updateData.animalCharacteristics = finalCharacteristics;
-    updateData.animalBehavior = finalAnimalBehavior;
-    updateData.people = finalPeople;
-    updateData.phoneNumber = finalPhone;
-    updateData.notes = finalNotes;
+    updateData.animalCharacteristics = report.animalCharacteristics;
+    updateData.animalBehavior = report.animalBehavior;
+    updateData.people = report.people;
+    updateData.phoneNumber = report.phoneNumber;
+    updateData.notes = report.notes;
     updateData.lat = report.lat;
     updateData.lng = report.lng;
     updateData.link = report.link;
@@ -62,11 +55,9 @@ const EditButton = ({ report }) => {
     open={firstOpen}
     size='small'
     trigger={
-      <Card>
-        <Button>
+        <Button primary floated='left'>
           Edit Report
         </Button>
-      </Card>
     }
     >
     <Modal.Header>Edit Report</Modal.Header>
@@ -90,47 +81,9 @@ const EditButton = ({ report }) => {
             </Form.Group>
             <Form.Group widths='equal'>
               <Form.Field width={8}>
-                <label>Name</label>
-                <input placeholder='Name' value={finalName} onChange={ e => setFinalName(e.target.value)}/>
-              </Form.Field>
-              <Form.Field width={8}>
                 <label>Location</label>
                 <input placeholder='Location' value={finalLocation} onChange={ e => setFinalLocation(e.target.value)}/>
               </Form.Field>
-            </Form.Group>
-            <Form.Group width='equal'>
-              <Form.Field width={8}>
-                <label>Animal Characteristics</label>
-                <input placeholder='characteristics'
-                       value={finalCharacteristics} onChange={ e => setFinalCharacteristics(e.target.value)}/>
-              </Form.Field>
-              <Form.Field width={8}>
-                <label>Animal Behavior</label>
-                <input placeholder='behavior'
-                       value={finalAnimalBehavior} onChange={ e => setFinalAnimalBehavior(e.target.value)}/>
-              </Form.Field>
-            </Form.Group>
-            <Form.Group width='equal'>
-              <Form.Field width={8}>
-                <label>Number Of People Around The Area</label>
-                <input type='number' placeholder='people'
-                       value={finalPeople} onChange={ e => setFinalPeople(e.target.value)}/>
-              </Form.Field>
-              <Form.Field width={8}>
-                <label>Phone Number</label>
-                <input placeholder='(xxx)' value={finalPhone} onChange={ e => setFinalPhone(e.target.value)}/>
-              </Form.Field>
-            </Form.Group>
-            <Form.Group>
-              <Form.Field
-              width={16}
-              id='form-textarea-control-opinion'
-              control={TextArea}
-              label='Notes'
-              placeholder='Notes'
-              value={finalNotes}
-              onChange={ e => setFinalNotes(e.target.value)}
-              />
             </Form.Group>
           </Form>
           <Button onClick={onSubmit}>

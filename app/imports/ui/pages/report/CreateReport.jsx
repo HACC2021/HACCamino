@@ -35,7 +35,7 @@ const CreateReport = () => {
   const [finalAnimalBehavior, setFinalAnimalBehavior] = useState(() => '');
   const [finalPeople, setFinalPeople] = useState(0);
   const [finalPhone, setFinalPhone] = useState(() => '');
-  const [finalNotes, setFinalNotes] = useState(() => '');
+  const [finalNotes, setFinalNotes] = useState('');
   const [finalAnimal, setFinalAnimal] = useState('');
 
   const animalDropdown = [
@@ -48,13 +48,17 @@ const CreateReport = () => {
     const definitionData = {};
     definitionData.title = finalTitle;
     definitionData.name = finalName;
-    definitionData.date = new Date();
+    definitionData.date = new Date().toLocaleString();
     definitionData.location = finalLocation;
     definitionData.animalCharacteristics = finalCharacteristics;
     definitionData.animalBehavior = finalAnimalBehavior;
     definitionData.people = finalPeople;
     definitionData.phoneNumber = finalPhone;
-    definitionData.notes = finalNotes;
+    if (finalNotes.length < 1) {
+      definitionData.notes = 'Nothing';
+    } else {
+      definitionData.notes = finalNotes;
+    }
     if (markers[0] !== undefined) {
       definitionData.lat = markers[0].lat;
       definitionData.lng = markers[0].lng;
