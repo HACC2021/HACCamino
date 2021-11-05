@@ -115,6 +115,10 @@ class UserCollection extends BaseCollection {
   getUserDetailFromID(userID) {
     return this._collection.findOne({ _id: userID });
   }
+
+  getUserDetailFromEmail(userEmail) {
+    return this._collection.findOne({ owner: userEmail });
+  }
 }
 
 export const Users = new UserCollection();

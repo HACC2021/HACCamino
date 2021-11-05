@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Form, Container } from 'semantic-ui-react';
 import Select from 'react-select';
-import swal from 'sweetalert';
+import Swal from 'sweetalert2';
 import { reportUpdateMethod } from '../../../api/report/ReportCollection.methods';
 
 const ReviewButton = ({ report }) => {
@@ -18,9 +18,9 @@ const ReviewButton = ({ report }) => {
     reportUpdateMethod.call(updateData,
     error => {
       if (error) {
-        swal('Error', error.message, 'error');
+        Swal.fire('Error', error.message, 'error');
       } else {
-        swal('Success', 'Report Reviewed Successfully', 'success');
+        Swal.fire('Success', 'Report Reviewed Successfully', 'success');
       }
     });
   };

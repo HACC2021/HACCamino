@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Form, Grid, Header, Message } from 'semantic-ui-react';
-import faker from 'faker';
 import { useHistory } from 'react-router-dom';
+import Swal from 'sweetalert2';
 import { defineAccountRoleUser } from '../../../api/user/UserCollection.methods';
 
 const roleOptions = [
@@ -18,16 +18,9 @@ const CreateAccount = () => {
   const [showMessage, setShowMessage] = useState(false);
 
   const history = useHistory();
-  const goToPage = (result) => {
-    const pageLink = 'success';
-    history.push({
-      pathname: pageLink,
-      state: {
-        userID: result.userID,
-        accountID: result.accountID,
-        password: result.password,
-      },
-    });
+  const goToPage = () => {
+    const pageLink = '/dashboard';
+    history.push(pageLink);
   };
 
   const handleChange = (e, { name, value }) => {
@@ -43,19 +36,28 @@ const CreateAccount = () => {
   };
 
   const handleSubmit = () => {
-    const tempPassword = faker.internet.password();
     const definitionData = {};
     definitionData.firstName = firstName;
     definitionData.lastName = lastName;
     definitionData.owner = email;
     definitionData.role = role;
-    defineAccountRoleUser.call({ email, password: tempPassword, role, definitionData },
-      (err, result) => {
+    defineAccountRoleUser.call({ email, role, definitionData },
+      (err) => {
         if (err) {
           setError(err.message);
         } else {
           setError('');
-          goToPage(result);
+          Swal.fire('You have successfully created an account!',
+            `An e-mail, containing a link the new ${role} can use to set their
+            new password has been sent to <strong>${email}</strong>.
+            <br/>
+            <br/>
+            <small>
+              The app is still being developed.
+            <br/>
+              The functionality to send e-mails has not been implemented.
+            </small>`,
+            'success').then(() => goToPage());
         }
       });
   };
@@ -63,6 +65,8 @@ const CreateAccount = () => {
   useEffect(() => {
     if (error !== '') {
       setShowMessage(true);
+    } else {
+      setShowMessage(false);
     }
   }, [error]);
 
@@ -121,7 +125,7 @@ const CreateAccount = () => {
             <Grid.Column>
               <Message
                 error
-                header="Account creation unsuccessful"
+                header="Account creation was not successful"
                 content={error}
               />
             </Grid.Column>

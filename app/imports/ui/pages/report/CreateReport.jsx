@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Container, Button, Form, TextArea } from 'semantic-ui-react';
 import Select from 'react-select';
-import swal from 'sweetalert';
 import { GoogleMap, Marker, InfoWindow, useLoadScript } from '@react-google-maps/api';
+import Swal from 'sweetalert2';
 import { reportDefineMethod } from '../../../api/report/ReportCollection.methods';
 
 const containerStyle = {
@@ -35,7 +35,7 @@ const CreateReport = () => {
   const [finalAnimalBehavior, setFinalAnimalBehavior] = useState(() => '');
   const [finalPeople, setFinalPeople] = useState(0);
   const [finalPhone, setFinalPhone] = useState(() => '');
-  const [finalNotes, setFinalNotes] = useState(() => '');
+  const [finalNotes, setFinalNotes] = useState('');
   const [finalAnimal, setFinalAnimal] = useState('');
 
   const animalDropdown = [
@@ -48,13 +48,17 @@ const CreateReport = () => {
     const definitionData = {};
     definitionData.title = finalTitle;
     definitionData.name = finalName;
-    definitionData.date = new Date();
+    definitionData.date = new Date().toLocaleString();
     definitionData.location = finalLocation;
     definitionData.animalCharacteristics = finalCharacteristics;
     definitionData.animalBehavior = finalAnimalBehavior;
     definitionData.people = finalPeople;
     definitionData.phoneNumber = finalPhone;
-    definitionData.notes = finalNotes;
+    if (finalNotes.length < 1) {
+      definitionData.notes = 'Nothing';
+    } else {
+      definitionData.notes = finalNotes;
+    }
     if (markers[0] !== undefined) {
       definitionData.lat = markers[0].lat;
       definitionData.lng = markers[0].lng;
@@ -72,9 +76,9 @@ const CreateReport = () => {
         } else {
           errorMessage = error.message.substring(0, error.message.indexOf('required') + 8);
         }
-        swal('Error', errorMessage, 'error');
+        Swal.fire('Error', errorMessage, 'error');
       } else {
-        swal('Success', 'Report Added Successfully', 'success');
+        Swal.fire('Success', 'Report Added Successfully', 'success');
         setFinalTitle('');
         setFinalAnimal('');
         setFinalName('');

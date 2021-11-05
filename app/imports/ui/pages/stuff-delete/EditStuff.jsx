@@ -1,10 +1,10 @@
 import React from 'react';
 import { Grid, Loader, Header, Segment } from 'semantic-ui-react';
-import swal from 'sweetalert';
 import { AutoForm, ErrorsField, NumField, SelectField, SubmitField, TextField } from 'uniforms-semantic';
 import { withTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 import 'uniforms-bridge-simple-schema-2'; // required for Uniforms
+import Swal from 'sweetalert2';
 import { Stuffs } from '../../../api/stuff/StuffCollection';
 import { stuffUpdateMethod } from '../../../api/stuff/StuffCollection.methods';
 
@@ -22,8 +22,8 @@ class EditStuff extends React.Component {
       condition,
     };
     stuffUpdateMethod.call(updateData, (error) => (error ?
-      swal('Error', error.message, 'error') :
-      swal('Success', 'Item updated successfully', 'success')));
+      Swal.fire('Error', error.message, 'error') :
+      Swal.fire('Success', 'Item updated successfully', 'success')));
   }
 
   /** If the subscription(s) have been received, render the page, otherwise show a loading icon. */
