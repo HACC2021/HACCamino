@@ -37,6 +37,19 @@ export const userRemoveItMethod = new ValidatedMethod({
   },
 });
 
+export const userSetActiveStatus = new ValidatedMethod({
+  name: 'UserCollection.setActiveStatus',
+  mixins: [CallPromiseMixin],
+  validate: null,
+  run({ owner, active }) {
+    if (Meteor.isServer) {
+      Users.setActiveStatus({ owner, active });
+      return true;
+    }
+    return false;
+  },
+});
+
 export const defineAccountRoleUser = new ValidatedMethod({
   name: 'UserRoleAccount.define',
   mixins: [CallPromiseMixin],

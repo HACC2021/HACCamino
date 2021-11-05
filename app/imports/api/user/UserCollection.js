@@ -43,7 +43,7 @@ class UserCollection extends BaseCollection {
     return docID;
   }
 
-  update(docID, { firstName, lastName, photoAWSKey, active }) {
+  update(docID, { firstName, lastName, photoAWSKey }) {
     const updateData = {};
     if (firstName) {
       updateData.firstName = firstName;
@@ -53,9 +53,6 @@ class UserCollection extends BaseCollection {
     }
     if (photoAWSKey) {
       updateData.photoAWSKey = photoAWSKey;
-    }
-    if (typeof (active) === 'boolean') {
-      updateData.active = active;
     }
     this._collection.update(docID, { $set: updateData });
   }
@@ -118,6 +115,16 @@ class UserCollection extends BaseCollection {
 
   getUserDetailFromEmail(userEmail) {
     return this._collection.findOne({ owner: userEmail });
+  }
+
+  setActiveStatus({ owner, active }) {
+    const docID = this.getUserDetailFromEmail(owner)._id;
+    console.log(docID);
+    const updateData = {};
+    if (typeof (active) === 'boolean') {
+      updateData.active = active;
+    }
+    this._collection.update(docID, { $set: updateData });
   }
 }
 

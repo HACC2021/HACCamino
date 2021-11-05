@@ -35,7 +35,7 @@ const ListVolunteers = () => {
                   <Table.HeaderCell>Last Name</Table.HeaderCell>
                   <Table.HeaderCell>First Name</Table.HeaderCell>
                   <Table.HeaderCell>Email</Table.HeaderCell>
-                  <Table.HeaderCell>Active</Table.HeaderCell>
+                  <Table.HeaderCell>Status</Table.HeaderCell>
                   <Table.HeaderCell>Photo</Table.HeaderCell>
                 </Table.Row>
               </Table.Header>
