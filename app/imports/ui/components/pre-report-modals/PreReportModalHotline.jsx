@@ -18,27 +18,15 @@ const PreReportModalRedirect = () => {
     );
 
     const onSubmit = () => {
-        // console.log(animal);
-        // setOpen(false)
-
         if (animal !== 'other') {
-            // todo
-            console.log('HMAR CANT RESPOND');
-            console.log(animal);
             setFinalAnimal(animal);
             setAnimal('');
-            // setOpen(false)
         } else if (animal === '') {
             // idk what to do here
         } else if (animal === 'other') {
-            // todo
-            console.log('send to report page');
-            console.log(animal);
             setFinalAnimal(animal);
             setAnimal('');
-            // setOpen(false);
         }
-
     };
 
     const AnimalForm = () => (
@@ -56,7 +44,6 @@ const PreReportModalRedirect = () => {
                         value={animal}
                     />
                 </Form.Field>
-                {/* <Button onClick={onSubmit()}>Submit</Button> */}
                 <Form.Button type='button' onClick={onSubmit}>Submit</Form.Button>
             </Form.Group>
         </Form>
@@ -82,8 +69,11 @@ const PreReportModalRedirect = () => {
             centered={false}
             open={open}
             size='tiny'
-            trigger={<Button size='large' className="ui form button">
-              <h4>Report Animal <br/> In Distress</h4> </Button>}
+            trigger={
+                <Button size='large' className="ui form button">
+                    <h4>Report Animal <br /> In Distress</h4>
+                </Button>
+            }
         >
             <Modal.Header>Report</Modal.Header>
             <Modal.Content>
