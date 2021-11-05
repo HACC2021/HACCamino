@@ -33,6 +33,7 @@ const ReportItem = ({ report }) => {
           <p>Reporter Name: {temp.name}</p>
           <p>Phone Number: {temp.phoneNumber}</p>
           <p>Date: {temp.date}</p>
+          <p>Location: {report.location}</p>
           <p>Animal Characteristics: {temp.animalCharacteristics}</p>
           <p>Animal Behavior: {temp.animalBehavior}</p>
           <p>Number Of People Around The Area: {temp.people}</p>
