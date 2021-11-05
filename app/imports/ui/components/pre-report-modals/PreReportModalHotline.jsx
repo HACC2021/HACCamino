@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Header, Modal, Form, Select, Label, Dropdown } from 'semantic-ui-react';
+import { Button, Header, Modal, Form, Dropdown } from 'semantic-ui-react';
 
 const PreReportModalRedirect = () => {
     const [open, setOpen] = useState(false);
@@ -7,39 +7,27 @@ const PreReportModalRedirect = () => {
     const [finalAnimal, setFinalAnimal] = useState('');
 
     const animalOptions = [
-        { key: 'h', text:'Hawaiian Monk Seal', value: 'hawaiian monk seal' },
-        { key: 's', text:'Sea Turtle', value: 'sea turtle' },
-        { key: 'b', text:'Sea Bird', value: 'sea bird' },
-        { key: 'o', text:'Other', value: 'other' },
-    ]
+        { key: 'h', text: 'Hawaiian Monk Seal', value: 'hawaiian monk seal' },
+        { key: 's', text: 'Sea Turtle', value: 'sea turtle' },
+        { key: 'b', text: 'Sea Bird', value: 'sea bird' },
+        { key: 'o', text: 'Other', value: 'other' },
+    ];
 
     const Hotline = () => (
         <Header as='h3'>Please call hotline at: xxx-xxx-xxxx</Header>
     );
 
     const onSubmit = () => {
-        // console.log(animal);
-        // setOpen(false)
-
         if (animal !== 'other') {
-            // todo
-            console.log('HMAR CANT RESPOND');
-            console.log(animal);
-            setFinalAnimal(animal)
-            setAnimal('')
-            // setOpen(false)
+            setFinalAnimal(animal);
+            setAnimal('');
         } else if (animal === '') {
             // idk what to do here
         } else if (animal === 'other') {
-            // todo
-            console.log('send to report page');
-            console.log(animal);
-            setFinalAnimal(animal)
-            setAnimal('')
-            // setOpen(false);
+            setFinalAnimal(animal);
+            setAnimal('');
         }
-
-    }
+    };
 
     const AnimalForm = () => (
         <Form>
@@ -51,12 +39,11 @@ const PreReportModalRedirect = () => {
                         selection
                         options={animalOptions}
                         onChange={(e, { value }) => {
-                            setAnimal(value)
+                            setAnimal(value);
                         }}
                         value={animal}
                     />
                 </Form.Field>
-                {/*<Button onClick={onSubmit()}>Submit</Button>*/}
                 <Form.Button type='button' onClick={onSubmit}>Submit</Form.Button>
             </Form.Group>
         </Form>
@@ -67,7 +54,7 @@ const PreReportModalRedirect = () => {
             <Header as='h3'>Hello this is if there is other</Header>
             <p>
                 Unfortunately, HMAR will not be able to respond directly to
-                reports not relating to Hawai'i Marine Animals, specifically Hawaiian
+                reports not relating to Hawai&apos;i Marine Animals, specifically Hawaiian
                 Monk Seals, Sea Turtles, and Sea Birds. Please see our Resources Page
                 for information about other agencies who may provide assistance.
             </p>
@@ -82,11 +69,16 @@ const PreReportModalRedirect = () => {
             centered={false}
             open={open}
             size='tiny'
-            trigger={<Button>Make a report</Button>}
+            trigger={
+                <Button size='large' className="ui form button">
+                    <h4>Report Animal <br /> In Distress</h4>
+                </Button>
+            }
         >
             <Modal.Header>Report</Modal.Header>
             <Modal.Content>
                 {
+                  // eslint-disable-next-line no-nested-ternary
                     finalAnimal === '' ?
                         (
                             // do this if finalAnimal has not been set yet
@@ -107,6 +99,6 @@ const PreReportModalRedirect = () => {
 
         </Modal>
     );
-}
+};
 
 export default PreReportModalRedirect;

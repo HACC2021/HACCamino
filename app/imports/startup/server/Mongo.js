@@ -37,7 +37,6 @@ if (Users.count() === 0) {
         definitionData.lastName = user.lastName;
         definitionData.owner = user.owner;
         definitionData.photoAWSKey = user.photoAWSKey;
-        definitionData.active = user.active;
         definitionData.role = role;
         Users.define(definitionData);
       }

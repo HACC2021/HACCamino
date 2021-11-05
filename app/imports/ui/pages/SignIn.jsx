@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { Button, Container, Form, Grid, Header, Icon, Message } from 'semantic-ui-react';
 import { Meteor } from 'meteor/meteor';
 import Swal from 'sweetalert2';
-import { setNewPassword } from '../../api/user/UserCollection.methods';
+import { setNewPassword, userSetActiveStatus } from '../../api/user/UserCollection.methods';
 
 export const SignIn = () => {
   const [email, setEmail] = useState('');
@@ -69,12 +69,19 @@ export const SignIn = () => {
         if (err) {
           setError(err.reason);
         } else {
-          Swal.fire('Log in successful',
-            '',
-            'success').then(() => {
-              setError('');
-              goToPage('/dashboard');
-          });
+          const currentUser = Meteor.user()?.username;
+          userSetActiveStatus.call({ owner: currentUser, active: true }, (err2 => {
+            if (err2) {
+              setError(err2.reason);
+            } else {
+              Swal.fire('Log in successful',
+                '',
+                'success').then(() => {
+                setError('');
+                goToPage('/dashboard');
+              });
+            }
+          }));
         }
       }));
     } else if (!isSubmit) {

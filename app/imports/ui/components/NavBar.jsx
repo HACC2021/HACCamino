@@ -5,6 +5,7 @@ import { NavLink, useHistory } from 'react-router-dom';
 import { Menu, Header, Dropdown } from 'semantic-ui-react';
 import { Roles } from 'meteor/alanning:roles';
 import Swal from 'sweetalert2';
+import { userSetActiveStatus } from '../../api/user/UserCollection.methods';
 
 /** The NavBar appears at the top of every page. Rendered by the App Layout component. */
 const NavBar = () => {
@@ -26,11 +27,21 @@ const NavBar = () => {
           'error',
         );
       } else {
-        Swal.fire(
-          'Sign out successful',
-          '',
-          'success',
-          ).then(() => goToPage());
+        userSetActiveStatus.call({ owner: currentUser, active: false }, (err2 => {
+          if (err2) {
+            Swal.fire(
+              'Sign out failed',
+              err2.message,
+              'error',
+            );
+          } else {
+            Swal.fire(
+              'Sign out successful',
+              '',
+              'success',
+            ).then(() => goToPage());
+          }
+        }));
       }
     });
   };
