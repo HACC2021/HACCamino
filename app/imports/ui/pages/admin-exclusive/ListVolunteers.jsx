@@ -20,7 +20,7 @@ const ListVolunteers = () => {
 
   return (ready ?
     <Container>
-      <Grid container centered>
+      <Grid container textAlign='center'>
         <Grid.Row>
           <Grid.Column>
             <Header as="h2" textAlign="center" content={'List of Volunteers'}/>

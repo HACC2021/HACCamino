@@ -7,7 +7,6 @@ import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom'
 import Footer from '../components/Footer';
 import Landing from '../pages/Landing';
 import NotFound from '../pages/NotFound';
-import Signout from '../pages/Signout';
 import CreateReport from '../pages/report/CreateReport';
 import ViewReport from '../pages/report/ViewReport';
 import ListVolunteers from '../pages/admin-exclusive/ListVolunteers';
@@ -33,7 +32,6 @@ class App extends React.Component {
               {/* DELETE: <ProtectedRoute path="/edit/:_id" component={EditStuff}/>  */}
               <AdminProtectedRoute path="/volunteers-list" component={ListVolunteers}/>
               <AdminProtectedRoute path="/create-account/create" component={CreateAccount}/>
-              <ProtectedRoute path="/signout" component={Signout}/>
               <Route component={NotFound}/>
             </Switch>
             <Footer/>

@@ -1,8 +1,7 @@
 import React from 'react';
 
 /** The Footer appears at the bottom of every page. Rendered by the App Layout component. */
-class Footer extends React.Component {
-  render() {
+const Footer = () => {
     const divStyle = { paddingTop: '15px' };
     return (
         <footer>
@@ -15,7 +14,6 @@ class Footer extends React.Component {
           </div>
         </footer>
     );
-  }
-}
+};
 
 export default Footer;

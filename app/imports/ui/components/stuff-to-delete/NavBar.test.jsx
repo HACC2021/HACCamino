@@ -4,8 +4,8 @@ import { HashRouter as Router } from 'react-router-dom';
 import { configure, mount } from 'enzyme';
 import Adapter from 'enzyme-adapter-react-16';
 import { expect } from 'chai';
-import { defineTestUser, logOutUser, withLoggedInUser } from '../../test-utils/test-utilities';
-import NavBar from './NavBar';
+import { defineTestUser, logOutUser, withLoggedInUser } from '../../../test-utils/test-utilities';
+import NavBar from '../NavBar';
 
 configure({ adapter: new Adapter() });
 
