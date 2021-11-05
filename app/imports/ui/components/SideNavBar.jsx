@@ -52,7 +52,7 @@ class SideNavBar extends React.Component {
           <Sidebar
               as={Menu}
               animation='push'
-              direction='left'
+              direction='right'
               icon='labeled'
               inverted
               vertical
