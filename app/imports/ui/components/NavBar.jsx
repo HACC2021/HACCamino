@@ -9,7 +9,10 @@ import { userSetActiveStatus } from '../../api/user/UserCollection.methods';
 
 /** The NavBar appears at the top of every page. Rendered by the App Layout component. */
 const NavBar = () => {
-  const currentUser = useTracker(() => (Meteor.user()?.username), []);
+  const { currentUser, isAdmin } = useTracker(() => ({
+    currentUser: Meteor.user()?.username,
+    isAdmin: Roles.userIsInRole(Meteor.userId(), 'admin'),
+  }), []);
 
   const history = useHistory();
   const goToPage = () => {
@@ -51,13 +54,19 @@ const NavBar = () => {
       <Menu style={menuStyle} attached="top" borderless inverted>
         {currentUser ? ( // volunteers && admin
           [
-            <Menu.Item as={NavLink} activeClassName="" exact to="/dashboard" key='dashboard'>
+            <Menu.Item as={NavLink}
+                       activeClassName=""
+                       exact to={isAdmin ? '/admin/dashboard' : '/volunteer/dashboard'}
+                       key='dashboard'>
               <Header inverted as='h5'>HACCamino</Header>
             </Menu.Item>,
             <Menu.Item as={NavLink} activeClassName="active" exact to="/createReport" key='createReport'>
               Create Report
             </Menu.Item>,
-            <Menu.Item as={NavLink} activeClassName="active" exact to="/viewReport" key='viewReport'>
+            <Menu.Item as={NavLink}
+                       activeClassName="active"
+                       exact to={isAdmin ? '/admin/viewReport' : '/volunteer/viewReport'}
+                       key='viewReport'>
               View Report
             </Menu.Item>,
           ]
@@ -78,7 +87,7 @@ const NavBar = () => {
             <Menu.Item
               as={NavLink}
               activeClassName="active"
-              exact to="/volunteers-list"
+              exact to="/admin/volunteers-list"
               key='volunteers-list'
             >
               Volunteers
@@ -86,8 +95,8 @@ const NavBar = () => {
             <Menu.Item
               as={NavLink}
               activeClassName="active"
-              exact to="/create-account/create"
-              key='create-account-create'
+              exact to="/admin/create-account"
+              key='create-account'
             >
               Create Account
             </Menu.Item>,

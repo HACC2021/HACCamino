@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { Button, Container, Form, Grid, Header, Icon, Message } from 'semantic-ui-react';
 import { Meteor } from 'meteor/meteor';
 import Swal from 'sweetalert2';
+import { Roles } from 'meteor/alanning:roles';
 import { setNewPassword, userSetActiveStatus } from '../../api/user/UserCollection.methods';
 
 export const SignIn = () => {
@@ -70,6 +71,7 @@ export const SignIn = () => {
           setError(err.reason);
         } else {
           const currentUser = Meteor.user()?.username;
+          const isAdmin = Roles.userIsInRole(Meteor.userId(), 'admin');
           userSetActiveStatus.call({ owner: currentUser, active: true }, (err2 => {
             if (err2) {
               setError(err2.reason);
@@ -78,7 +80,11 @@ export const SignIn = () => {
                 '',
                 'success').then(() => {
                 setError('');
-                goToPage('/dashboard');
+                if (isAdmin) {
+                  goToPage('/admin/dashboard');
+                } else {
+                  goToPage('/volunteer/dashboard');
+                }
               });
             }
           }));
