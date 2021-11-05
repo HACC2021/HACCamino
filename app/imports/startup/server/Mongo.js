@@ -2,6 +2,7 @@ import { Meteor } from 'meteor/meteor';
 import { Roles } from 'meteor/alanning:roles';
 import { Reports } from '../../api/report/ReportCollection';
 import { Users } from '../../api/user/UserCollection';
+import { Keys } from '../../api/key/KeyCollection';
 
 /* eslint-disable no-console */
 
@@ -10,6 +11,13 @@ if (Reports.count() === 0) {
   if (Meteor.settings.defaultReport) {
     console.log('Creating default report.');
     Meteor.settings.defaultReport.map(report => Reports.define(report));
+  }
+}
+
+if (Keys.count() === 0) {
+  if (Meteor.settings.defaultKeys) {
+    console.log('Creating api keys.');
+    Meteor.settings.defaultKeys.map(key => Keys.define(key));
   }
 }
 
