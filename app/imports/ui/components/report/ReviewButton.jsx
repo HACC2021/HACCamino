@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Button, Form, Container } from 'semantic-ui-react';
+import { Button, Form, Container, TextArea } from 'semantic-ui-react';
 import Select from 'react-select';
 import Swal from 'sweetalert2';
 import { reportUpdateMethod } from '../../../api/report/ReportCollection.methods';
 
 const ReviewButton = ({ report }) => {
-  const [status, setStatus] = useState('');
+  const [status, setStatus] = useState({ value: report.status, label: report.status });
+  const [comments, setComments] = useState(report.link);
   const statusDropdown = [
     { value: 'pending', label: 'pending' },
     { value: 'approved', label: 'approved' },
@@ -15,6 +16,7 @@ const ReviewButton = ({ report }) => {
   const onSubmit = () => {
     const updateData = report;
     updateData.status = status.value;
+    updateData.link = comments;
     reportUpdateMethod.call(updateData,
     error => {
       if (error) {
@@ -38,6 +40,17 @@ const ReviewButton = ({ report }) => {
                 defaultValue={status}
                 />
             </Form.Field>
+          </Form.Group>
+          <Form.Group width={16}>
+            <Form.Field
+            width={16}
+            id='form-textarea-control-opinion'
+            control={TextArea}
+            label='Comments'
+            placeholder='Comments'
+            value={comments}
+            onChange={ e => setComments(e.target.value)}
+            />
           </Form.Group>
         </Form>
         <Button onClick={onSubmit}>

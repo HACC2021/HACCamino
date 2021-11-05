@@ -20,6 +20,7 @@ const EditButton = ({ report }) => {
     const updateData = {};
     updateData._id = report._id;
     updateData.title = finalTitle;
+    updateData.link = report.link;
     updateData.name = report.name;
     updateData.date = report.date;
     updateData.location = finalLocation;
@@ -30,7 +31,6 @@ const EditButton = ({ report }) => {
     updateData.notes = report.notes;
     updateData.lat = report.lat;
     updateData.lng = report.lng;
-    updateData.link = report.link;
     if (finalAnimal.value) {
       updateData.animal = finalAnimal.value;
     } else {
@@ -80,7 +80,7 @@ const EditButton = ({ report }) => {
               </Form.Field>
             </Form.Group>
             <Form.Group widths='equal'>
-              <Form.Field width={8}>
+              <Form.Field width={16}>
                 <label>Location</label>
                 <input placeholder='Location' value={finalLocation} onChange={ e => setFinalLocation(e.target.value)}/>
               </Form.Field>
