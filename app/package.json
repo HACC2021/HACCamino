@@ -10,7 +10,6 @@
     "core-js": "^3.15.1",
     "cross-env": "^7.0.3",
     "graphql": "^15.5.1",
-    "meteor-node-stubs": "^1.0.3",
     "prop-types": "^15.7.2",
     "react": "^16.14.0",
     "react-addons-pure-render-mixin": "^15.6.3",
