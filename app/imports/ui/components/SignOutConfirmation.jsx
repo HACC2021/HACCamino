@@ -43,7 +43,7 @@ function SignOutConfirmation() {
                    onClick={() => dispatch({
                      type: 'OPEN_MODAL',
                      dimmer: 'blurring',
-                   })} style={{ position: 'absolute', bottom: 50, width: '100%' }} >
+                   })} style={{ position: 'absolute', bottom: 0, width: '100%' }} >
           <IconGroup>
             <Icon name='sign out'/>
             Logout

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Meteor } from 'meteor/meteor';
 import { withTracker } from 'meteor/react-meteor-data';
 import { withRouter, NavLink } from 'react-router-dom';
-import { Menu, Button, Icon, IconGroup, Sidebar } from 'semantic-ui-react';
+import { Menu, Button, Icon, IconGroup, Sidebar, Image } from 'semantic-ui-react';
 import SignOutConfirmation from './SignOutConfirmation';
 
 /** The NavBar appears at the top of every page. Rendered by the App Layout component. */
@@ -45,21 +45,22 @@ class SideNavBar extends React.Component {
 
     return (
         <div>
-          <Button style={{ position: 'fixed', zIndex: 1, top: 0, height: '100vh', borderRadius: 0 }} attached={'right'}
+          <Button style={{ position: 'fixed', zIndex: 1, top: 0, height: '8vh', borderRadius: 0, textAlign:'center'}}
+                  attached={'right'} fluid={'centered'}
                   icon color='blue' disabled={false} onClick={this.handleShowClick}>
-            <Icon name='bars'/>
+            <Image src='/images/landing-page/hmar_logo.png' size='mini'/>
           </Button>
           <Sidebar
               as={Menu}
               animation='push'
-              direction='right'
+              direction='top'
               icon='labeled'
               inverted
               vertical
               visible={visible}
               width='thin'
               color='blue'
-              style={{ height: '100vh', minHeight: '100vh' }}
+              style={{ height: '25vh', minHeight: '30vh' }}
           >
             <Button fluid style={{ zIndex: 2 }} icon color='blue' disabled={false} onClick={this.handleShowClick}>
               <Icon name='bars'/>
@@ -72,12 +73,20 @@ class SideNavBar extends React.Component {
               </IconGroup>
             </Menu.Item>
             <Menu.Item style={{ floated: 'left', width: '100%' }} id="'user'"
-                       as={NavLink} exact to="/health" onClick={this.handleShowClick}>
+                       as={NavLink} exact to="/viewReport" onClick={this.handleShowClick}>
               <IconGroup>
                 <Icon name='heart'/>
-                Health
+                Reports
               </IconGroup>
             </Menu.Item>
+            <Menu.Item style={{ floated: 'left', width: '100%' }} id="'user'"
+                       as={NavLink} exact to="/createReport" onClick={this.handleShowClick}>
+              <IconGroup>
+                <Icon name='heart'/>
+                Create aReport
+              </IconGroup>
+            </Menu.Item>
+
             <SignOutConfirmation id="navbar-sign-out" as={NavLink}
                                  exact to="/" style={{ padding: 0, margin: 0 }}/>
           </Sidebar>
