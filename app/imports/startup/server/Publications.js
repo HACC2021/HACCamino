@@ -1,11 +1,13 @@
 import { Meteor } from 'meteor/meteor';
 import { Reports } from '../../api/report/ReportCollection';
 import { Users } from '../../api/user/UserCollection';
+import { Keys } from '../../api/key/KeyCollection';
 
 /** Publish all the collections you need. */
 const collections = [
   Reports,
   Users,
+  Keys,
 ];
 
 collections.forEach(collection => collection.publish());
