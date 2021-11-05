@@ -1,7 +1,7 @@
 import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
-import { withRouter, NavLink, useHistory } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import { Menu, Header, Dropdown } from 'semantic-ui-react';
 import { Roles } from 'meteor/alanning:roles';
 import Swal from 'sweetalert2';
@@ -113,4 +113,4 @@ const NavBar = () => {
 };
 
 /** Enable ReactRouter for this component. https://reacttraining.com/react-router/web/api/withRouter */
-export default withRouter(NavBar);
+export default NavBar;
