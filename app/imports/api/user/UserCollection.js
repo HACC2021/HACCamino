@@ -119,7 +119,6 @@ class UserCollection extends BaseCollection {
 
   setActiveStatus({ owner, active }) {
     const docID = this.getUserDetailFromEmail(owner)._id;
-    console.log(docID);
     const updateData = {};
     if (typeof (active) === 'boolean') {
       updateData.active = active;
