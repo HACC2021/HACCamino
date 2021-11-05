@@ -26,8 +26,3 @@ if (Meteor.users.find().count() === 0) {
     console.log('Cannot initialize the database!  Please invoke meteor with a settings file.');
   }
 }
-
-// logs out user after a day
-Accounts.config({
-  loginExpirationInDays: 1,
-});
