@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Header, Modal, Form, Dropdown } from 'semantic-ui-react';
+import { useHistory } from 'react-router-dom';
 
 const PreReportModalRedirect = () => {
     const [open, setOpen] = useState(false);
@@ -13,32 +14,20 @@ const PreReportModalRedirect = () => {
         { key: 'o', text: 'Other', value: 'other' },
     ];
 
-    const Hotline = () => (
-        <Header as='h3'>Later send to report page</Header>
-    );
+    const history = useHistory();
+    const goToPage = (pageLink) => {
+        history.push(pageLink);
+    };
 
     const onSubmit = () => {
-        // console.log(animal);
-        // setOpen(false)
-
         if (animal !== 'other') {
-            // todo
-            console.log('HMAR CANT RESPOND');
-            console.log(animal);
             setFinalAnimal(animal);
             setAnimal('');
             // setOpen(false)
-        } else if (animal === '') {
-            // idk what to do here
         } else if (animal === 'other') {
-            // todo
-            console.log('send to report page');
-            console.log(animal);
             setFinalAnimal(animal);
             setAnimal('');
-            // setOpen(false);
         }
-
     };
 
     const AnimalForm = () => (
@@ -56,7 +45,6 @@ const PreReportModalRedirect = () => {
                         value={animal}
                     />
                 </Form.Field>
-                {/* <Button onClick={onSubmit()}>Submit</Button> */}
                 <Form.Button type='button' onClick={onSubmit}>Submit</Form.Button>
             </Form.Group>
         </Form>
@@ -87,7 +75,7 @@ const PreReportModalRedirect = () => {
             <Modal.Header>Report</Modal.Header>
             <Modal.Content>
                 {
-                  // eslint-disable-next-line no-nested-ternary
+                //   eslint-disable-next-line no-nested-ternary
                     finalAnimal === '' ?
                         (
                             // do this if finalAnimal has not been set yet
@@ -100,7 +88,7 @@ const PreReportModalRedirect = () => {
                                 ) : (
                                     // else finalAnimal is something other than other
                                     // show hotline
-                                    <Hotline/>
+                                    goToPage('/createReport')
                                 )
                         )
                 }
