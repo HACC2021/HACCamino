@@ -1,0 +1,11 @@
+.ui.form.button {
+  background-color: #FF5959;
+  color: white;
+  font-family: 'Saira Semi Condensed', sans-serif;
+}
+
+.ui.signin.button {
+  background-color: #63c5e9;
+  color: white;
+  font-family: 'Saira Semi Condensed', sans-serif;
+}
