@@ -4,7 +4,7 @@ import { Meteor } from 'meteor/meteor';
 import 'semantic-ui-css/semantic.css';
 import { Roles } from 'meteor/alanning:roles';
 import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
-// import NavBar from '../components/NavBar';
+import NavBar from '../components/NavBar';
 import Landing from '../pages/Landing';
 import NotFound from '../components/NotFound';
 import CreateReport from '../pages/report/CreateReport';
@@ -19,7 +19,7 @@ class App extends React.Component {
     return (
         <Router>
           <div>
-            {/* <NavBar/> */}
+            <NavBar/>
             <Switch>
               <Route exact path="/" component={Landing}/>
               <Route path="/signin" component={SignIn}/>
