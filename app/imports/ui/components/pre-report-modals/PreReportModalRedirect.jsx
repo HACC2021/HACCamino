@@ -22,7 +22,7 @@ const PreReportModalRedirect = () => {
     const onSubmit = () => {
         if (animal !== 'other') {
             setFinalAnimal(animal);
-            setAnimal('');
+            goToPage('/createReport');
             // setOpen(false)
         } else if (animal === 'other') {
             setFinalAnimal(animal);
@@ -88,7 +88,8 @@ const PreReportModalRedirect = () => {
                                 ) : (
                                     // else finalAnimal is something other than other
                                     // show hotline
-                                    goToPage('/createReport')
+                                    // goToPage('/createReport')
+                                    <div>.</div>
                                 )
                         )
                 }
