@@ -15,8 +15,7 @@ const NavBar = () => {
   }), []);
 
   const history = useHistory();
-  const goToPage = () => {
-    const pageLink = '/';
+  const goToPage = (pageLink) => {
     history.push(pageLink);
   };
 
@@ -42,7 +41,7 @@ const NavBar = () => {
               'Sign out successful',
               '',
               'success',
-            ).then(() => goToPage());
+            ).then(() => goToPage('/'));
           }
         }));
       }
@@ -83,24 +82,24 @@ const NavBar = () => {
           ]
         )}
         {Roles.userIsInRole(Meteor.userId(), 'admin') ? ( // admin-exclusive
-          [
-            <Menu.Item
-              as={NavLink}
-              activeClassName="active"
-              exact to="/admin/volunteers-list"
-              key='volunteers-list'
-            >
-              Volunteers
-            </Menu.Item>,
-            <Menu.Item
-              as={NavLink}
-              activeClassName="active"
-              exact to="/admin/create-account"
-              key='create-account'
-            >
-              Create Account
-            </Menu.Item>,
-          ]
+          <Menu.Item>
+            <Dropdown item text='Admin'>
+              <Dropdown.Menu>
+                <Dropdown.Item
+                  text='Volunteers'
+                  onClick={() => goToPage('/admin/volunteers-list')}
+                />
+                <Dropdown.Item
+                  text='Staff Members'
+                  onClick={() => goToPage('/admin/staff-list')}
+                />
+                <Dropdown.Item
+                  text='Create Account'
+                  onClick={() => goToPage('/admin/create-account')}
+                />
+              </Dropdown.Menu>
+            </Dropdown>
+          </Menu.Item>
         ) : null}
         <Menu.Item
           position="right"
