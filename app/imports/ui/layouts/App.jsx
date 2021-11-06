@@ -18,7 +18,7 @@ import SignIn from '../pages/SignIn';
 const App = () => (
   <Router>
     <div>
-      <NavBar/>
+      {/* <NavBar/> */}
       <Switch>
         <Route exact path="/" component={Landing}/>
         <Route path="/signin" component={SignIn}/>
