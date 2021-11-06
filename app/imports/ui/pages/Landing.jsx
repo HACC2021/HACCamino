@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { Button, Grid, Image } from 'semantic-ui-react';
 import PreReportModalRedirect from '../components/pre-report-modals/PreReportModalRedirect';
 import PreReportModalHotline from '../components/pre-report-modals/PreReportModalHotline';
-import UploadPhotoButton2 from '../components/aws/UploadPhotoButton2';
+import UploadPhotoButton from '../components/aws/UploadPhotoButton';
 
 /** A simple static component to render some text for the landing page. */
 const Landing = () => (
@@ -21,9 +21,9 @@ const Landing = () => (
         <Grid.Row>
           <Button className="ui signin button" as={NavLink} exact to="/signin" size="tiny"> Sign In </Button>
         </Grid.Row>
-        
+
         <Grid.Row>
-          <UploadPhotoButton2/>
+          <UploadPhotoButton/>
         </Grid.Row>
       </Grid>
 );
