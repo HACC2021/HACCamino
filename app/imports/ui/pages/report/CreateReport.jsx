@@ -27,14 +27,12 @@ const CreateReport = () => {
   // Google Maps
   const [center, setCenter] = useState({ lat: 21.5, lng: -158 });
   const [zoom, setZoom] = useState(10);
-    // eslint-disable-next-line no-undef
-    navigator.geolocation.getCurrentPosition((position) => {
-      if (position) {
-        setCenter({ lat: position.coords.latitude, lng: position.coords.longitude });
-        setZoom(16);
-      }
-    },
-    () => null);
+  // eslint-disable-next-line no-undef
+  navigator.geolocation.getCurrentPosition((position) => {
+    setCenter({ lat: position.coords.latitude, lng: position.coords.longitude });
+    setZoom(16);
+  },
+  () => null, { timeout: 5000 });
   const panTo = (lat, lng) => {
     setCenter({ lat: lat, lng: lng });
     setZoom(16);
