@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Form, Grid, Header, Message } from 'semantic-ui-react';
 import { useHistory } from 'react-router-dom';
 import Swal from 'sweetalert2';
+import { Meteor } from 'meteor/meteor';
 import { defineAccountRoleUser } from '../../../api/user/UserCollection.methods';
 
 const roleOptions = [
@@ -41,6 +42,7 @@ const CreateAccount = () => {
     definitionData.lastName = lastName;
     definitionData.owner = email;
     definitionData.role = role;
+    definitionData.creator = Meteor.user().username;
     defineAccountRoleUser.call({ email, role, definitionData },
       (err) => {
         if (err) {

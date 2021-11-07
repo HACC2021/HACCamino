@@ -14,6 +14,7 @@ import ListVolunteers from '../pages/admin-exclusive/ListVolunteers';
 import CreateAccount from '../pages/admin-exclusive/CreateAccount';
 import SignIn from '../pages/SignIn';
 import ListAdmins from '../pages/admin-exclusive/ListAdmins';
+import AuditLog from '../pages/admin-exclusive/AuditLog';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => (
@@ -32,6 +33,7 @@ const App = () => (
         <AdminProtectedRoute path="/admin/viewReport" component={ViewReport}/>
         <AdminProtectedRoute path="/admin/volunteers-list" component={ListVolunteers}/>
         <AdminProtectedRoute path="/admin/staff-list" component={ListAdmins}/>
+        <AdminProtectedRoute path="/admin/audit-log" component={AuditLog}/>
         <AdminProtectedRoute path="/admin/create-account" component={CreateAccount}/>
         <Route component={NotFound}/>
       </Switch>

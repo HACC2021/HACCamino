@@ -8,22 +8,27 @@ const CompareReports = ({ report, oreport }) => {
   const [firstOpen, setFirstOpen] = useState(false);
   const AppendHandle = () => {
     const updateData = oreport;
+    const test = report.name;
+    let index = 0;
     updateData.name = [...oreport.name];
-    updateData.name.push(report.name[0]);
     updateData.date = [...oreport.date];
-    updateData.date.push(report.date[0]);
     updateData.notes = [...oreport.notes];
-    updateData.notes.push(report.notes[0]);
     updateData.animalCharacteristics = [...oreport.animalCharacteristics];
-    updateData.animalCharacteristics.push(report.animalCharacteristics[0]);
     updateData.phoneNumber = [...oreport.phoneNumber];
-    updateData.phoneNumber.push(report.phoneNumber[0]);
     updateData.animalBehavior = [...oreport.animalBehavior];
-    updateData.animalBehavior.push(report.animalBehavior[0]);
     updateData.accessKey = [...oreport.accessKey];
-    updateData.accessKey.push(report.accessKey[0]);
     updateData.people = [...oreport.people];
-    updateData.people.push(report.people[0]);
+    test.forEach(function () {
+      updateData.name.push(report.name[index]);
+      updateData.date.push(report.date[index]);
+      updateData.notes.push(report.notes[index]);
+      updateData.animalCharacteristics.push(report.animalCharacteristics[index]);
+      updateData.phoneNumber.push(report.phoneNumber[index]);
+      updateData.animalBehavior.push(report.animalBehavior[index]);
+      updateData.accessKey.push(report.accessKey[index]);
+      updateData.people.push(report.people[index]);
+      index++;
+    });
     const _id = report._id;
     reportRemoveItMethod.call({ _id });
     reportUpdateMethod.call(updateData,
@@ -67,38 +72,66 @@ const CompareReports = ({ report, oreport }) => {
           <Table.Body>
             <Table.Row>
               <Table.Cell>Reporters Name</Table.Cell>
-              <Table.Cell>{oreport.name}</Table.Cell>
-              <Table.Cell>{report.name}</Table.Cell>
+              <Table.Cell>{oreport.name.map((name) => (
+              <p key={name}>{name}</p>
+              ))}</Table.Cell>
+              <Table.Cell>{report.name.map((name) => (
+                  <p key={name}>{name}</p>
+                ))}</Table.Cell>
             </Table.Row>
               <Table.Row>
                 <Table.Cell>Reporters Phone Number</Table.Cell>
-                <Table.Cell>{oreport.phoneNumber}</Table.Cell>
-                <Table.Cell>{report.phoneNumber}</Table.Cell>
+                <Table.Cell>{oreport.phoneNumber.map((phoneNumber) => (
+                <p key={phoneNumber}>{phoneNumber}</p>
+                ))}</Table.Cell>
+                <Table.Cell>{report.phoneNumber.map((phoneNumber) => (
+                <p key={phoneNumber}>{phoneNumber} </p>
+                ))}</Table.Cell>
               </Table.Row>
             <Table.Row>
               <Table.Cell>Date</Table.Cell>
-              <Table.Cell>{oreport.date}</Table.Cell>
-              <Table.Cell>{report.date}</Table.Cell>
+              <Table.Cell>{oreport.date.map((date) => (
+              <p key={date}>{date}</p>
+              ))}</Table.Cell>
+              <Table.Cell>{report.date.map((date) => (
+              <p key={date}>{date}</p>
+              ))}</Table.Cell>
             </Table.Row>
             <Table.Row>
               <Table.Cell>Characteristics</Table.Cell>
-              <Table.Cell>{oreport.animalCharacteristics}</Table.Cell>
-              <Table.Cell>{report.animalCharacteristics}</Table.Cell>
+              <Table.Cell>{oreport.animalCharacteristics.map((animalCharacteristics) => (
+              <p key={animalCharacteristics}>{animalCharacteristics}</p>
+              ))}</Table.Cell>
+              <Table.Cell>{report.animalCharacteristics.map((animalCharacteristics) => (
+              <p key={animalCharacteristics}>{animalCharacteristics}</p>
+              ))}</Table.Cell>
             </Table.Row>
             <Table.Row>
               <Table.Cell>Behavior</Table.Cell>
-              <Table.Cell>{oreport.animalBehavior}</Table.Cell>
-              <Table.Cell>{report.animalBehavior}</Table.Cell>
+              <Table.Cell>{oreport.animalBehavior.map((animalBehavior) => (
+              <p key={animalBehavior}>{animalBehavior}</p>
+              ))}</Table.Cell>
+              <Table.Cell>{report.animalBehavior.map((animalBehavior) => (
+              <p key={animalBehavior}>{animalBehavior}</p>
+              ))}</Table.Cell>
             </Table.Row>
             <Table.Row>
               <Table.Cell>Number Of People</Table.Cell>
-              <Table.Cell>{oreport.people}</Table.Cell>
-              <Table.Cell>{report.people}</Table.Cell>
+              <Table.Cell>{oreport.people.map((people) => (
+              <p key={people}>{people}</p>
+              ))}</Table.Cell>
+              <Table.Cell>{report.people.map((people) => (
+              <p key={people}>{people}</p>
+              ))}</Table.Cell>
             </Table.Row>
             <Table.Row>
               <Table.Cell>Notes</Table.Cell>
-              <Table.Cell>{oreport.notes}</Table.Cell>
-              <Table.Cell>{report.notes}</Table.Cell>
+              <Table.Cell>{oreport.notes.map((notes) => (
+              <p key={notes}>{notes}</p>
+              ))}</Table.Cell>
+              <Table.Cell>{report.notes.map((notes) => (
+              <p key={notes}>{notes}</p>
+              ))}</Table.Cell>
             </Table.Row>
           </Table.Body>
         </Table>

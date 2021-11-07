@@ -24,25 +24,33 @@ class UpdateCollection extends BaseCollection {
         type: String,
         allowedValues: collectionNames,
       },
-      reportID: {
+      reportID: { // for modified reports
         type: String,
         optional: true,
       },
-      updatedFields: {
+      userOwner: { // for newly created users
+        type: String,
+        optional: true,
+      },
+      updatedTypes: {
         type: Array,
       },
-      'updatedFields.$': { type: String },
-      creator: String, // email of user who created the updated
+      'updatedTypes.$': { type: String },
+      creator: {
+        type: String,
+        optional: true,
+      }, // email of user who created the updated
     }));
   }
 
-  define({ date, roles, collectionName, reportID, updatedFields, creator }) {
+  define({ date, roles, collectionName, reportID, userOwner, updatedTypes, creator }) {
     const docID = this._collection.insert({
       date,
       roles,
       collectionName,
       reportID,
-      updatedFields,
+      userOwner,
+      updatedTypes,
       creator,
     });
     return docID;
@@ -89,6 +97,14 @@ class UpdateCollection extends BaseCollection {
       return Meteor.subscribe(updatePublications.updateAdmin);
     }
     return null;
+  }
+
+  getAllUpdatesVolunteer() {
+    return this._collection.find({ roles: ['admin', 'volunteer'] }, { sort: { date: -1 } }).fetch();
+  }
+
+  getAllUpdatesAdmin() {
+    return this._collection.find({ roles: ['admin'] }, { sort: { date: -1 } }).fetch();
   }
 }
 

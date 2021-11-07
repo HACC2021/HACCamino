@@ -3,7 +3,11 @@ import { Container, Button, Form, TextArea } from 'semantic-ui-react';
 import Select from 'react-select';
 import { GoogleMap, Marker, InfoWindow, useLoadScript } from '@react-google-maps/api';
 import Swal from 'sweetalert2';
+import { Combobox, ComboboxInput, ComboboxOption, ComboboxPopover, ComboboxList } from '@reach/combobox';
+import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete';
 import { reportDefineMethod } from '../../../api/report/ReportCollection.methods';
+import '@reach/combobox/styles.css';
+import mapStyle from '../../components/report/googleMapStyle';
 
 const containerStyle = {
   width: '100%',
@@ -11,15 +15,66 @@ const containerStyle = {
   margin: '10px 0px',
 };
 
-const center = {
-  lat: 21.5,
-  lng: -158,
+const options = {
+  styles: mapStyle,
+  disableDefaultUI: true,
+  zoomControl: true,
 };
+
+const libraries = ['places'];
 
 const CreateReport = () => {
   // Google Maps
+  const [center, setCenter] = useState({ lat: 21.5, lng: -158 });
+  const [zoom, setZoom] = useState(10);
+  // eslint-disable-next-line no-undef
+  navigator.geolocation.getCurrentPosition((position) => {
+    setCenter({ lat: position.coords.latitude, lng: position.coords.longitude });
+    setZoom(16);
+  },
+  () => null, { timeout: 5000 });
+  const panTo = (lat, lng) => {
+    setCenter({ lat: lat, lng: lng });
+    setZoom(16);
+  };
+  const Search = () => {
+    const { ready, value, suggestions: { status, data }, setValue, clearSuggestions } = usePlacesAutocomplete({
+      requestOptions: {
+        location: { lat: () => 21.5, lng: () => -158 },
+    radius: 2 * 1000,
+      },
+    });
+
+    const searchHandle = async (address) => {
+      setValue(address, false);
+      clearSuggestions();
+      const results = await getGeocode({ address });
+      const { lat, lng } = await getLatLng(results[0]);
+      panTo(lat, lng);
+    };
+
+    return (
+    <div className='google-bar'>
+      <Combobox onSelect={searchHandle}>
+        <ComboboxInput id='form-css' value={value} onChange={(e) => {
+          setValue(e.target.value);
+        }}
+          disabled={!ready}
+                       placeholder='Search Location'
+                       />
+        <ComboboxPopover>
+          <ComboboxList>
+            { status === 'OK' && data.map(({ description }) => (<ComboboxOption
+            key={description} value={description} />))}
+          </ComboboxList>
+        </ComboboxPopover>
+      </Combobox>
+    </div>
+    );
+  };
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: '',
+    libraries,
   });
   const [markers, setMarkers] = useState([]);
   const [selected, setSelected] = useState(null);
@@ -159,26 +214,30 @@ const CreateReport = () => {
         </Form.Field>
       </Form>
       { isLoaded ?
-      <GoogleMap
-      mapContainerStyle={containerStyle}
-      center={center}
-      zoom={10}
-      onClick={onMapClick}
-      >
-        {markers.map(marker => <Marker
-        key={marker.time.toISOString()}
-        position={{ lat: marker.lat, lng: marker.lng }}
-        onClick={() => {
-          setSelected(marker);
-        }}/>)}
+      <div>
+        <Search />
+        <GoogleMap
+        mapContainerStyle={containerStyle}
+        center={center}
+        zoom={zoom}
+        onClick={onMapClick}
+        options={options}
+        >
+          {markers.map(marker => <Marker
+          key={marker.time.toISOString()}
+          position={{ lat: marker.lat, lng: marker.lng }}
+          onClick={() => {
+            setSelected(marker);
+          }}/>)}
 
-        {selected ? (<InfoWindow
-        position={{ lat: selected.lat, lng: selected.lng }} onCloseClick={() => { setSelected(null); }}>
-          <div>
-            <h4> Location Of Report </h4>
-          </div>
-        </InfoWindow>) : null }
-      </GoogleMap> : ' '
+          {selected ? (<InfoWindow
+          position={{ lat: selected.lat, lng: selected.lng }} onCloseClick={() => { setSelected(null); }}>
+            <div>
+              <h4> Location Of Report </h4>
+            </div>
+          </InfoWindow>) : null }
+        </GoogleMap>
+      </div> : ' '
       }
       <Button onClick={onSubmit}>
         Submit

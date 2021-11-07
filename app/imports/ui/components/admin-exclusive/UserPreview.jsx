@@ -27,7 +27,7 @@ const UserPreview = ({ userObj, page }) => {
         <Table.Cell>{userObj.owner}</Table.Cell>
         <Table.Cell>{status}</Table.Cell>
       </Table.Row>
-      : `${userObj.firstName} ${userObj.lastName}`
+      : <a>{userObj.firstName} {userObj.lastName}</a>
   );
 
   return (
