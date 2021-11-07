@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import { Meteor } from 'meteor/meteor';
 import 'semantic-ui-css/semantic.css';
 import { Roles } from 'meteor/alanning:roles';
-import { HashRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import { HashRouter as Router, Route, Switch, useHistory, Redirect } from 'react-router-dom';
+import { useTracker } from 'meteor/react-meteor-data';
+import NavBar from '../components/NavBar';
 import Landing from '../pages/Landing';
 import NotFound from '../components/NotFound';
 import CreateReport from '../pages/report/CreateReport';
@@ -12,70 +14,108 @@ import ListVolunteers from '../pages/admin-exclusive/ListVolunteers';
 import CreateAccount from '../pages/admin-exclusive/CreateAccount';
 import SideNavBar from '../components/SideNavBar';
 import SignIn from '../pages/SignIn';
+import ListAdmins from '../pages/admin-exclusive/ListAdmins';
+import AuditLog from '../pages/admin-exclusive/AuditLog';
+import Dashboard from '../pages/Dashboard';
+import Resources from '../pages/Resources';
+import SignOut from '../pages/SignOut';
 
 { /*import CreateAccountSuccess from '../pages/admin-exclusive/CreateAccountSuccess';*/ }
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
-class App extends React.Component {
-  render() {
-    return (
-        <Router>
-          <div>
-            <SideNavBar/>
-            <Switch>
-              <Route exact path="/" component={Landing}/>
-              <Route path="/signin" component={SignIn}/>
-              <Route path="/viewReport" component={ViewReport}/>
-              <Route path="/createReport" component={CreateReport}/>
-              {/* DELETE: <ProtectedRoute path="/list" component={ListStuff}/> */}
-              {/* DELETE: <ProtectedRoute path="/edit/:_id" component={EditStuff}/>  */}
-              <AdminProtectedRoute path="/volunteers-list" component={ListVolunteers}/>
-              <AdminProtectedRoute path="/create-account/create" component={CreateAccount}/>
-              <Route component={NotFound}/>
-            </Switch>
-          </div>
-        </Router>
-    );
-  }
-}
+const App = () => {
+  const { isLogged, isAdmin } = useTracker(() => ({
+    isLogged: Meteor.userId(),
+    isAdmin: Roles.userIsInRole(Meteor.userId(), 'admin'),
+  }), []);
+
+  return (
+    <Router>
+      <div>
+        <SideNavBar/>
+        <Switch>
+          <ProtectedRoute path="/volunteer/dashboard" component={Dashboard}/>
+          <ProtectedRoute path="/volunteer/viewReport" component={ViewReport}/>
+          <AdminProtectedRoute path="/admin/dashboard" component={Dashboard}/>
+          <AdminProtectedRoute path="/admin/viewReport" component={ViewReport}/>
+          <AdminProtectedRoute path="/admin/volunteers-list" component={ListVolunteers}/>
+          <AdminProtectedRoute path="/admin/staff-list" component={ListAdmins}/>
+          <AdminProtectedRoute path="/admin/audit-log" component={AuditLog}/>
+          <AdminProtectedRoute path="/admin/create-account" component={CreateAccount}/>
+          <Route path="/signin" component={SignIn}/>
+          <Route path="/createReport" component={CreateReport}/>
+          <Route path="/resources" component={Resources}/>
+          <Route path="/public-landing" component={Landing}/>
+          <Route path="/sign-out" component={SignOut}/>
+          <Route exact path="/">
+            {isLogged && isAdmin ?
+              <Redirect to={isAdmin ? '/admin/dashboard' : '/volunteer/dashboard'}/>
+              : <Redirect to={'/public-landing'}/>
+            }
+          </Route>
+          <Route component={NotFound}/>
+        </Switch>
+      </div>
+    </Router>
+  );
+};
 
 /**
  * ProtectedRoute (see React Router v4 sample)
  * Checks for Meteor login before routing to the requested page, otherwise goes to signin page.
  * @param {any} { component: Component, ...rest }
  */
-const ProtectedRoute = ({ component: Component, ...rest }) => (
-  <Route
-    {...rest}
-    render={(props) => {
-      const isLogged = Meteor.userId() !== null;
-      const isVolunteer = Roles.userIsInRole(Meteor.userId(), 'volunteer');
-      return (isLogged && isVolunteer) ?
+const ProtectedRoute = ({ component: Component, ...rest }) => {
+  const { isLogged, isVolunteer } = useTracker(() => ({
+    isLogged: Meteor.userId(),
+    isVolunteer: Roles.userIsInRole(Meteor.userId(), 'volunteer'),
+  }), []);
+
+  const history = useHistory();
+  const goToPage = () => {
+    const pageLink = '/signin';
+    history.push(pageLink);
+  };
+
+  return (
+    <Route
+      {...rest}
+      render={(props) => (
+        (isLogged && isVolunteer) ?
           (<Component {...props} />) :
-          (<Redirect to={{ pathname: '/signin', state: { from: props.location } }}/>
-      );
-    }}
-  />
-);
+          (goToPage()))}
+    />
+  );
+};
 
 /**
  * AdminProtectedRoute (see React Router v4 sample)
  * Checks for Meteor login and admin role before routing to the requested page, otherwise goes to signin page.
  * @param {any} { component: Component, ...rest }
  */
-const AdminProtectedRoute = ({ component: Component, ...rest }) => (
+const AdminProtectedRoute = ({ component: Component, ...rest }) => {
+  const { isLogged, isAdmin } = useTracker(() => ({
+    isLogged: Meteor.userId(),
+    isAdmin: Roles.userIsInRole(Meteor.userId(), 'admin'),
+  }), []);
+
+  const history = useHistory();
+  const goToPage = () => {
+    const pageLink = '/signin';
+    history.push(pageLink);
+  };
+
+  return (
     <Route
-        {...rest}
-        render={(props) => {
-          const isLogged = Meteor.userId() !== null;
-          const isAdmin = Roles.userIsInRole(Meteor.userId(), 'admin');
-          return (isLogged && isAdmin) ?
-              (<Component {...props} />) :
-              (<Redirect to={{ pathname: '/signin', state: { from: props.location } }}/>
-              );
-        }}
+      {...rest}
+      render={(props) => (
+        (isLogged && isAdmin) ?
+          (<Component {...props} />) :
+          (goToPage())
+      )}
     />
-);
+  );
+};
 
 /** Require a component and location to be passed to each ProtectedRoute. */
 ProtectedRoute.propTypes = {
@@ -83,7 +123,6 @@ ProtectedRoute.propTypes = {
     PropTypes.func.isRequired,
     PropTypes.object.isRequired,
   ]),
-  location: PropTypes.object,
 };
 
 /** Require a component and location to be passed to each AdminProtectedRoute. */
@@ -92,7 +131,6 @@ AdminProtectedRoute.propTypes = {
     PropTypes.func.isRequired,
     PropTypes.object.isRequired,
   ]),
-  location: PropTypes.object,
 };
 
 export default App;

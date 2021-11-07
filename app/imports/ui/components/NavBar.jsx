@@ -4,69 +4,44 @@ import { useTracker } from 'meteor/react-meteor-data';
 import { NavLink, useHistory } from 'react-router-dom';
 import { Menu, Header, Dropdown } from 'semantic-ui-react';
 import { Roles } from 'meteor/alanning:roles';
-import Swal from 'sweetalert2';
-import { userSetActiveStatus } from '../../api/user/UserCollection.methods';
 
 /** The NavBar appears at the top of every page. Rendered by the App Layout component. */
 const NavBar = () => {
-  const currentUser = useTracker(() => (Meteor.user()?.username), []);
+  const { currentUser, isAdmin } = useTracker(() => ({
+    currentUser: Meteor.user()?.username,
+    isAdmin: Roles.userIsInRole(Meteor.userId(), 'admin'),
+  }), []);
 
   const history = useHistory();
-  const goToPage = () => {
-    const pageLink = '/';
+  const goToPage = (pageLink) => {
     history.push(pageLink);
   };
 
   const handleSignOut = () => {
     // insert signout verification here
-    Meteor.logout((err) => {
-      if (err) {
-        Swal.fire(
-          'Sign out failed',
-          err.message,
-          'error',
-        );
-      } else {
-        userSetActiveStatus.call({ owner: currentUser, active: false }, (err2 => {
-          if (err2) {
-            Swal.fire(
-              'Sign out failed',
-              err2.message,
-              'error',
-            );
-          } else {
-            Swal.fire(
-              'Sign out successful',
-              '',
-              'success',
-            ).then(() => goToPage());
-          }
-        }));
-      }
-    });
+    goToPage('/sign-out');
   };
 
   const menuStyle = { marginBottom: '10px' };
     return (
       <Menu style={menuStyle} attached="top" borderless inverted>
+        <Menu.Item as={NavLink} activeClassName="" exact to="" key='landing'>
+          <Header inverted as='h5'>HACCamino</Header>
+        </Menu.Item>
         {currentUser ? ( // volunteers && admin
-          [
-            <Menu.Item as={NavLink} activeClassName="" exact to="/dashboard" key='dashboard'>
-              <Header inverted as='h5'>HACCamino</Header>
-            </Menu.Item>,
-            <Menu.Item as={NavLink} activeClassName="active" exact to="/createReport" key='createReport'>
+          [<Menu.Item as={NavLink} activeClassName="active" exact to="/createReport" key='createReport'>
               Create Report
             </Menu.Item>,
-            <Menu.Item as={NavLink} activeClassName="active" exact to="/viewReport" key='viewReport'>
+            <Menu.Item as={NavLink}
+                       activeClassName="active"
+                       exact to={isAdmin ? '/admin/viewReport' : '/volunteer/viewReport'}
+                       key='viewReport'>
               View Report
             </Menu.Item>,
           ]
         ) : (
           // general public
           [
-            <Menu.Item as={NavLink} activeClassName="" exact to="/" key='landing'>
-              <Header inverted as='h5'>HACCamino</Header>
-            </Menu.Item>,
             // remove 'Create Report' menu item on final navbar
             <Menu.Item as={NavLink} activeClassName="active" exact to="/createReport" key='createReport'>
               Create Report
@@ -74,24 +49,28 @@ const NavBar = () => {
           ]
         )}
         {Roles.userIsInRole(Meteor.userId(), 'admin') ? ( // admin-exclusive
-          [
-            <Menu.Item
-              as={NavLink}
-              activeClassName="active"
-              exact to="/volunteers-list"
-              key='volunteers-list'
-            >
-              Volunteers
-            </Menu.Item>,
-            <Menu.Item
-              as={NavLink}
-              activeClassName="active"
-              exact to="/create-account/create"
-              key='create-account-create'
-            >
-              Create Account
-            </Menu.Item>,
-          ]
+          <Menu.Item>
+            <Dropdown item text='Admin'>
+              <Dropdown.Menu>
+                <Dropdown.Item
+                  text='Volunteers'
+                  onClick={() => goToPage('/admin/volunteers-list')}
+                />
+                <Dropdown.Item
+                  text='Staff Members'
+                  onClick={() => goToPage('/admin/staff-list')}
+                />
+                <Dropdown.Item
+                  text='Create Account'
+                  onClick={() => goToPage('/admin/create-account')}
+                />
+                <Dropdown.Item
+                  text='Audit Log'
+                  onClick={() => goToPage('/admin/audit-log')}
+                />
+              </Dropdown.Menu>
+            </Dropdown>
+          </Menu.Item>
         ) : null}
         <Menu.Item
           position="right"

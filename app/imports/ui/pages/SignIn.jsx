@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Button, Container, Form, Grid, Header, Icon, Message } from 'semantic-ui-react';
+import { Button, Form, Grid, Header, Icon, Message } from 'semantic-ui-react';
 import { Meteor } from 'meteor/meteor';
 import Swal from 'sweetalert2';
+import { Roles } from 'meteor/alanning:roles';
 import { setNewPassword, userSetActiveStatus } from '../../api/user/UserCollection.methods';
 
 export const SignIn = () => {
@@ -70,6 +71,7 @@ export const SignIn = () => {
           setError(err.reason);
         } else {
           const currentUser = Meteor.user()?.username;
+          const isAdmin = Roles.userIsInRole(Meteor.userId(), 'admin');
           userSetActiveStatus.call({ owner: currentUser, active: true }, (err2 => {
             if (err2) {
               setError(err2.reason);
@@ -78,7 +80,11 @@ export const SignIn = () => {
                 '',
                 'success').then(() => {
                 setError('');
-                goToPage('/dashboard');
+                if (isAdmin) {
+                  goToPage('/admin/dashboard');
+                } else {
+                  goToPage('/volunteer/dashboard');
+                }
               });
             }
           }));
@@ -165,50 +171,48 @@ export const SignIn = () => {
   );
 
   return (
-    <Container>
-      <Grid container centered>
+    <Grid container centered>
+      <Grid.Row>
+        <Grid.Column>
+          <Header as="h2" textAlign="center" content={'Volunteer/Admin Sign In'}/>
+        </Grid.Column>
+      </Grid.Row>
+
+      <Grid.Row>
+        <Grid.Column>
+          <Form onSubmit={handleSubmit}>
+            <Form.Input
+              required
+              icon='mail'
+              iconPosition='left'
+              type='email'
+              label='Email'
+              placeholder='Email'
+              name='email'
+              value={email}
+              readOnly={disableEmail}
+              onChange={handleChange}
+            />
+            {showPassword ? passwordForm : null}
+            {showNewPassword ? newPasswordForm : null}
+            {showNext ? nextButton : submitButton}
+          </Form>
+        </Grid.Column>
+      </Grid.Row>
+
+      {showMessage ?
         <Grid.Row>
           <Grid.Column>
-            <Header as="h2" textAlign="center" content={'Volunteer/Admin Sign In'}/>
+            <Message
+              error
+              header="Login was not successful"
+              content={error}
+            />
           </Grid.Column>
         </Grid.Row>
-
-        <Grid.Row>
-          <Grid.Column>
-            <Form onSubmit={handleSubmit}>
-              <Form.Input
-                required
-                icon='mail'
-                iconPosition='left'
-                type='email'
-                label='Email'
-                placeholder='Email'
-                name='email'
-                value={email}
-                readOnly={disableEmail}
-                onChange={handleChange}
-              />
-              {showPassword ? passwordForm : null}
-              {showNewPassword ? newPasswordForm : null}
-              {showNext ? nextButton : submitButton}
-            </Form>
-          </Grid.Column>
-        </Grid.Row>
-
-        {showMessage ?
-          <Grid.Row>
-            <Grid.Column>
-              <Message
-                error
-                header="Login was not successful"
-                content={error}
-              />
-            </Grid.Column>
-          </Grid.Row>
-          : null
-        }
-      </Grid>
-    </Container>
+        : null
+      }
+    </Grid>
   );
 };
 
