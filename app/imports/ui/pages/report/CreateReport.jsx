@@ -6,6 +6,8 @@ import Swal from 'sweetalert2';
 import { Combobox, ComboboxInput, ComboboxOption, ComboboxPopover, ComboboxList } from '@reach/combobox';
 import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete';
 import { reportDefineMethod } from '../../../api/report/ReportCollection.methods';
+import '@reach/combobox/styles.css';
+import mapStyle from '../../components/report/googleMapStyle';
 
 const containerStyle = {
   width: '100%',
@@ -13,24 +15,26 @@ const containerStyle = {
   margin: '10px 0px',
 };
 
+const options = {
+  styles: mapStyle,
+  disableDefaultUI: true,
+  zoomControl: true,
+};
+
 const libraries = ['places'];
 
 const CreateReport = () => {
   // Google Maps
-  const { isLoaded } = useLoadScript({
-    googleMapsApiKey: 'AIzaSyCAzsw2tnvdAwq1l_vycdBOJgCIt8MQsdM',
-    libraries,
-  });
   const [center, setCenter] = useState({ lat: 21.5, lng: -158 });
   const [zoom, setZoom] = useState(10);
-  // eslint-disable-next-line no-undef
-  navigator.geolocation.getCurrentPosition((position) => {
-    if (position) {
-      setCenter({ lat: position.coords.latitude, lng: position.coords.longitude });
-      setZoom(16);
-    }
-  },
-  () => null);
+    // eslint-disable-next-line no-undef
+    navigator.geolocation.getCurrentPosition((position) => {
+      if (position) {
+        setCenter({ lat: position.coords.latitude, lng: position.coords.longitude });
+        setZoom(16);
+      }
+    },
+    () => null);
   const panTo = (lat, lng) => {
     setCenter({ lat: lat, lng: lng });
     setZoom(16);
@@ -70,6 +74,10 @@ const CreateReport = () => {
     </div>
     );
   };
+  const { isLoaded } = useLoadScript({
+    googleMapsApiKey: '',
+    libraries,
+  });
   const [markers, setMarkers] = useState([]);
   const [selected, setSelected] = useState(null);
   const onMapClick = React.useCallback((event) => {
@@ -206,15 +214,16 @@ const CreateReport = () => {
         <Form.Field required>
           <label>Please Place A Marker On The Google Map</label>
         </Form.Field>
-        <Search />
       </Form>
       { isLoaded ?
       <div>
+        <Search />
         <GoogleMap
         mapContainerStyle={containerStyle}
         center={center}
         zoom={zoom}
         onClick={onMapClick}
+        options={options}
         >
           {markers.map(marker => <Marker
           key={marker.time.toISOString()}
