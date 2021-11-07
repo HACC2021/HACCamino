@@ -3,7 +3,7 @@ import { Container, Button, Form, TextArea } from 'semantic-ui-react';
 import Select from 'react-select';
 import { GoogleMap, Marker, InfoWindow, useLoadScript } from '@react-google-maps/api';
 import Swal from 'sweetalert2';
-import { Combobox, ComboboxInput, ComboboxOption, ComboboxPopover } from '@reach/combobox';
+import { Combobox, ComboboxInput, ComboboxOption, ComboboxPopover, ComboboxList } from '@reach/combobox';
 import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete';
 import { reportDefineMethod } from '../../../api/report/ReportCollection.methods';
 
@@ -27,40 +27,44 @@ const CreateReport = () => {
   navigator.geolocation.getCurrentPosition((position) => {
     if (position) {
       setCenter({ lat: position.coords.latitude, lng: position.coords.longitude });
-      setZoom(14);
+      setZoom(16);
     }
   },
   () => null);
   const panTo = (lat, lng) => {
     setCenter({ lat: lat, lng: lng });
-    setZoom(14);
+    setZoom(16);
   };
   const Search = () => {
     const { ready, value, suggestions: { status, data }, setValue, clearSuggestions } = usePlacesAutocomplete({
       requestOptions: {
         location: { lat: () => 21.5, lng: () => -158 },
-    radius: 200 * 1000,
+    radius: 2 * 1000,
       },
     });
 
+    const searchHandle = async (address) => {
+      setValue(address, false);
+      clearSuggestions();
+      const results = await getGeocode({ address });
+      const { lat, lng } = await getLatLng(results[0]);
+      panTo(lat, lng);
+    };
+
     return (
-    <div>
-      <Combobox onSelect={async (address) => {
-        setValue(address, false);
-        clearSuggestions();
-        const results = await getGeocode({ address });
-        const { lat, lng } = await getLatLng(results[0]);
-        panTo(lat, lng);
-      }
-      }>
-        <ComboboxInput value={value} onChange={(e) => {
+    <div className='google-bar'>
+      <Combobox onSelect={searchHandle}>
+        <ComboboxInput id='form-css' value={value} onChange={(e) => {
           setValue(e.target.value);
         }}
           disabled={!ready}
                        placeholder='Search Location'
                        />
         <ComboboxPopover>
-          { status === 'OK' && data.map(({ description }) => <ComboboxOption key={description} value={description} />)}
+          <ComboboxList>
+            { status === 'OK' && data.map(({ description }) => (<ComboboxOption
+            key={description} value={description} />))}
+          </ComboboxList>
         </ComboboxPopover>
       </Combobox>
     </div>
@@ -202,10 +206,10 @@ const CreateReport = () => {
         <Form.Field required>
           <label>Please Place A Marker On The Google Map</label>
         </Form.Field>
+        <Search />
       </Form>
       { isLoaded ?
       <div>
-        <Search />
         <GoogleMap
         mapContainerStyle={containerStyle}
         center={center}
