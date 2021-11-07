@@ -3,6 +3,7 @@ import { Container, Loader } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import { GoogleMap, Marker, InfoWindow, useLoadScript } from '@react-google-maps/api';
 import ReportItem from './ReportItem';
+import mapStyle from './googleMapStyle';
 
 const containerStyle = {
   width: '100%',
@@ -14,9 +15,18 @@ const center = {
   lng: -158,
 };
 
+const options = {
+  styles: mapStyle,
+  disableDefaultUI: true,
+  zoomControl: true,
+};
+
+const libraries = ['places'];
+
 const Maps = ({ allReports }) => {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: '',
+    libraries,
   });
   const [selected, setSelected] = useState(null);
   return (
@@ -26,6 +36,7 @@ const Maps = ({ allReports }) => {
       mapContainerStyle={containerStyle}
       center={center}
       zoom={10}
+      options={options}
       >
         {allReports.map(marker => <Marker
         key={marker.lat + marker.lng}
