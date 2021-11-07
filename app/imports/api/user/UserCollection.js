@@ -3,6 +3,7 @@ import SimpleSchema from 'simpl-schema';
 import { check } from 'meteor/check';
 import { Roles } from 'meteor/alanning:roles';
 import BaseCollection from '../base/BaseCollection';
+import { Updates } from '../updates/UpdateCollection';
 
 export const userPublications = {
   userVolunteer: 'UserVolunteer',
@@ -31,7 +32,7 @@ class UserCollection extends BaseCollection {
     }));
   }
 
-  define({ firstName, lastName, owner, photoAWSKey, active, role }) {
+  define({ firstName, lastName, owner, photoAWSKey, active, role, creator }) {
     const docID = this._collection.insert({
       firstName,
       lastName,
@@ -39,6 +40,15 @@ class UserCollection extends BaseCollection {
       photoAWSKey,
       active,
       role,
+    });
+
+    Updates.define({
+      date: new Date(),
+      roles: ['admin'],
+      collectionName: 'user',
+      userOwner: owner,
+      updatedTypes: ['createUser'],
+      creator: creator || 'hacccamino@gmail.com',
     });
     return docID;
   }
@@ -99,6 +109,10 @@ class UserCollection extends BaseCollection {
       return Meteor.subscribe(userPublications.userAdmin);
     }
     return null;
+  }
+
+  getAllUsers() {
+    return this._collection.find({}, { sort: { lastName: 1 } }).fetch();
   }
 
   getUserVolunteers() {

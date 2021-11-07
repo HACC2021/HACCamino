@@ -97,6 +97,10 @@ const NavBar = () => {
                   text='Create Account'
                   onClick={() => goToPage('/admin/create-account')}
                 />
+                <Dropdown.Item
+                  text='Audit Log'
+                  onClick={() => goToPage('/admin/audit-log')}
+                />
               </Dropdown.Menu>
             </Dropdown>
           </Menu.Item>

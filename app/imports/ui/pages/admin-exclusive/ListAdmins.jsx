@@ -20,7 +20,7 @@ const ListAdmins = () => {
 
       <UserListTable arrayObjects={allAdmins}/>
     </Grid>
-    : <Loader content={'Loading Volunteers\' Data'}/>);
+    : <Loader content={'Loading Staff Members\' Data'}/>);
 };
 
 export default ListAdmins;
