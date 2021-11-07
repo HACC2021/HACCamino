@@ -27,6 +27,12 @@ const CreateReport = () => {
     setMarkers([{ time: new Date(), lat: event.latLng.lat(), lng: event.latLng.lng() }]);
   }, []);
 
+  // eslint-disable-next-line no-undef
+  navigator.geolocation.getCurrentPosition((position) => {
+    console.log(position);
+  },
+   () => null);
+
   // Form Hooks
   const [finalTitle, setFinalTitle] = useState(() => '');
   const [finalName, setFinalName] = useState(() => '');
