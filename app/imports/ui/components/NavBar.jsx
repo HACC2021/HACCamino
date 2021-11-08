@@ -4,8 +4,6 @@ import { useTracker } from 'meteor/react-meteor-data';
 import { NavLink, useHistory } from 'react-router-dom';
 import { Menu, Header, Dropdown } from 'semantic-ui-react';
 import { Roles } from 'meteor/alanning:roles';
-import Swal from 'sweetalert2';
-import { userSetActiveStatus } from '../../api/user/UserCollection.methods';
 
 /** The NavBar appears at the top of every page. Rendered by the App Layout component. */
 const NavBar = () => {
@@ -21,69 +19,31 @@ const NavBar = () => {
 
   const handleSignOut = () => {
     // insert signout verification here
-    Meteor.logout((err) => {
-      if (err) {
-        Swal.fire(
-          'Sign out failed',
-          err.message,
-          'error',
-        );
-      } else {
-        userSetActiveStatus.call({ owner: currentUser, active: false }, (err2 => {
-          if (err2) {
-            Swal.fire(
-              'Sign out failed',
-              err2.message,
-              'error',
-            );
-          } else {
-            Swal.fire(
-              'Sign out successful',
-              '',
-              'success',
-            ).then(() => goToPage('/'));
-          }
-        }));
-      }
-    });
+    goToPage('/sign-out');
   };
 
-  const menuStyle = { marginBottom: '10px' };
+  const menuStyle = { marginBottom: '10px', borderRadius: 0 };
     return (
       <Menu style={menuStyle} attached="top" borderless inverted>
+        <Menu.Item as={NavLink} activeClassName="" exact to="" key='landing'>
+          <Header inverted as='h5'>HACCamino</Header>
+        </Menu.Item>
         {currentUser ? ( // volunteers && admin
-          [
-            <Menu.Item as={NavLink}
-                       activeClassName=""
-                       exact to={isAdmin ? '/admin/dashboard' : '/volunteer/dashboard'}
-                       key='dashboard'>
-              <Header inverted as='h5'>HACCamino</Header>
-            </Menu.Item>,
-            <Menu.Item as={NavLink} activeClassName="active" exact to="/createReport" key='createReport'>
-              Create Report
-            </Menu.Item>,
-            <Menu.Item as={NavLink}
-                       activeClassName="active"
-                       exact to={isAdmin ? '/admin/viewReport' : '/volunteer/viewReport'}
-                       key='viewReport'>
-              View Report
-            </Menu.Item>,
-          ]
-        ) : (
-          // general public
-          [
-            <Menu.Item as={NavLink} activeClassName="" exact to="/" key='landing'>
-              <Header inverted as='h5'>HACCamino</Header>
-            </Menu.Item>,
-            // remove 'Create Report' menu item on final navbar
-            <Menu.Item as={NavLink} activeClassName="active" exact to="/createReport" key='createReport'>
-              Create Report
-            </Menu.Item>,
-          ]
-        )}
+          <Menu.Item as={Dropdown} item text='Reports'>
+            <Dropdown.Menu>
+              <Dropdown.Item
+                text='Create Report'
+                onClick={() => goToPage('/createReport')}
+              />
+              <Dropdown.Item
+                text='View Report'
+                onClick={() => goToPage(isAdmin ? '/admin/viewReport' : '/volunteer/viewReport')}
+              />
+            </Dropdown.Menu>
+          </Menu.Item>
+        ) : null}
         {Roles.userIsInRole(Meteor.userId(), 'admin') ? ( // admin-exclusive
-          <Menu.Item>
-            <Dropdown item text='Admin'>
+          <Menu.Item as={Dropdown} item text='Admin'>
               <Dropdown.Menu>
                 <Dropdown.Item
                   text='Volunteers'
@@ -102,7 +62,6 @@ const NavBar = () => {
                   onClick={() => goToPage('/admin/audit-log')}
                 />
               </Dropdown.Menu>
-            </Dropdown>
           </Menu.Item>
         ) : null}
         <Menu.Item
@@ -112,8 +71,7 @@ const NavBar = () => {
           exact to='/resources'
         />
         {currentUser ? // admin && volunteer
-          <Menu.Item>
-            <Dropdown item text={currentUser}>
+          <Menu.Item as={Dropdown} item text={currentUser}>
               <Dropdown.Menu>
                 <Dropdown.Item
                   icon='sign out'
@@ -121,7 +79,6 @@ const NavBar = () => {
                   onClick={handleSignOut}
                 />
               </Dropdown.Menu>
-            </Dropdown>
           </Menu.Item>
           :
           <Menu.Item

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Meteor } from 'meteor/meteor';
 import 'semantic-ui-css/semantic.css';
 import { Roles } from 'meteor/alanning:roles';
-import { HashRouter as Router, Route, Switch, useHistory } from 'react-router-dom';
+import { HashRouter as Router, Route, Switch, useHistory, Redirect } from 'react-router-dom';
 import { useTracker } from 'meteor/react-meteor-data';
 import NavBar from '../components/NavBar';
 import Landing from '../pages/Landing';
@@ -15,31 +15,47 @@ import CreateAccount from '../pages/admin-exclusive/CreateAccount';
 import SignIn from '../pages/SignIn';
 import ListAdmins from '../pages/admin-exclusive/ListAdmins';
 import AuditLog from '../pages/admin-exclusive/AuditLog';
+import Dashboard from '../pages/Dashboard';
+import Resources from '../pages/Resources';
+import SignOut from '../pages/SignOut';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
-const App = () => (
-  <Router>
-    <div>
-      <NavBar/>
-      <Switch>
-        <Route exact path="/" component={Landing}/>
-        <Route path="/signin" component={SignIn}/>
-        <Route path="/createReport" component={CreateReport}/>
-        {/* (uncomment the following when done with Dashboard)
-        <ProtectedRoute path="/volunteer/dashboard" component={Dashboard}/>
-        <AdminProtectedRoute path="/admin/dashboard" component={Dashboard}/>
-        */}
-        <ProtectedRoute path="/volunteer/viewReport" component={ViewReport}/>
-        <AdminProtectedRoute path="/admin/viewReport" component={ViewReport}/>
-        <AdminProtectedRoute path="/admin/volunteers-list" component={ListVolunteers}/>
-        <AdminProtectedRoute path="/admin/staff-list" component={ListAdmins}/>
-        <AdminProtectedRoute path="/admin/audit-log" component={AuditLog}/>
-        <AdminProtectedRoute path="/admin/create-account" component={CreateAccount}/>
-        <Route component={NotFound}/>
-      </Switch>
-    </div>
-  </Router>
-);
+const App = () => {
+  const { isLogged, isAdmin } = useTracker(() => ({
+    isLogged: Meteor.userId(),
+    isAdmin: Roles.userIsInRole(Meteor.userId(), 'admin'),
+  }), []);
+
+  return (
+    <Router>
+      <div>
+        <NavBar/>
+        <Switch>
+          <ProtectedRoute path="/volunteer/dashboard" component={Dashboard}/>
+          <ProtectedRoute path="/volunteer/viewReport" component={ViewReport}/>
+          <AdminProtectedRoute path="/admin/dashboard" component={Dashboard}/>
+          <AdminProtectedRoute path="/admin/viewReport" component={ViewReport}/>
+          <AdminProtectedRoute path="/admin/volunteers-list" component={ListVolunteers}/>
+          <AdminProtectedRoute path="/admin/staff-list" component={ListAdmins}/>
+          <AdminProtectedRoute path="/admin/audit-log" component={AuditLog}/>
+          <AdminProtectedRoute path="/admin/create-account" component={CreateAccount}/>
+          <Route path="/signin" component={SignIn}/>
+          <Route path="/createReport" component={CreateReport}/>
+          <Route path="/resources" component={Resources}/>
+          <Route path="/public-landing" component={Landing}/>
+          <Route path="/sign-out" component={SignOut}/>
+          <Route exact path="/">
+            {isLogged && isAdmin ?
+              <Redirect to={isAdmin ? '/admin/dashboard' : '/volunteer/dashboard'}/>
+              : <Redirect to={'/public-landing'}/>
+            }
+          </Route>
+          <Route component={NotFound}/>
+        </Switch>
+      </div>
+    </Router>
+  );
+};
 
 /**
  * ProtectedRoute (see React Router v4 sample)
