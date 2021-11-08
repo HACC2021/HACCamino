@@ -20,7 +20,6 @@ const UpdateFeedEvent = ({ updateObj, usersArray }) => {
     if (user.owner === 'general-public') {
       return 'An individual (general public)';
     }
-    console.log(user);
     return <UserPreview page={'audit-log'} userObj={user}/>;
   };
 
