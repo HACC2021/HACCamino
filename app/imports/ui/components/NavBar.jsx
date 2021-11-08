@@ -22,7 +22,7 @@ const NavBar = () => {
     goToPage('/sign-out');
   };
 
-  const menuStyle = { marginBottom: '10px' };
+  const menuStyle = { marginBottom: '10px', borderRadius: 0 };
     return (
       <Menu style={menuStyle} attached="top" borderless inverted>
         <Menu.Item as={NavLink} activeClassName="" exact to="" key='landing'>
