@@ -8,6 +8,7 @@ import SignOutConfirmation from './SignOutConfirmation';
 
 /** The NavBar appears at the top of every page. Rendered by the App Layout component. */
 class SideNavBar extends React.Component {
+
   state = {
     visible: false,
     visible2: false,
@@ -24,6 +25,7 @@ class SideNavBar extends React.Component {
       visible2: !prevState.visible2,
     }));
   }
+
 
   render() {
     const { visible } = this.state;
@@ -45,10 +47,11 @@ class SideNavBar extends React.Component {
 
     return (
         <div>
-          <Button style={{ position: 'fixed', zIndex: 1, top: 0, height: '8vh', borderRadius: 0, textAlign:'center'}}
+          {/* eslint-disable-next-line max-len */}
+          <Button style={{ position: 'fixed', zIndex: 1, top: 0, height: '5vh', borderRadius: 0, marginBottom: '10px' }}
                   attached={'right'} fluid={'centered'}
                   icon color='blue' disabled={false} onClick={this.handleShowClick}>
-            <Image src='/images/landing-page/hmar_logo.png' size='mini'/>
+            <Image centered src='/images/logo-side.png' size='mini'/>
           </Button>
           <Sidebar
               as={Menu}
@@ -65,15 +68,16 @@ class SideNavBar extends React.Component {
             <Button fluid style={{ zIndex: 2 }} icon color='blue' disabled={false} onClick={this.handleShowClick}>
               <Icon name='bars'/>
             </Button>
-            <Menu.Item style={{ floated: 'left', width: '100%' }} id="navbar-home"
-                       as={NavLink} exact to="/home" onClick={this.handleShowClick}>
+            <Menu.Item style={{ floated: 'left', width: '100%' }} id="dashboard-home"
+                       as={NavLink} exact to="/dashboard" onClick={this.handleShowClick}>
               <IconGroup>
                 <Icon name='home'/>
                 Home
               </IconGroup>
             </Menu.Item>
             <Menu.Item style={{ floated: 'left', width: '100%' }} id="'user'"
-                       as={NavLink} exact to="/viewReport" onClick={this.handleShowClick}>
+                       {/* eslint-disable-next-line max-len */}
+                       as={NavLink} exact to={isAdmin ? '/admin/viewReport' : '/volunteer/viewReport'} onClick={this.handleShowClick}>
               <IconGroup>
                 <Icon name='heart'/>
                 Reports
@@ -83,7 +87,7 @@ class SideNavBar extends React.Component {
                        as={NavLink} exact to="/createReport" onClick={this.handleShowClick}>
               <IconGroup>
                 <Icon name='heart'/>
-                Create aReport
+                Create a Report
               </IconGroup>
             </Menu.Item>
 
