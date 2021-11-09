@@ -21,7 +21,6 @@ const CompareReports = ({ report, oreport }) => {
     updateData.animalBehavior = [...oreport.animalBehavior];
     updateData.accessKey = [...oreport.accessKey];
     updateData.people = [...oreport.people];
-    updateData.accessKey = [...oreport.accessKey];
     test.forEach(function () {
       updateData.name.push(report.name[index]);
       updateData.date.push(report.date[index]);
@@ -29,7 +28,6 @@ const CompareReports = ({ report, oreport }) => {
       updateData.animalCharacteristics.push(report.animalCharacteristics[index]);
       updateData.phoneNumber.push(report.phoneNumber[index]);
       updateData.animalBehavior.push(report.animalBehavior[index]);
-      updateData.accessKey.push(report.accessKey[index]);
       updateData.people.push(report.people[index]);
       index++;
     });
