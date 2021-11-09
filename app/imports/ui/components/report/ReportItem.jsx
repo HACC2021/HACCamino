@@ -14,7 +14,6 @@ const ReportItem = ({ report }) => {
   const relatedReport = Reports.getRelatedReports(report);
   let index = 0;
   const test = report.name;
-  const imgArray = report.accessKey;
   const panes = [];
   test.forEach(function () {
     const temp = {};
@@ -79,7 +78,7 @@ const ReportItem = ({ report }) => {
           <br/>
           <h3>Image Gallery</h3>
           <Image.Group size='small'>
-            {imgArray.map((img) => <ImageItem key={img} img={img}/>)}
+            {report.accessKey.map((img) => <ImageItem key={img} img={img}/>)}
           </Image.Group>
           <br/>
           <h3>Related Reports</h3>

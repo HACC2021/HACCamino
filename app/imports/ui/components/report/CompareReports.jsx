@@ -1,15 +1,18 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Card, Modal, Table, Button } from 'semantic-ui-react';
+import { Card, Modal, Table, Button, Image } from 'semantic-ui-react';
 import Swal from 'sweetalert2';
 import { reportRemoveItMethod, reportUpdateMethod } from '../../../api/report/ReportCollection.methods';
+import ImageItem from './ImageItem';
 
 const CompareReports = ({ report, oreport }) => {
   const [firstOpen, setFirstOpen] = useState(false);
   const AppendHandle = () => {
     const updateData = oreport;
     const test = report.name;
+    const imgArray = report.accessKey;
     let index = 0;
+    let imgIndex = 0;
     updateData.name = [...oreport.name];
     updateData.date = [...oreport.date];
     updateData.notes = [...oreport.notes];
@@ -18,6 +21,7 @@ const CompareReports = ({ report, oreport }) => {
     updateData.animalBehavior = [...oreport.animalBehavior];
     updateData.accessKey = [...oreport.accessKey];
     updateData.people = [...oreport.people];
+    updateData.accessKey = [...oreport.accessKey];
     test.forEach(function () {
       updateData.name.push(report.name[index]);
       updateData.date.push(report.date[index]);
@@ -28,6 +32,10 @@ const CompareReports = ({ report, oreport }) => {
       updateData.accessKey.push(report.accessKey[index]);
       updateData.people.push(report.people[index]);
       index++;
+    });
+    imgArray.forEach(function () {
+      updateData.accessKey.push(report.accessKey[imgIndex]);
+      imgIndex++;
     });
     const _id = report._id;
     reportRemoveItMethod.call({ _id });
@@ -132,6 +140,17 @@ const CompareReports = ({ report, oreport }) => {
               <Table.Cell>{report.notes.map((notes) => (
               <p key={notes}>{notes}</p>
               ))}</Table.Cell>
+            </Table.Row>
+            <Table.Row>
+              <Table.Cell>Images</Table.Cell>
+              <Table.Cell><Image.Group size='small'>{oreport.accessKey.map((img) => (
+              <ImageItem key={img} img={img}/>
+              ))}</Image.Group></Table.Cell>
+              <Table.Cell><Image.Group size='small'>
+                {report.accessKey.map((img) => (
+                <ImageItem key={img} img={img}/>
+                ))}
+              </Image.Group></Table.Cell>
             </Table.Row>
           </Table.Body>
         </Table>
