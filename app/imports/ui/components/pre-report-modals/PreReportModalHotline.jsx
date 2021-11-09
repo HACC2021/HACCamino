@@ -14,7 +14,11 @@ const PreReportModalRedirect = () => {
     ];
 
     const Hotline = () => (
-        <Header as='h3'>Please call hotline at: xxx-xxx-xxxx</Header>
+        <Header as='h3'>Please call hotline at:
+            <a href="tel:8882569840">
+                 888-256-9840
+            </a>
+        </Header>
     );
 
     const onSubmit = () => {
@@ -51,20 +55,26 @@ const PreReportModalRedirect = () => {
 
     const IfOther = () => (
         <div>
-            <Header as='h3'>Hello this is if there is other</Header>
+            {/* <Header as='h3'>Hello this is if there is other</Header> */}
             <p>
                 Unfortunately, HMAR will not be able to respond directly to
                 reports not relating to Hawai&apos;i Marine Animals, specifically Hawaiian
-                Monk Seals, Sea Turtles, and Sea Birds. Please see our Resources Page
+                Monk Seals, Sea Turtles, and Sea Birds. Please see our <a href="/#/resources">Resources Page </a>
                 for information about other agencies who may provide assistance.
             </p>
         </div>
     );
 
+    const handleOnClose = () => {
+        setOpen(false);
+        setAnimal('');
+        setFinalAnimal('');
+    };
+
     return (
         <Modal
             closeIcon
-            onClose={() => setOpen(false)}
+            onClose={handleOnClose}
             onOpen={() => setOpen(true)}
             centered={false}
             open={open}
