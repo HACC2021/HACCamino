@@ -2,7 +2,7 @@ import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import { NavLink, useHistory } from 'react-router-dom';
-import { Menu, Dropdown, Sidebar, Button, Icon, Header } from 'semantic-ui-react';
+import { Menu, Dropdown, Sidebar, Button, Icon, Image } from 'semantic-ui-react';
 import { Roles } from 'meteor/alanning:roles';
 
 /** The NavBar appears at the top of every page. Rendered by the App Layout component. */
@@ -25,7 +25,9 @@ const SideNavBar = () => {
   return (
     <Menu style={menuStyle} attached="top" borderless inverted>
       <Menu.Item as={NavLink} activeClassName="" exact to="" key='landing'>
-        <Header inverted as='h5'>HACCamino</Header>
+        <Image src='https://h-mar.org/wp-content/uploads/2020/04/favicon-32x32-1.png
+' size='mini' />
+        {/* <Header inverted as='h5'>HACCamino</Header> */}
       </Menu.Item>
       <Menu.Item
         as={Button}
@@ -48,7 +50,6 @@ const SideNavBar = () => {
           icon='labeled'
           inverted
           onHide={() => setVisible(false)}
-          direction='top'
           visible={visible}
           width='thin'
       >
