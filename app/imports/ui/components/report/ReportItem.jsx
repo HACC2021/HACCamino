@@ -106,17 +106,10 @@ const ReportItem = ({ report }) => {
       open={secondOpen}
       size='small'
       >
-        <Modal.Header>Edit Report</Modal.Header>
+        <Modal.Header>Review Report</Modal.Header>
         <Modal.Content>
           <ReviewButton report={report}/>
         </Modal.Content>
-        <Modal.Actions>
-          <Button
-          icon='check'
-          content='All Done'
-          onClick={() => setSecondOpen(false)}
-          />
-        </Modal.Actions>
       </Modal>
     </Modal>
   </>);
