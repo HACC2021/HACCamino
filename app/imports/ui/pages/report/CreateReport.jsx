@@ -8,6 +8,7 @@ import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocom
 import { reportDefineMethod } from '../../../api/report/ReportCollection.methods';
 import '@reach/combobox/styles.css';
 import mapStyle from '../../components/report/googleMapStyle';
+import UploadPhotoModal from '../../components/aws/UploadPhotoModal';
 
 const containerStyle = {
   width: '100%',
@@ -83,7 +84,6 @@ const CreateReport = () => {
   }, []);
 
   // Form Hooks
-  const [finalTitle, setFinalTitle] = useState(() => '');
   const [finalName, setFinalName] = useState(() => '');
   const [finalLocation, setFinalLocation] = useState(() => '');
   const [finalCharacteristics, setFinalCharacteristics] = useState(() => '');
@@ -98,10 +98,13 @@ const CreateReport = () => {
     { value: 'Sea Turtles', label: 'Sea Turtles' },
     { value: 'Sea Birds', label: 'Sea Birds' },
   ];
-
+  // aws hosting
+  const [data, setData] = useState([]);
+  const handleCallback = (childData) => {
+    setData(arr => [...arr, childData]);
+  };
   const onSubmit = () => {
     const definitionData = {};
-    definitionData.title = finalTitle;
     definitionData.name = finalName;
     definitionData.date = new Date().toLocaleString();
     definitionData.location = finalLocation;
@@ -119,7 +122,13 @@ const CreateReport = () => {
       definitionData.lng = markers[0].lng;
     }
     definitionData.link = 'pending';
-    definitionData.accessKey = 'blank';
+    const temp = [];
+    let index = 0;
+    data.forEach(function () {
+      temp.push(data[index]);
+      index++;
+    });
+    definitionData.accessKey = temp[0];
     definitionData.status = 'pending';
     definitionData.animal = finalAnimal.value;
     reportDefineMethod.call(definitionData,
@@ -134,7 +143,6 @@ const CreateReport = () => {
         Swal.fire('Error', errorMessage, 'error');
       } else {
         Swal.fire('Success', 'Report Added Successfully', 'success');
-        setFinalTitle('');
         setFinalAnimal('');
         setFinalName('');
         setFinalLocation('');
@@ -151,11 +159,7 @@ const CreateReport = () => {
       <h2>Create Report</h2>
       <Form>
         <Form.Group widths='equal'>
-          <Form.Field width={8} required>
-            <label>Title Of Report</label>
-            <input placeholder='Title' value={finalTitle} onChange={ e => setFinalTitle(e.target.value)}/>
-          </Form.Field>
-          <Form.Field width={8} required>
+          <Form.Field width={16} required>
             <label>Type Of Animal</label>
             <Select
             options={animalDropdown}
@@ -210,9 +214,15 @@ const CreateReport = () => {
           />
         </Form.Group>
         <Form.Field required>
+          <label>Please Upload A Picture Of The Animal</label>
+          <UploadPhotoModal parentCallback={handleCallback}/>
+        </Form.Field>
+        <Form.Field required>
           <label>Please Place A Marker On The Google Map</label>
         </Form.Field>
       </Form>
+      <div>
+      </div>
       { isLoaded ?
       <div>
         <Search />

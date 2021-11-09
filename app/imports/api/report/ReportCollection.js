@@ -11,7 +11,6 @@ export const reportPublications = {
 class ReportCollection extends BaseCollection {
   constructor() {
     super('Report', new SimpleSchema({
-      title: String,
       name: {
         type: Array,
         defaultValue: [],
@@ -61,11 +60,10 @@ class ReportCollection extends BaseCollection {
     }));
   }
 
-  define({ title, name, date, accessKey, animal,
+  define({ name, date, accessKey, animal,
            location, animalCharacteristics, lat, lng, people, phoneNumber, notes, animalBehavior, link, status }) {
     // add duplicate verifier here, create a new method/function if you have to
     const docID = this._collection.insert({
-      title,
       name,
       date,
       accessKey,
@@ -84,12 +82,10 @@ class ReportCollection extends BaseCollection {
     return docID;
   }
 
-  update(docID, { title, name, accessKey, animal, date, link,
+  update(docID, { name, accessKey, animal, date, link,
     location, animalCharacteristics, people, phoneNumber, notes, animalBehavior, status }) {
     const updateData = {};
-    if (title) {
-      updateData.title = title;
-    }
+
     if (name) {
       updateData.name = name;
     }

@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Card, Modal, Button, Icon, Tab } from 'semantic-ui-react';
+import { Card, Modal, Button, Icon, Tab, Image } from 'semantic-ui-react';
 import { Reports } from '../../../api/report/ReportCollection';
 import EditButton from './EditButton';
 import ReviewButton from './ReviewButton';
 import DeleteButton from './DeleteButton';
 import CompareReports from './CompareReports';
+import ImageItem from './ImageItem';
 
 const ReportItem = ({ report }) => {
   const [firstOpen, setFirstOpen] = useState(false);
@@ -55,17 +56,18 @@ const ReportItem = ({ report }) => {
     trigger={
       <Card>
         <Card.Content>
-          <Card.Header>{report.title} - {report.animal}</Card.Header>
+          <Card.Header>{report.location} - {report.animal}</Card.Header>
           <Card.Description>
             <p>{report.date[0]}</p>
             <p>{report.location}</p>
             <p>{report.status}</p>
+            <p>{report._id}</p>
           </Card.Description>
         </Card.Content>
       </Card>
     }
     >
-      <Modal.Header>{report.title} - {report.animal}</Modal.Header>
+      <Modal.Header>{report.location} - {report.animal}</Modal.Header>
       <Modal.Content>
         <Modal.Description>
           <h3>Report(s)</h3>
@@ -74,6 +76,11 @@ const ReportItem = ({ report }) => {
           <h3>Volunteer Comments</h3>
           <p>Status: {report.status}</p>
           <p>Comments: {report.link}</p>
+          <br/>
+          <h3>Image Gallery</h3>
+          <Image.Group size='small'>
+            {report.accessKey.map((img) => <ImageItem key={img} img={img}/>)}
+          </Image.Group>
           <br/>
           <h3>Related Reports</h3>
           <Card.Group style={{ paddingTop: '10px' }}>
@@ -99,17 +106,10 @@ const ReportItem = ({ report }) => {
       open={secondOpen}
       size='small'
       >
-        <Modal.Header>Edit Report</Modal.Header>
+        <Modal.Header>Review Report</Modal.Header>
         <Modal.Content>
           <ReviewButton report={report}/>
         </Modal.Content>
-        <Modal.Actions>
-          <Button
-          icon='check'
-          content='All Done'
-          onClick={() => setSecondOpen(false)}
-          />
-        </Modal.Actions>
       </Modal>
     </Modal>
   </>);
