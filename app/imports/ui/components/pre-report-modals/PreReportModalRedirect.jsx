@@ -62,10 +62,16 @@ const PreReportModalRedirect = () => {
         </div>
     );
 
+    const handleOnClose = () => {
+        setOpen(false);
+        setAnimal('');
+        setFinalAnimal('');
+    };
+
     return (
         <Modal
             closeIcon
-            onClose={() => setOpen(false)}
+            onClose={handleOnClose}
             onOpen={() => setOpen(true)}
             centered={false}
             open={open}
