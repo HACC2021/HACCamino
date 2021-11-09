@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Card, Modal, Button, Icon, Tab } from 'semantic-ui-react';
+import { Card, Modal, Button, Icon, Tab, Image } from 'semantic-ui-react';
 import { Reports } from '../../../api/report/ReportCollection';
 import EditButton from './EditButton';
 import ReviewButton from './ReviewButton';
 import DeleteButton from './DeleteButton';
 import CompareReports from './CompareReports';
+import ImageItem from './ImageItem';
 
 const ReportItem = ({ report }) => {
   const [firstOpen, setFirstOpen] = useState(false);
@@ -13,6 +14,7 @@ const ReportItem = ({ report }) => {
   const relatedReport = Reports.getRelatedReports(report);
   let index = 0;
   const test = report.name;
+  const imgArray = report.accessKey;
   const panes = [];
   test.forEach(function () {
     const temp = {};
@@ -74,6 +76,11 @@ const ReportItem = ({ report }) => {
           <h3>Volunteer Comments</h3>
           <p>Status: {report.status}</p>
           <p>Comments: {report.link}</p>
+          <br/>
+          <h3>Image Gallery</h3>
+          <Image.Group size='small'>
+            {imgArray.map((img) => <ImageItem key={img} img={img}/>)}
+          </Image.Group>
           <br/>
           <h3>Related Reports</h3>
           <Card.Group style={{ paddingTop: '10px' }}>

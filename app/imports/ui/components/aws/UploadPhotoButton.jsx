@@ -53,8 +53,11 @@ const UploadPhotoButton = ({ parentCallback2 }) => {
 
     return (
         <>
-            <input type='file' multiple ref={fileInput} />
-            <Button type='submit' onClick={handleClick}>Upload</Button>
+            <div><input type='file' multiple ref={fileInput} />
+              <Button type='submit' onClick={handleClick}>Upload</Button>
+              <br/>
+            </div>
+          <br/>
             <Progress percent={progress} indicating />
         </>
     );

@@ -221,12 +221,14 @@ const CreateReport = () => {
           />
         </Form.Group>
         <Form.Field required>
+          <label>Please Upload A Picture Of The Animal</label>
+          <UploadPhotoModal parentCallback={handleCallback}/>
+        </Form.Field>
+        <Form.Field required>
           <label>Please Place A Marker On The Google Map</label>
         </Form.Field>
       </Form>
       <div>
-        <label>Please Upload A Picture Of The Animal</label>
-        <UploadPhotoModal parentCallback={handleCallback}/>
       </div>
       { isLoaded ?
       <div>
