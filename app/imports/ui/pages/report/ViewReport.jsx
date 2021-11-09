@@ -86,7 +86,7 @@ const ViewReport = () => {
   <Container>
     { listLoading ?
     <div>
-      <Tab menu={{ secondary: true, pointing: true }} panes={panes} />
+      <Tab menu={{ secondary: true, pointing: true, className: 'wrapped' }} panes={panes} />
     </div>
     : <Loader>Loading</Loader>
     }
