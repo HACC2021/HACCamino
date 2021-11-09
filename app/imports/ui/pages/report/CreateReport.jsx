@@ -8,6 +8,7 @@ import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocom
 import { reportDefineMethod } from '../../../api/report/ReportCollection.methods';
 import '@reach/combobox/styles.css';
 import mapStyle from '../../components/report/googleMapStyle';
+import UploadPhotoModal from '../../components/aws/UploadPhotoModal';
 
 const containerStyle = {
   width: '100%',
@@ -98,7 +99,11 @@ const CreateReport = () => {
     { value: 'Sea Turtles', label: 'Sea Turtles' },
     { value: 'Sea Birds', label: 'Sea Birds' },
   ];
-
+  // aws hosting
+  const [data, setData] = useState([]);
+  const handleCallback = (childData) => {
+    setData(arr => [...arr, childData]);
+  };
   const onSubmit = () => {
     const definitionData = {};
     definitionData.title = finalTitle;
@@ -119,7 +124,13 @@ const CreateReport = () => {
       definitionData.lng = markers[0].lng;
     }
     definitionData.link = 'pending';
-    definitionData.accessKey = 'blank';
+    const temp = [];
+    let index = 0;
+    data.forEach(function () {
+      temp.push(data[index]);
+      index++;
+    });
+    definitionData.accessKey = temp[0];
     definitionData.status = 'pending';
     definitionData.animal = finalAnimal.value;
     reportDefineMethod.call(definitionData,
@@ -213,6 +224,10 @@ const CreateReport = () => {
           <label>Please Place A Marker On The Google Map</label>
         </Form.Field>
       </Form>
+      <div>
+        <label>Please Upload A Picture Of The Animal</label>
+        <UploadPhotoModal parentCallback={handleCallback}/>
+      </div>
       { isLoaded ?
       <div>
         <Search />
