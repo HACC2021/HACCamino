@@ -32,7 +32,7 @@ const App = () => {
     <Router>
       <div>
         {/* <NavBar/> */}
-        <SideNavBar2/>
+        {isLogged ? <SideNavBar2/> : null }
         <Switch>
           <ProtectedRoute path="/volunteer/dashboard" component={Dashboard}/>
           <ProtectedRoute path="/volunteer/viewReport" component={ViewReport}/>
