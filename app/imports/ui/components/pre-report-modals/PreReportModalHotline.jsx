@@ -14,7 +14,11 @@ const PreReportModalRedirect = () => {
     ];
 
     const Hotline = () => (
-        <Header as='h3'>Please call hotline at: xxx-xxx-xxxx</Header>
+        <Header as='h3'>Please call hotline at:
+            <a href="tel:8882569840">
+                 888-256-9840
+            </a>
+        </Header>
     );
 
     const onSubmit = () => {
@@ -61,10 +65,16 @@ const PreReportModalRedirect = () => {
         </div>
     );
 
+    const handleOnClose = () => {
+        setOpen(false);
+        setAnimal('');
+        setFinalAnimal('');
+    };
+
     return (
         <Modal
             closeIcon
-            onClose={() => setOpen(false)}
+            onClose={handleOnClose}
             onOpen={() => setOpen(true)}
             centered={false}
             open={open}
