@@ -5,7 +5,9 @@ import 'semantic-ui-css/semantic.css';
 import { Roles } from 'meteor/alanning:roles';
 import { HashRouter as Router, Route, Switch, useHistory, Redirect } from 'react-router-dom';
 import { useTracker } from 'meteor/react-meteor-data';
-import NavBar from '../components/NavBar';
+// import NavBar from '../components/NavBar';
+// import SideNavBar from '../components/SideNavBar';
+import SideNavBar2 from '../components/SideNavBar2';
 import Landing from '../pages/Landing';
 import NotFound from '../components/NotFound';
 import CreateReport from '../pages/report/CreateReport';
@@ -29,7 +31,8 @@ const App = () => {
   return (
     <Router>
       <div>
-        <NavBar/>
+        {/* <NavBar/> */}
+        <SideNavBar2/>
         <Switch>
           <ProtectedRoute path="/volunteer/dashboard" component={Dashboard}/>
           <ProtectedRoute path="/volunteer/viewReport" component={ViewReport}/>

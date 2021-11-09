@@ -2,7 +2,7 @@ import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import { NavLink, useHistory } from 'react-router-dom';
-import { Menu, Header, Dropdown } from 'semantic-ui-react';
+import { Menu, Header, Dropdown, Sidebar } from 'semantic-ui-react';
 import { Roles } from 'meteor/alanning:roles';
 
 /** The NavBar appears at the top of every page. Rendered by the App Layout component. */
@@ -24,7 +24,7 @@ const NavBar = () => {
 
   const menuStyle = { marginBottom: '10px', borderRadius: 0 };
     return (
-      <Menu style={menuStyle} attached="top" borderless inverted>
+      <Sidebar style={menuStyle} attached="top" borderless inverted>
         <Menu.Item as={NavLink} activeClassName="" exact to="" key='landing'>
           <Header inverted as='h5'>HACCamino</Header>
         </Menu.Item>
@@ -88,7 +88,7 @@ const NavBar = () => {
             exact to='/signin'
           />
         }
-      </Menu>
+      </Sidebar>
     );
 };
 
