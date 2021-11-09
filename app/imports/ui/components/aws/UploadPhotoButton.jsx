@@ -1,18 +1,19 @@
 import React from 'react';
 import AWS from 'aws-sdk';
-import { Progress } from 'semantic-ui-react';
+import PropTypes from 'prop-types';
+import { Progress, Button } from 'semantic-ui-react';
 import { makeID } from './AWSUploadFunctions';
 
 const BUCKET_NAME = 'haccamino-main';
 const REGION_NAME = 'us-west-1';
-const ACCESS_KEY_ID = 'AKIAXQXJQCACS6FOWRBU';
-const SECRET_ACCESS_KEY = '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';
+const ACCESS_KEY_ID = '';
+const SECRET_ACCESS_KEY = '';
 
 AWS.config.update({ accessKeyId: ACCESS_KEY_ID, secretAccessKey: SECRET_ACCESS_KEY });
 
 const s3 = new AWS.S3({ params: { Bucket: BUCKET_NAME }, region: REGION_NAME });
 
-const UploadPhotoButton = () => {
+const UploadPhotoButton = ({ parentCallback2 }) => {
     const fileInput = React.useRef();
     const [progress, setProgress] = React.useState(0);
 
@@ -37,7 +38,8 @@ const UploadPhotoButton = () => {
             if (err) console.log(err);
          });
         // eslint-disable-next-line no-console
-        console.log(filename);
+        // console.log(filename);
+      parentCallback2(filename);
     };
 
     // when the user clicks submit
@@ -51,11 +53,18 @@ const UploadPhotoButton = () => {
 
     return (
         <>
-            <input type='file' multiple ref={fileInput} />
-            <button type='submit' onClick={handleClick}>Upload</button>
+            <div><input type='file' multiple ref={fileInput} />
+              <Button type='submit' onClick={handleClick}>Upload</Button>
+              <br/>
+            </div>
+          <br/>
             <Progress percent={progress} indicating />
         </>
     );
+};
+
+UploadPhotoButton.propTypes = {
+  parentCallback2: PropTypes.func.isRequired,
 };
 
 export default UploadPhotoButton;

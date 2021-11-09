@@ -6,7 +6,6 @@ import Swal from 'sweetalert2';
 import { reportUpdateMethod } from '../../../api/report/ReportCollection.methods';
 
 const EditButton = ({ report }) => {
-  const [finalTitle, setFinalTitle] = useState(report.title);
   const [finalLocation, setFinalLocation] = useState(report.location);
   const [firstOpen, setFirstOpen] = useState(false);
   const [finalAnimal, setFinalAnimal] = useState({ value: report.animal, label: report.animal });
@@ -19,7 +18,6 @@ const EditButton = ({ report }) => {
   const onSubmit = () => {
     const updateData = {};
     updateData._id = report._id;
-    updateData.title = finalTitle;
     updateData.link = report.link;
     updateData.name = report.name;
     updateData.date = report.date;
@@ -65,11 +63,7 @@ const EditButton = ({ report }) => {
         <Container>
           <Form>
             <Form.Group widths='equal'>
-              <Form.Field width={8} required>
-                <label>Title Of Report</label>
-                <input placeholder='Title' value={finalTitle} onChange={ e => setFinalTitle(e.target.value)}/>
-              </Form.Field>
-              <Form.Field width={8} required>
+              <Form.Field width={16} required>
                 <label>Type Of Animal</label>
                 <Select
                 options={animalDropdown}
