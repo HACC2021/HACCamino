@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, Header, Modal, Form, Dropdown } from 'semantic-ui-react';
+import { Button, Modal, Form, Dropdown } from 'semantic-ui-react';
 import { useHistory } from 'react-router-dom';
 
 const PreReportModalRedirect = () => {
@@ -52,11 +52,11 @@ const PreReportModalRedirect = () => {
 
     const IfOther = () => (
         <div>
-            <Header as='h3'>Hello this is if there is other</Header>
+            {/* <Header as='h3'>Hello this is if there is other</Header> */}
             <p>
                 Unfortunately, HMAR will not be able to respond directly to
                 reports not relating to Hawai&apos;i Marine Animals, specifically Hawaiian
-                Monk Seals, Sea Turtles, and Sea Birds. Please see our Resources Page
+                Monk Seals, Sea Turtles, and Sea Birds. Please see our <a href="/#/resources">Resources Page </a>
                 for information about other agencies who may provide assistance.
             </p>
         </div>
