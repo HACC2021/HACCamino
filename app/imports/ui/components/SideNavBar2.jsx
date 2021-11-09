@@ -2,7 +2,7 @@ import React from 'react';
 import { Meteor } from 'meteor/meteor';
 import { useTracker } from 'meteor/react-meteor-data';
 import { NavLink, useHistory } from 'react-router-dom';
-import { Menu, Dropdown, Sidebar, Button, Icon } from 'semantic-ui-react';
+import { Menu, Dropdown, Sidebar, Button, Icon, Header } from 'semantic-ui-react';
 import { Roles } from 'meteor/alanning:roles';
 
 /** The NavBar appears at the top of every page. Rendered by the App Layout component. */
@@ -21,22 +21,34 @@ const SideNavBar = () => {
   };
   const [visible, setVisible] = React.useState(false);
   const handleShowClick = () => setVisible(!visible);
-  // const menuStyle = { marginBottom: '10px', borderRadius: 0 };
+  const menuStyle = { marginBottom: '10px', borderRadius: 0 };
   return (
-      <div>
-        <Button style={{ position: 'fixed', zIndex: 1, top: 0, height: '100vh', borderRadius: 0 }}
-                attached={'right'}
-                icon color='blue' disabled={false}
-                onClick={handleShowClick}>
-          <Icon name='bars'/>
-        </Button>
+    <Menu style={menuStyle} attached="top" borderless inverted>
+      <Menu.Item as={NavLink} activeClassName="" exact to="" key='landing'>
+        <Header inverted as='h5'>HACCamino</Header>
+      </Menu.Item>
+      <Menu.Item
+        as={Button}
+        position={'right'}
+        style={{
+          zIndex: 1, top: 0,
+          height: '5vh',
+          borderRadius: 0,
+          marginBottom: '10px' }}
+        icon
+        color='blue'
+        disabled={false}
+        onClick={handleShowClick}>
+        <Icon name='bars'/>
+      </Menu.Item>
       <Sidebar
+        stackable
           as={Menu}
-          animation='overlay'
+          animation='push'
           icon='labeled'
           inverted
           onHide={() => setVisible(false)}
-          vertical
+          direction='top'
           visible={visible}
           width='thin'
       >
@@ -55,7 +67,7 @@ const SideNavBar = () => {
             </Menu.Item>
         ) : null}
         {Roles.userIsInRole(Meteor.userId(), 'admin') ? ( // admin-exclusive
-            <Menu.Item as={Dropdown} item text='Admin'>
+            <Menu.Item as={Dropdown} text='Admin'>
               <Dropdown.Menu>
                 <Dropdown.Item
                     text='Volunteers'
@@ -101,7 +113,7 @@ const SideNavBar = () => {
             />
         }
       </Sidebar>
-      </div>
+    </Menu>
   );
 };
 
