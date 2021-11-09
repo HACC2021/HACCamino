@@ -19,10 +19,6 @@ const CreateAccount = () => {
   const [showMessage, setShowMessage] = useState(false);
 
   const history = useHistory();
-  const goToPage = () => {
-    const pageLink = '/dashboard';
-    history.push(pageLink);
-  };
 
   const handleChange = (e, { name, value }) => {
     if (name === 'firstName') {
@@ -59,7 +55,7 @@ const CreateAccount = () => {
             <br/>
               The functionality to send e-mails has not been implemented.
             </small>`,
-            'success').then(() => goToPage());
+            'success').then(() => history.go(0));
         }
       });
   };
