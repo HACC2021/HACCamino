@@ -56,17 +56,18 @@ const ReportItem = ({ report }) => {
     trigger={
       <Card>
         <Card.Content>
-          <Card.Header>{report.title} - {report.animal}</Card.Header>
+          <Card.Header>{report.location} - {report.animal}</Card.Header>
           <Card.Description>
             <p>{report.date[0]}</p>
             <p>{report.location}</p>
             <p>{report.status}</p>
+            <p>{report._id}</p>
           </Card.Description>
         </Card.Content>
       </Card>
     }
     >
-      <Modal.Header>{report.title} - {report.animal}</Modal.Header>
+      <Modal.Header>{report.location} - {report.animal}</Modal.Header>
       <Modal.Content>
         <Modal.Description>
           <h3>Report(s)</h3>

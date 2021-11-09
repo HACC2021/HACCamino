@@ -84,7 +84,6 @@ const CreateReport = () => {
   }, []);
 
   // Form Hooks
-  const [finalTitle, setFinalTitle] = useState(() => '');
   const [finalName, setFinalName] = useState(() => '');
   const [finalLocation, setFinalLocation] = useState(() => '');
   const [finalCharacteristics, setFinalCharacteristics] = useState(() => '');
@@ -106,7 +105,6 @@ const CreateReport = () => {
   };
   const onSubmit = () => {
     const definitionData = {};
-    definitionData.title = finalTitle;
     definitionData.name = finalName;
     definitionData.date = new Date().toLocaleString();
     definitionData.location = finalLocation;
@@ -145,7 +143,6 @@ const CreateReport = () => {
         Swal.fire('Error', errorMessage, 'error');
       } else {
         Swal.fire('Success', 'Report Added Successfully', 'success');
-        setFinalTitle('');
         setFinalAnimal('');
         setFinalName('');
         setFinalLocation('');
@@ -162,11 +159,7 @@ const CreateReport = () => {
       <h2>Create Report</h2>
       <Form>
         <Form.Group widths='equal'>
-          <Form.Field width={8} required>
-            <label>Title Of Report</label>
-            <input placeholder='Title' value={finalTitle} onChange={ e => setFinalTitle(e.target.value)}/>
-          </Form.Field>
-          <Form.Field width={8} required>
+          <Form.Field width={16} required>
             <label>Type Of Animal</label>
             <Select
             options={animalDropdown}
