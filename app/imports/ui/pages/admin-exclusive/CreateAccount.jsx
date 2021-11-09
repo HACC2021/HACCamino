@@ -19,6 +19,9 @@ const CreateAccount = () => {
   const [showMessage, setShowMessage] = useState(false);
 
   const history = useHistory();
+  const goToPage = (pageLink) => {
+    history.push(pageLink);
+  };
 
   const handleChange = (e, { name, value }) => {
     if (name === 'firstName') {
@@ -55,7 +58,13 @@ const CreateAccount = () => {
             <br/>
               The functionality to send e-mails has not been implemented.
             </small>`,
-            'success').then(() => history.go(0));
+            'success').then(() => {
+              if (role === 'admin') {
+                goToPage('/admin/staff-list');
+              } else {
+                goToPage('/admin/volunteer-list');
+              }
+          });
         }
       });
   };
