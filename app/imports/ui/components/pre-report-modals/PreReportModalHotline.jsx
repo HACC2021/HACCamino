@@ -35,21 +35,19 @@ const PreReportModalRedirect = () => {
 
     const AnimalForm = () => (
         <Form>
-            <Form.Group widths='equal'>
-                <Form.Field>
-                    <h4>Type of Animal</h4>
-                    <Dropdown
-                        placeholder='Select Animal'
-                        selection
-                        options={animalOptions}
-                        onChange={(e, { value }) => {
-                            setAnimal(value);
-                        }}
-                        value={animal}
-                    />
-                </Form.Field>
-                <Form.Button type='button' onClick={onSubmit}>Submit</Form.Button>
-            </Form.Group>
+            <Form.Field>
+                <h4>Type of Animal</h4>
+                <Dropdown
+                    placeholder='Select Animal'
+                    selection
+                    options={animalOptions}
+                    onChange={(e, { value }) => {
+                        setAnimal(value);
+                    }}
+                    value={animal}
+                />
+            </Form.Field>
+            <Form.Button type='button' onClick={onSubmit}>Submit</Form.Button>
         </Form>
     );
 
