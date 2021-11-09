@@ -45,8 +45,8 @@ const App = () => {
           <Route path="/public-landing" component={Landing}/>
           <Route path="/sign-out" component={SignOut}/>
           <Route exact path="/">
-            {isLogged && isAdmin ?
-              <Redirect to={isAdmin ? '/admin/dashboard' : '/volunteer/dashboard'}/>
+            {isLogged ?
+              <Redirect to={isAdmin ? '/admin/viewReport' : '/volunteer/viewReport'}/>
               : <Redirect to={'/public-landing'}/>
             }
           </Route>
