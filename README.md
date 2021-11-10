@@ -27,11 +27,11 @@ Developers’ note: The Google API and AWS Access keys are only activated for th
 
 For the existing implementation of the app, the user must have a web browser, such as Google Chrome, Mozilla Firefox, or Safari, installed on their computer. 
 1. Install the following:
-  1.1. Node.js LTS version (https://nodejs.dev/)
-  1.2. Meteor 2.5 (https://www.meteor.com/developers/install) 
+  * Node.js LTS version (https://nodejs.dev/)
+  * Meteor 2.5 (https://www.meteor.com/developers/install) 
 2. Download the repository from GitHub: https://github.com/HACC2021/HACCamino 
-  2.1. If the user has a GitHub application on their machine, they can choose ‘Open with GitHub Desktop’
-  2.2. Otherwise, they can download the ZIP file version of the source code and unzip the contents on their machine
+  * If the user has a GitHub application on their machine, they can choose ‘Open with GitHub Desktop’
+  * Otherwise, they can download the ZIP file version of the source code and unzip the contents on their machine
 3. Download the settings.production.json file from: https://drive.google.com/file/d/1Lf15WX10UcVEzwxQNfr8kWn7jZN2eBCU/view?usp=sharing 
 4. Copy the downloaded file inside the directory/folder: HACCamino/config
 5. On the Terminal/Command Prompt, use command cd to navigate to the app directory in the cloned repository (e.g., If the user saved the repository on their desktop, they can use the command: `cd Desktop/HACCamino/app`)
