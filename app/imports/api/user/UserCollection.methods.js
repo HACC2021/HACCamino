@@ -45,6 +45,14 @@ export const userSetActiveStatus = new ValidatedMethod({
   run({ owner, active }) {
     if (Meteor.isServer) {
       Users.setActiveStatus({ owner, active });
+      const updateType = active ? 'signIn' : 'signOut';
+      Updates.define({
+        date: new Date(),
+        roles: ['admin'],
+        collectionName: 'user',
+        updatedTypes: [updateType],
+        creator: owner,
+      });
       return true;
     }
     return false;
