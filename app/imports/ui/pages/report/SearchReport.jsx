@@ -24,8 +24,9 @@ const ViewReport = () => {
     <div>
       <h2>Search Approved Report</h2>
       <Maps allReports={searchArray} />
+      <br/>
       <Combobox onSelect={searchHandle}>
-        <ComboboxInput id='form-css' value={search} onChange={(e) => {
+        <ComboboxInput id='search-css' value={search} onChange={(e) => {
           setSearch(e.target.value);
         }}
                        placeholder='Search Location'

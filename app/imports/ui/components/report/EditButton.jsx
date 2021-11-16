@@ -48,7 +48,7 @@ const EditButton = ({ report }) => {
     if (finalIsland.value) {
       updateData.island = finalIsland.value;
     } else {
-      updateData.island = finalAnimal;
+      updateData.island = finalIsland;
     }
     updateData.accessKey = report.accessKey;
     reportUpdateMethod.call(updateData,

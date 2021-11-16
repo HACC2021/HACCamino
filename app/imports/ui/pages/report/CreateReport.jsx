@@ -168,7 +168,7 @@ const CreateReport = () => {
     });
   };
   return (
-    <Container>
+    <Container style={{ paddingBottom: '20px' }}>
       <h2>Create Report</h2>
       <Form>
         <Form.Group widths='equal'>
