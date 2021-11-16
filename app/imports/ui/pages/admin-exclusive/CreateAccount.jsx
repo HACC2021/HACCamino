@@ -62,7 +62,7 @@ const CreateAccount = () => {
               if (role === 'admin') {
                 goToPage('/admin/staff-list');
               } else {
-                goToPage('/admin/volunteer-list');
+                goToPage('/admin/volunteers-list');
               }
           });
         }

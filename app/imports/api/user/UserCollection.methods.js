@@ -4,6 +4,7 @@ import { CallPromiseMixin } from 'meteor/didericis:callpromise-mixin';
 import { Accounts } from 'meteor/accounts-base';
 import { Roles } from 'meteor/alanning:roles';
 import { Users } from './UserCollection';
+import { Updates } from '../updates/UpdateCollection';
 
 export const userDefineMethod = new ValidatedMethod({
   name: 'UserCollection.define',
@@ -79,6 +80,14 @@ export const setNewPassword = new ValidatedMethod({
     if (Meteor.isServer) {
       const accountID = Accounts.findUserByUsername(email)._id;
       Accounts.setPassword(accountID, password);
+
+      Updates.define({
+        date: new Date(),
+        roles: ['admin'],
+        collectionName: 'user',
+        updatedTypes: ['createPassword'],
+        creator: email,
+      });
       return accountID;
     }
     return '';

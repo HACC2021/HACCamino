@@ -26,12 +26,10 @@ const UpdateFeedEvent = ({ updateObj, usersArray }) => {
   const getSummary = () => {
     if (updateObj.collectionName === 'user') {
       if (updateObj.updatedTypes.includes('createUser')) {
-        return (
-          <Feed.Summary>
-            {getUserLink(creator)} created an account for: {getUserLink(userOwner)}
-            <Feed.Date>{updateObj.date.toLocaleString()}</Feed.Date>
-          </Feed.Summary>
-        );
+        return <>{getUserLink(creator)} created an account for: {getUserLink(userOwner)}</>;
+      }
+      if (updateObj.updatedTypes.includes('createPassword')) {
+        return <>{getUserLink(creator)} created their first password</>;
       }
     }
     return null;
@@ -43,7 +41,10 @@ const UpdateFeedEvent = ({ updateObj, usersArray }) => {
         <Icon name='add user'/>
       </Feed.Label>
       <Feed.Content>
-        {getSummary()}
+        <Feed.Summary>
+          {getSummary()}
+          <Feed.Date>{updateObj.date.toLocaleString()}</Feed.Date>
+        </Feed.Summary>
       </Feed.Content>
     </Feed.Event>
   );
