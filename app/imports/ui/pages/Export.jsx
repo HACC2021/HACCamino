@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from 'semantic-ui-react';
+import { Button, Container, Loader } from 'semantic-ui-react';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Reports } from '../../api/report/ReportCollection';
 import { convertTime } from './export-functions/convertTime';
@@ -7,7 +7,6 @@ import { getInitials } from './export-functions/getInitials';
 import { getSector } from './export-functions/getSector';
 
 const Export = () => {
-    // eslint-disable-next-line no-unused-vars
     const listLoading = useTracker(() => {
         const handle = Reports.subscribeReportAdmin();
         return handle.ready();
@@ -37,7 +36,6 @@ const Export = () => {
         // get headers
         const headers = Object.keys(data[0]);
         csvRows.push(headers.join(','));
-
         // loop over rows
         // eslint-disable-next-line no-restricted-syntax
         for (const row of data) {
@@ -107,7 +105,11 @@ const Export = () => {
     };
 
     return (
-        <Button id='export-button' onClick={getReport}>Export csv</Button>
+        // <Button id='export-button' onClick={getReport}>Export csv</Button>
+        <Container>
+            {listLoading ? <Button id='export-button' onClick={getReport}>Export csv</Button>
+                : <Loader>Loading</Loader>}
+        </Container>
     );
 };
 
