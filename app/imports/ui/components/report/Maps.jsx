@@ -11,8 +11,8 @@ const containerStyle = {
 };
 
 const center = {
-  lat: 21.5,
-  lng: -158,
+  lat: 20.5,
+  lng: -156.9,
 };
 
 const options = {
@@ -35,7 +35,7 @@ const Maps = ({ allReports }) => {
       <GoogleMap
       mapContainerStyle={containerStyle}
       center={center}
-      zoom={10}
+      zoom={7.3}
       options={options}
       >
         {allReports.map(marker => <Marker
