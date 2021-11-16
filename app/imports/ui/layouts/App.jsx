@@ -21,6 +21,7 @@ import AuditLog from '../pages/admin-exclusive/AuditLog';
 import Dashboard from '../pages/Dashboard';
 import Resources from '../pages/Resources';
 import SignOut from '../pages/SignOut';
+import Export from '../pages/Export';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => {
@@ -37,7 +38,8 @@ const App = () => {
         <Switch>
           <ProtectedRoute path="/volunteer/dashboard" component={Dashboard}/>
           <ProtectedRoute path="/volunteer/viewReport" component={ViewReport}/>
-          <ProtectedRoute path="/volunteer/searchReport" component={SearchReport}/>
+          <ProtectedRoute path="/volunteer/searchReport" component={SearchReport} />
+          <AdminProtectedRoute path='/admin/export' component={Export} />
           <AdminProtectedRoute path="/admin/dashboard" component={Dashboard}/>
           <AdminProtectedRoute path="/admin/viewReport" component={ViewReport}/>
           <AdminProtectedRoute path="/admin/searchReport" component={SearchReport}/>
