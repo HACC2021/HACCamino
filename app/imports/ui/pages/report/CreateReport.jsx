@@ -26,8 +26,8 @@ const libraries = ['places'];
 
 const CreateReport = () => {
   // Google Maps
-  const [center, setCenter] = useState({ lat: 21.5, lng: -158 });
-  const [zoom, setZoom] = useState(10);
+  const [center, setCenter] = useState({ lat: 20.5, lng: -156.9 });
+  const [zoom, setZoom] = useState(7.3);
   // eslint-disable-next-line no-undef
   navigator.geolocation.getCurrentPosition((position) => {
     setCenter({ lat: position.coords.latitude, lng: position.coords.longitude });
@@ -84,6 +84,7 @@ const CreateReport = () => {
   }, []);
 
   // Form Hooks
+  const [finalIsland, setFinalIsland] = useState(() => '');
   const [finalName, setFinalName] = useState(() => '');
   const [finalLocation, setFinalLocation] = useState(() => '');
   const [finalCharacteristics, setFinalCharacteristics] = useState(() => '');
@@ -98,6 +99,17 @@ const CreateReport = () => {
     { value: 'Sea Turtles', label: 'Sea Turtles' },
     { value: 'Sea Birds', label: 'Sea Birds' },
   ];
+
+  const islandDropdown = [
+    { value: 'Oʻahu', label: 'Oʻahu' },
+    { value: 'Maui', label: 'Maui' },
+    { value: 'Hawaiʻi', label: 'Hawaiʻi' },
+    { value: 'Kauaʻi', label: 'Kauaʻi' },
+    { value: 'Molokaʻi', label: 'Molokaʻi' },
+    { value: 'Lānaʻi', label: 'Lānaʻi' },
+    { value: 'Niʻihau', label: 'Niʻihau' },
+    { value: 'Kahoʻolawe', label: 'Kahoʻolawe' },
+  ];
   // aws hosting
   const [data, setData] = useState([]);
   const handleCallback = (childData) => {
@@ -105,6 +117,7 @@ const CreateReport = () => {
   };
   const onSubmit = () => {
     const definitionData = {};
+    definitionData.island = finalIsland.value;
     definitionData.name = finalName;
     definitionData.date = new Date().toLocaleString();
     definitionData.location = finalLocation;
@@ -155,17 +168,26 @@ const CreateReport = () => {
     });
   };
   return (
-    <Container>
+    <Container style={{ paddingBottom: '20px' }}>
       <h2>Create Report</h2>
       <Form>
         <Form.Group widths='equal'>
-          <Form.Field width={16} required>
+          <Form.Field width={8} required>
             <label>Type Of Animal</label>
             <Select
             options={animalDropdown}
             name='animal'
             onChange={setFinalAnimal}
             defaultValue={finalAnimal}
+            />
+          </Form.Field>
+          <Form.Field width={8} required>
+            <label>Island</label>
+            <Select
+            options={islandDropdown}
+            name='island'
+            onChange={setFinalIsland}
+            defaultValue={finalIsland}
             />
           </Form.Field>
         </Form.Group>
@@ -213,7 +235,7 @@ const CreateReport = () => {
           onChange={ e => setFinalNotes(e.target.value)}
           />
         </Form.Group>
-        <Form.Field required>
+        <Form.Field>
           <label>Please Upload A Picture Of The Animal</label>
           <UploadPhotoModal parentCallback={handleCallback}/>
         </Form.Field>

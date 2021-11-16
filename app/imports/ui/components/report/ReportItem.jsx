@@ -59,7 +59,7 @@ const ReportItem = ({ report }) => {
           <Card.Header>{report.location} - {report.animal}</Card.Header>
           <Card.Description>
             <p>{report.date[0]}</p>
-            <p>{report.location}</p>
+            <p>{report.island} - {report.location}</p>
             <p>{report.status}</p>
             <p>{report._id}</p>
           </Card.Description>

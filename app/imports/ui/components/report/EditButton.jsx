@@ -8,11 +8,22 @@ import { reportUpdateMethod } from '../../../api/report/ReportCollection.methods
 const EditButton = ({ report }) => {
   const [finalLocation, setFinalLocation] = useState(report.location);
   const [firstOpen, setFirstOpen] = useState(false);
+  const [finalIsland, setFinalIsland] = useState({ value: report.island, label: report.island });
   const [finalAnimal, setFinalAnimal] = useState({ value: report.animal, label: report.animal });
   const animalDropdown = [
     { value: 'Hawaiian Monk Seal', label: 'Hawaiian Monk Seal' },
     { value: 'Sea Turtles', label: 'Sea Turtles' },
     { value: 'Sea Birds', label: 'Sea Birds' },
+  ];
+  const islandDropdown = [
+    { value: 'Oʻahu', label: 'Oʻahu' },
+    { value: 'Maui', label: 'Maui' },
+    { value: 'Hawaiʻi', label: 'Hawaiʻi' },
+    { value: 'Kauaʻi', label: 'Kauaʻi' },
+    { value: 'Molokaʻi', label: 'Molokaʻi' },
+    { value: 'Lānaʻi', label: 'Lānaʻi' },
+    { value: 'Niʻihau', label: 'Niʻihau' },
+    { value: 'Kahoʻolawe', label: 'Kahoʻolawe' },
   ];
 
   const onSubmit = () => {
@@ -33,6 +44,11 @@ const EditButton = ({ report }) => {
       updateData.animal = finalAnimal.value;
     } else {
       updateData.animal = finalAnimal;
+    }
+    if (finalIsland.value) {
+      updateData.island = finalIsland.value;
+    } else {
+      updateData.island = finalIsland;
     }
     updateData.accessKey = report.accessKey;
     reportUpdateMethod.call(updateData,
@@ -63,13 +79,22 @@ const EditButton = ({ report }) => {
         <Container>
           <Form>
             <Form.Group widths='equal'>
-              <Form.Field width={16} required>
+              <Form.Field width={8} required>
                 <label>Type Of Animal</label>
                 <Select
                 options={animalDropdown}
                 name='animal'
                 onChange={setFinalAnimal}
                 defaultValue={finalAnimal}
+                />
+              </Form.Field>
+              <Form.Field width={8} required>
+                <label>Island</label>
+                <Select
+                options={islandDropdown}
+                name='island'
+                onChange={setFinalIsland}
+                defaultValue={finalIsland}
                 />
               </Form.Field>
             </Form.Group>
