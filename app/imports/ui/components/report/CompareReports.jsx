@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import { Meteor } from 'meteor/meteor';
 import { reportRemoveItMethod, reportUpdateMethod } from '../../../api/report/ReportCollection.methods';
 import ImageItem from './ImageItem';
+import { updatedTypes } from '../../../api/utilities/utilities';
 
 const CompareReports = ({ report, oreport }) => {
   const [firstOpen, setFirstOpen] = useState(false);
@@ -37,7 +38,7 @@ const CompareReports = ({ report, oreport }) => {
       imgIndex++;
     });
     const _id = report._id;
-    updateData.updatedType = 'appendReport';
+    updateData.updatedType = updatedTypes.appendReport;
     updateData.creator = Meteor.user().username;
     reportRemoveItMethod.call({ _id });
     reportUpdateMethod.call(updateData,

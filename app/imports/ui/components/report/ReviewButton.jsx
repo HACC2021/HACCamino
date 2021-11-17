@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import { Button, Form, Container, TextArea } from 'semantic-ui-react';
 import Select from 'react-select';
 import Swal from 'sweetalert2';
+import { Meteor } from 'meteor/meteor';
 import { reportUpdateMethod } from '../../../api/report/ReportCollection.methods';
+import { updatedTypes } from '../../../api/utilities/utilities';
 
 const ReviewButton = ({ report }) => {
   const [status, setStatus] = useState({ value: report.status, label: report.status });
@@ -17,6 +19,8 @@ const ReviewButton = ({ report }) => {
     const updateData = report;
     updateData.status = status.value;
     updateData.link = comments;
+    updateData.updatedType = updatedTypes.reviewReport;
+    updateData.creator = Meteor.user().username;
     reportUpdateMethod.call(updateData,
     error => {
       if (error) {

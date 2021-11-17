@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Feed, Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import UserPreview from './UserPreview';
+import { updatedTypes } from '../../../api/utilities/utilities';
 
 const getUserLink = (user) => {
   if (user.owner === 'hacccamino@gmail.com') {
@@ -21,25 +22,25 @@ const getUserLink = (user) => {
 
 const getEvent = (collectionName, updatedType, creator, userOwner) => {
   if (collectionName === 'user') {
-    if (updatedType === 'createUser') {
+    if (updatedType === updatedTypes.createUser) {
       return {
         icon: 'add user',
         content: <>{getUserLink(creator)} created an account for: {getUserLink(userOwner)}</>,
       };
     }
-    if (updatedType === 'createPassword') {
+    if (updatedType === updatedTypes.createPassword) {
       return {
         icon: 'lock',
         content: <>{getUserLink(creator)} created their first password</>,
       };
     }
-    if (updatedType === 'signIn') {
+    if (updatedType === updatedTypes.signIn) {
       return {
         icon: 'sign in',
         content: <>{getUserLink(creator)} signed in</>,
       };
     }
-    if (updatedType === 'signOut') {
+    if (updatedType === updatedTypes.signOut) {
       return {
         icon: 'sign out',
         content: <>{getUserLink(creator)} signed out</>,
@@ -48,16 +49,34 @@ const getEvent = (collectionName, updatedType, creator, userOwner) => {
   }
 
   if (collectionName === 'report') {
-    if (updatedType === 'createReport') {
+    if (updatedType === updatedTypes.createReport) {
       return {
         icon: 'add',
         content: <>{getUserLink(creator)} submitted a new <Link to='/admin/viewReport'>report</Link></>,
       };
     }
-    if (updatedType === 'appendReport') {
+    if (updatedType === updatedTypes.appendReport) {
       return {
         icon: 'edit',
         content: <>{getUserLink(creator)} consolidated <Link to='/admin/viewReport'>reports</Link></>,
+      };
+    }
+    if (updatedType === updatedTypes.updateReport) {
+      return {
+        icon: 'edit',
+        content: <>{getUserLink(creator)} updated a <Link to='/admin/viewReport'>report</Link></>,
+      };
+    }
+    if (updatedType === updatedTypes.deleteReport) {
+      return {
+        icon: 'trash alternate',
+        content: <>{getUserLink(creator)} deleted a report</>,
+      };
+    }
+    if (updatedType === updatedTypes.reviewReport) {
+      return {
+        icon: 'check',
+        content: <>{getUserLink(creator)} reviewed a <Link to='/admin/viewReport'>report</Link></>,
       };
     }
   }

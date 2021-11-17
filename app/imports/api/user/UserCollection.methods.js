@@ -5,6 +5,7 @@ import { Accounts } from 'meteor/accounts-base';
 import { Roles } from 'meteor/alanning:roles';
 import { Users } from './UserCollection';
 import { Updates } from '../updates/UpdateCollection';
+import { updatedTypes } from '../utilities/utilities';
 
 export const userDefineMethod = new ValidatedMethod({
   name: 'UserCollection.define',
@@ -45,7 +46,7 @@ export const userSetActiveStatus = new ValidatedMethod({
   run({ owner, active }) {
     if (Meteor.isServer) {
       Users.setActiveStatus({ owner, active });
-      const update = active ? 'signIn' : 'signOut';
+      const update = active ? updatedTypes.signIn : updatedTypes.signOut;
       Updates.define({
         date: new Date(),
         roles: ['admin'],
@@ -93,7 +94,7 @@ export const setNewPassword = new ValidatedMethod({
         date: new Date(),
         roles: ['admin'],
         collectionName: 'user',
-        updatedType: 'createPassword',
+        updatedType: updatedTypes.createPassword,
         creator: email,
       });
       return accountID;

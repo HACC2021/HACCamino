@@ -4,6 +4,7 @@ import { check } from 'meteor/check';
 import { Roles } from 'meteor/alanning:roles';
 import BaseCollection from '../base/BaseCollection';
 import { Updates } from '../updates/UpdateCollection';
+import { updatedTypes } from '../utilities/utilities';
 
 export const userPublications = {
   userVolunteer: 'UserVolunteer',
@@ -47,7 +48,7 @@ class UserCollection extends BaseCollection {
       roles: ['admin'],
       collectionName: 'user',
       userOwner: owner,
-      updatedType: 'createUser',
+      updatedType: updatedTypes.createUser,
       creator: creator || 'hacccamino@gmail.com',
     });
     return docID;
