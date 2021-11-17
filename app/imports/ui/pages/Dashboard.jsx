@@ -1,5 +1,6 @@
 import React from 'react';
 import { Grid, Header } from 'semantic-ui-react';
+import CaseGraph from '../components/CaseGraph';
 
 const Dashboard = () => (
     <div className={'dash'}>
@@ -13,13 +14,13 @@ const Dashboard = () => (
                 subheader={'This is where all the cases will be'}
             />
           </Grid.Column>
-          <Grid.Column width={11} color={'grey'}>
+          <Grid.Column width={11}>
             <Header
                 as="h2"
                 textAlign="center"
                 content={'Cases by SubType'}
-                subheader={'Page is under construction. Thank you for your patience.'}
             />
+            <CaseGraph/>
           </Grid.Column>
         </Grid.Row>
       </Grid>
