@@ -104,7 +104,7 @@ class UpdateCollection extends BaseCollection {
   }
 
   getAllUpdatesAdmin() {
-    return this._collection.find({ roles: ['admin'] }, { sort: { date: -1 } }).fetch();
+    return this._collection.find({}, { sort: { date: -1 } }).fetch();
   }
 }
 

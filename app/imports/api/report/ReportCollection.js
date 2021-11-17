@@ -3,6 +3,7 @@ import SimpleSchema from 'simpl-schema';
 import { check } from 'meteor/check';
 import { Roles } from 'meteor/alanning:roles';
 import BaseCollection from '../base/BaseCollection';
+import { Updates } from '../updates/UpdateCollection';
 
 export const reportPublications = {
   reportAdminVolunteer: 'ReportAdminVolunteer',
@@ -63,7 +64,7 @@ class ReportCollection extends BaseCollection {
 
   define({ name, date, accessKey, animal,
            location, animalCharacteristics, lat, lng,
-           people, phoneNumber, notes, animalBehavior, link, status, island }) {
+           people, phoneNumber, notes, animalBehavior, link, status, island, creator }) {
     // add duplicate verifier here, create a new method/function if you have to
     const docID = this._collection.insert({
       name,
@@ -81,6 +82,15 @@ class ReportCollection extends BaseCollection {
       status,
       animal,
       island,
+    });
+
+    Updates.define({
+      date: new Date(),
+      roles: ['admin', 'volunteer'],
+      collectionName: 'report',
+      reportID: docID,
+      updatedTypes: ['createReport'],
+      creator: creator || 'general-public',
     });
     return docID;
   }

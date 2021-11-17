@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Feed, Icon } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 import UserPreview from './UserPreview';
 
 const getUserLink = (user) => {
@@ -33,6 +34,12 @@ const getIcon = (collectionName, updatedTypes) => {
       return 'sign out';
     }
   }
+
+  if (collectionName === 'report') {
+    if (updatedTypes.includes('createReport')) {
+      return 'add';
+    }
+  }
   return 'file alternate outline';
 };
 
@@ -51,6 +58,16 @@ const getSummary = (collectionName, updatedTypes, creator, userOwner) => {
       return <>{getUserLink(creator)} signed out</>;
     }
   }
+
+  if (collectionName === 'report') {
+    if (updatedTypes.includes('createReport')) {
+      return (
+        <>
+          {getUserLink(creator)} submitted a new <Link to='/admin/viewReport'>report</Link>
+        </>
+      );
+    }
+  }
   return null;
 };
 
@@ -62,7 +79,10 @@ const UpdateFeedEvent = ({ updateObj, usersArray }) => {
   return (
     <Feed.Event>
       <Feed.Label>
-        <Icon name={getIcon(updateObj.collectionName, updateObj.updatedTypes)}/>
+        <Icon
+          size='mini'
+          name={getIcon(updateObj.collectionName, updateObj.updatedTypes)}
+        />
       </Feed.Label>
       <Feed.Content>
         <Feed.Summary>
