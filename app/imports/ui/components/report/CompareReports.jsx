@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Card, Modal, Table, Button, Image } from 'semantic-ui-react';
 import Swal from 'sweetalert2';
+import { Meteor } from 'meteor/meteor';
 import { reportRemoveItMethod, reportUpdateMethod } from '../../../api/report/ReportCollection.methods';
 import ImageItem from './ImageItem';
 
@@ -36,6 +37,8 @@ const CompareReports = ({ report, oreport }) => {
       imgIndex++;
     });
     const _id = report._id;
+    updateData.updatedType = 'appendReport';
+    updateData.creator = Meteor.user().username;
     reportRemoveItMethod.call({ _id });
     reportUpdateMethod.call(updateData,
     error => {

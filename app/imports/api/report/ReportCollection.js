@@ -89,14 +89,15 @@ class ReportCollection extends BaseCollection {
       roles: ['admin', 'volunteer'],
       collectionName: 'report',
       reportID: docID,
-      updatedTypes: ['createReport'],
+      updatedType: 'createReport',
       creator: creator || 'general-public',
     });
     return docID;
   }
 
   update(docID, { name, accessKey, animal, date, link,
-    location, animalCharacteristics, people, phoneNumber, notes, animalBehavior, status, island }) {
+    location, animalCharacteristics, people, phoneNumber, notes, animalBehavior,
+    status, island, updatedType, creator }) {
     const updateData = {};
 
     if (name) {
@@ -139,6 +140,15 @@ class ReportCollection extends BaseCollection {
       updateData.island = island;
     }
     this._collection.update(docID, { $set: updateData });
+
+    Updates.define({
+      date: new Date(),
+      roles: ['admin', 'volunteer'],
+      collectionName: 'report',
+      reportID: docID,
+      updatedType: updatedType,
+      creator: creator || 'hacccamino@gmail.com',
+    });
   }
 
   /**

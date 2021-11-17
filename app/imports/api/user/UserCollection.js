@@ -47,7 +47,7 @@ class UserCollection extends BaseCollection {
       roles: ['admin'],
       collectionName: 'user',
       userOwner: owner,
-      updatedTypes: ['createUser'],
+      updatedType: 'createUser',
       creator: creator || 'hacccamino@gmail.com',
     });
     return docID;

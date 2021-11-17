@@ -45,12 +45,12 @@ export const userSetActiveStatus = new ValidatedMethod({
   run({ owner, active }) {
     if (Meteor.isServer) {
       Users.setActiveStatus({ owner, active });
-      const updateType = active ? 'signIn' : 'signOut';
+      const update = active ? 'signIn' : 'signOut';
       Updates.define({
         date: new Date(),
         roles: ['admin'],
         collectionName: 'user',
-        updatedTypes: [updateType],
+        updatedType: update,
         creator: owner,
       });
       return true;
@@ -93,7 +93,7 @@ export const setNewPassword = new ValidatedMethod({
         date: new Date(),
         roles: ['admin'],
         collectionName: 'user',
-        updatedTypes: ['createPassword'],
+        updatedType: 'createPassword',
         creator: email,
       });
       return accountID;

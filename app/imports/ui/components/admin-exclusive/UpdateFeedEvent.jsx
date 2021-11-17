@@ -19,53 +19,46 @@ const getUserLink = (user) => {
   return <UserPreview page={'audit-log'} userObj={user}/>;
 };
 
-const getIcon = (collectionName, updatedTypes) => {
+const getEvent = (collectionName, updatedType, creator, userOwner) => {
   if (collectionName === 'user') {
-    if (updatedTypes.includes('createUser')) {
-      return 'add user';
+    if (updatedType === 'createUser') {
+      return {
+        icon: 'add user',
+        content: <>{getUserLink(creator)} created an account for: {getUserLink(userOwner)}</>,
+      };
     }
-    if (updatedTypes.includes('createPassword')) {
-      return 'lock';
+    if (updatedType === 'createPassword') {
+      return {
+        icon: 'lock',
+        content: <>{getUserLink(creator)} created their first password</>,
+      };
     }
-    if (updatedTypes.includes('signIn')) {
-      return 'sign in';
+    if (updatedType === 'signIn') {
+      return {
+        icon: 'sign in',
+        content: <>{getUserLink(creator)} signed in</>,
+      };
     }
-    if (updatedTypes.includes('signOut')) {
-      return 'sign out';
+    if (updatedType === 'signOut') {
+      return {
+        icon: 'sign out',
+        content: <>{getUserLink(creator)} signed out</>,
+      };
     }
   }
 
   if (collectionName === 'report') {
-    if (updatedTypes.includes('createReport')) {
-      return 'add';
+    if (updatedType === 'createReport') {
+      return {
+        icon: 'add',
+        content: <>{getUserLink(creator)} submitted a new <Link to='/admin/viewReport'>report</Link></>,
+      };
     }
-  }
-  return 'file alternate outline';
-};
-
-const getSummary = (collectionName, updatedTypes, creator, userOwner) => {
-  if (collectionName === 'user') {
-    if (updatedTypes.includes('createUser')) {
-      return <>{getUserLink(creator)} created an account for: {getUserLink(userOwner)}</>;
-    }
-    if (updatedTypes.includes('createPassword')) {
-      return <>{getUserLink(creator)} created their first password</>;
-    }
-    if (updatedTypes.includes('signIn')) {
-      return <>{getUserLink(creator)} signed in</>;
-    }
-    if (updatedTypes.includes('signOut')) {
-      return <>{getUserLink(creator)} signed out</>;
-    }
-  }
-
-  if (collectionName === 'report') {
-    if (updatedTypes.includes('createReport')) {
-      return (
-        <>
-          {getUserLink(creator)} submitted a new <Link to='/admin/viewReport'>report</Link>
-        </>
-      );
+    if (updatedType === 'appendReport') {
+      return {
+        icon: 'edit',
+        content: <>{getUserLink(creator)} consolidated <Link to='/admin/viewReport'>reports</Link></>,
+      };
     }
   }
   return null;
@@ -76,24 +69,25 @@ const UpdateFeedEvent = ({ updateObj, usersArray }) => {
   const creator = usersArray.find(user => user.owner === updateObj.creator);
   const userOwner = usersArray.find(user => user.owner === updateObj.userOwner);
 
+  const event = getEvent(updateObj.collectionName, updateObj.updatedType, creator, userOwner);
+
   return (
     <Feed.Event>
       <Feed.Label>
         <Icon
           size='mini'
-          name={getIcon(updateObj.collectionName, updateObj.updatedTypes)}
+          name={event.icon}
         />
       </Feed.Label>
       <Feed.Content>
         <Feed.Summary>
-          {getSummary(
-            updateObj.collectionName,
-            updateObj.updatedTypes,
-            creator,
-            userOwner,
-          )}
+          {event.content}
           <Feed.Date>{updateObj.date.toLocaleString()}</Feed.Date>
         </Feed.Summary>
+        {updateObj.reportID ?
+          <Feed.Extra text>
+            Report ID: {updateObj.reportID}
+          </Feed.Extra> : null}
       </Feed.Content>
     </Feed.Event>
   );
