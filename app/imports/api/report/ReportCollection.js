@@ -221,6 +221,12 @@ class ReportCollection extends BaseCollection {
     && (report.lng >= minLng && report.lng <= maxLng) && (report._id !== userReport._id));
   }
 
+  getReportsFromDateRange(start, end) {
+    const reports = this.getCurrentReports();
+    return reports.filter(report => (report.animal === 'Hawaiian Monk Seal')
+        && (report.date >= start)
+        && (report.date <= end));
+  }
 }
 
 /**
