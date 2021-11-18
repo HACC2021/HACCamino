@@ -1,6 +1,7 @@
-import React from 'react';
-import { Container, Loader, Card, Tab } from 'semantic-ui-react';
+import React, { useState } from 'react';
+import { Container, Loader, Card, Tab, Form } from 'semantic-ui-react';
 import { useTracker } from 'meteor/react-meteor-data';
+import Select from 'react-select';
 import { Reports } from '../../../api/report/ReportCollection';
 import ReportItem from '../../components/report/ReportItem';
 import Maps from '../../components/report/Maps';
@@ -10,83 +11,49 @@ const ViewReport = () => {
     const handle = Reports.subscribeReportAdmin();
     return handle.ready();
   }, []);
-  const pendingReports = Reports.getPendingReports();
-  const approvedReports = Reports.getApprovedReports();
-  const sealReports = Reports.getSealReports();
-  const turtleReports = Reports.getTurtleReports();
-  const birdReports = Reports.getBirdReports();
-  const panes = [
-    {
-      menuItem: 'Pending Reports',
-      render: function name() {
-        return (
-          <Tab.Pane attached={false}>
-            <Maps allReports={pendingReports} />
-            <Card.Group style={{ paddingTop: '10px' }}>
-              {pendingReports.map((report) => <ReportItem report={report} key={report._id} />)}
-            </Card.Group>
-          </Tab.Pane>
-        );
-      },
-    },
-    {
-      menuItem: 'Approved Reports',
-      render: function name() {
-        return (
-          <Tab.Pane attached={false}>
-            <Maps allReports={approvedReports} />
-            <Card.Group style={{ paddingTop: '10px' }}>
-              {approvedReports.map((report) => <ReportItem report={report} key={report._id} />)}
-            </Card.Group>
-          </Tab.Pane>
-        );
-      },
-    },
-    {
-      menuItem: 'Hawaiian Monk Seal',
-      render: function name() {
-        return (
-        <Tab.Pane attached={false}>
-          <Maps allReports={sealReports} />
-          <Card.Group style={{ paddingTop: '10px' }}>
-            {sealReports.map((report) => <ReportItem report={report} key={report._id} />)}
-          </Card.Group>
-        </Tab.Pane>
-        );
-      },
-    },
-    {
-      menuItem: 'Sea Turtles',
-      render: function name() {
-        return (
-        <Tab.Pane attached={false}>
-          <Maps allReports={turtleReports} />
-          <Card.Group style={{ paddingTop: '10px' }}>
-            {turtleReports.map((report) => <ReportItem report={report} key={report._id} />)}
-          </Card.Group>
-        </Tab.Pane>
-        );
-      },
-    },
-    {
-      menuItem: 'Sea Birds',
-      render: function name() {
-        return (
-        <Tab.Pane attached={false}>
-          <Maps allReports={birdReports} />
-          <Card.Group style={{ paddingTop: '10px' }}>
-            {birdReports.map((report) => <ReportItem report={report} key={report._id} />)}
-          </Card.Group>
-        </Tab.Pane>
-        );
-      },
-    },
+  const allReports = useTracker(() => Reports.getCurrentReports());
+  let filter = allReports;
+  const [finalAnimal, setFinalAnimal] = useState('');
+
+  const animalDropdown = [
+    { value: 'Hawaiian Monk Seal', label: 'Hawaiian Monk Seal' },
+    { value: 'Sea Turtles', label: 'Sea Turtles' },
+    { value: 'Sea Birds', label: 'Sea Birds' },
   ];
+
+  console.log(filter);
+  const animalChange = (animal) => {
+    console.log(animal);
+    setFinalAnimal(animal.value);
+    console.log(finalAnimal);
+    if (finalAnimal !== ' ') {
+      const temp = allReports.filter((report) => report.animal === finalAnimal);
+      filter = temp;
+      console.log(filter);
+    }
+  };
+
   return (
   <Container>
     { listLoading ?
     <div>
-      <Tab menu={{ secondary: true, pointing: true, className: 'wrapped' }} panes={panes} />
+      <Form>
+        <Form.Group widths='equal'>
+          <Form.Field width={8} required>
+            <label>Type Of Animal</label>
+            <Select
+            options={animalDropdown}
+            name='animal'
+            onChange={animalChange}
+            defaultValue={finalAnimal}
+            />
+          </Form.Field>
+        </Form.Group>
+      </Form>
+      {/* <Maps allReports={birdReports} /> */}
+      {/* <Card.Group style={{ paddingTop: '10px' }}> */}
+      {/*  {birdReports.map((report) => <ReportItem report={report} key={report._id} />)} */}
+      {/* </Card.Group> */}
     </div>
     : <Loader>Loading</Loader>
     }

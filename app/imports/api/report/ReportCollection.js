@@ -178,6 +178,11 @@ class ReportCollection extends BaseCollection {
     return this._collection.find({}, { sort: { date: 1 } }).fetch();
   }
 
+  getFilterReports(animal) {
+    const reports = this.getCurrentReports();
+    return reports.filter(report => report.animal === animal);
+  }
+
   getPendingReports() {
     const reports = this.getCurrentReports();
     return reports.filter(report => report.status === 'pending');
