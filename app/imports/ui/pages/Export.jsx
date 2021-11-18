@@ -1,17 +1,20 @@
-import React from 'react';
-import { Button, Container, Loader } from 'semantic-ui-react';
+import React, { useState, useEffect } from 'react';
+import { Button, Container, Loader, Grid } from 'semantic-ui-react';
 import { useTracker } from 'meteor/react-meteor-data';
+import { addDays } from 'date-fns';
+import { DateRangePicker } from 'react-date-range';
 import { Reports } from '../../api/report/ReportCollection';
 import { convertTime } from './export-functions/convertTime';
 import { getInitials } from './export-functions/getInitials';
 import { getSector } from './export-functions/getSector';
+import 'react-date-range/dist/styles.css'; // main css file
+import 'react-date-range/dist/theme/default.css'; // theme css file
 
 const Export = () => {
     const listLoading = useTracker(() => {
         const handle = Reports.subscribeReportAdmin();
         return handle.ready();
     }, []);
-    const sealReports = Reports.getSealReports();
     /*
     Seal Reports:
     accessKey
@@ -30,6 +33,21 @@ const Export = () => {
     status
     _id
     */
+
+    const [state, setState] = useState([
+        {
+          startDate: new Date(),
+          endDate: addDays(new Date(), 7),
+          key: 'selection',
+        },
+    ]);
+
+    const [sealReports, setSealReports] = useState({});
+
+    useEffect(() => {
+        // eslint-disable-next-line max-len
+        setSealReports(Reports.getReportsFromDateRange(state[0].startDate.toLocaleString(), state[0].endDate.toLocaleString()));
+    }, [state]);
 
     const objectToCsv = (data) => {
         const csvRows = [];
@@ -98,17 +116,39 @@ const Export = () => {
             SealDepartedTime: '',
             OtherNotes: row.notes[0],
         }));
-        // console.log(data);
-        const csvData = objectToCsv(data);
-        // console.log(csvData);
-        download(csvData);
+        if (data.length !== 0) {
+            const csvData = objectToCsv(data);
+            // console.log(csvData);
+            download(csvData);
+        } else {
+            // eslint-disable-next-line max-len
+            const headerData = 'Time, TicketNumber, HotlineOperatorInitials,TicketType, ObserverInitials, ObserverType, Sector, Location, LocationNotes, SealPresent, Size, Sex, BeachPosition, HowIdendified, IDTemp, TagNumber, TagSize, TagColor, IDPerm, Molt, AdditionalNotesOnID, IDVerifiedBy, SealLogging, MomAndPupPair, SRASetUp, SRASetBy, NumOfVolunteersEngaged, SealDepartInfoAvil, SealDepartedDate, SealDepartedTime, OtherNotes';
+            download(headerData);
+        }
     };
 
     return (
-        // <Button id='export-button' onClick={getReport}>Export csv</Button>
         <Container>
-            {listLoading ? <Button id='export-button' onClick={getReport}>Export csv</Button>
-                : <Loader>Loading</Loader>}
+            {listLoading ?
+                <Container>
+                    <Grid>
+                        <Grid.Row>
+                            <DateRangePicker
+                                onChange={item => setState([item.selection])}
+                                showSelectionPreview={true}
+                                moveRangeOnFirstSelection={false}
+                                months={2}
+                                ranges={state}
+                                direction="horizontal"
+                            />
+                        </Grid.Row>
+                        <Grid.Row>
+                            <Button id='export-button' onClick={getReport}>Export csv</Button>
+                        </Grid.Row>
+                    </Grid>
+                </Container>
+                :
+                <Loader>Loading</Loader>}
         </Container>
     );
 };
