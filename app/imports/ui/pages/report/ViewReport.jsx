@@ -6,16 +6,22 @@ import Select from 'react-select';
 import { Reports } from '../../../api/report/ReportCollection';
 import ReportItem from '../../components/report/ReportItem';
 import Maps from '../../components/report/Maps';
+import { Updates } from '../../../api/updates/UpdateCollection';
 
 const ViewReport = () => {
-  const { ready, allReports } = useTracker(() => {
-    const r = Reports.subscribeReportAdmin().ready();
+  const { ready, allReports, allReportUpdates } = useTracker(() => {
+    const r = Reports.subscribeReportAdmin().ready()
+      && Updates.subscribeUpdates().ready();
     const a = Reports.getCurrentReports();
+    const u = Updates.getAllUpdatesVolunteer();
     return {
       ready: r,
       allReports: a,
+      allReportUpdates: u,
     };
   }, []);
+
+  const getUpdates = (id) => allReportUpdates.filter(update => update.reportID === id);
   const [search, setSearch] = useState('');
   const searchHandle = (address) => {
     setSearch(address);
@@ -127,7 +133,11 @@ const ViewReport = () => {
       </Form>
       <Maps allReports={temp} />
          <Card.Group style={{ paddingTop: '10px' }}>
-           {temp.map((report) => <ReportItem report={report} key={report._id} />)}
+           {temp.map((report) => <ReportItem
+             report={report}
+             updates={getUpdates(report._id)}
+             key={report._id}
+           />)}
          </Card.Group>
     </div>
     : <Loader>Loading</Loader>

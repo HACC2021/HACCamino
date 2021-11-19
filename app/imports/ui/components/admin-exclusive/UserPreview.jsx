@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Icon, Image, Modal, Table } from 'semantic-ui-react';
+import ImageItem from '../report/ImageItem';
 
 const UserPreview = ({ userObj, page }) => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -40,7 +41,9 @@ const UserPreview = ({ userObj, page }) => {
       trigger={triggerComponent}
     >
       <Modal.Content image scrolling>
-        <Image size='medium' src={`/images/${userObj.photoAWSKey}`}/>
+        {userObj.photoAWSKey === 'default-photo.png' ?
+          <Image size='medium' src={`/images/${userObj.photoAWSKey}`}/>
+          : <ImageItem img={userObj.photoAWSKey}/>}
 
         <Modal.Description>
           <Table basic='very' singleLine fixed>

@@ -15,7 +15,7 @@ const getUserLink = (user) => {
     </a>;
   }
   if (user.owner === 'general-public') {
-    return 'An individual (general public)';
+    return 'An observer (general public)';
   }
   return <UserPreview page={'audit-log'} userObj={user}/>;
 };
@@ -30,7 +30,7 @@ const getEvent = (collectionName, updatedType, creator, userOwner) => {
     }
     if (updatedType === updatedTypes.createPassword) {
       return {
-        icon: 'lock',
+        icon: 'key',
         content: <>{getUserLink(creator)} created their first password</>,
       };
     }

@@ -5,8 +5,7 @@ import { Roles } from 'meteor/alanning:roles';
 import BaseCollection from '../base/BaseCollection';
 
 export const updatePublications = {
-  updateVolunteer: 'UpdateVolunteer',
-  updateAdmin: 'UpdateAdmin',
+  updateAdminVolunteer: 'UpdateAdminVolunteer',
 };
 
 export const collectionNames = ['user', 'report'];
@@ -64,17 +63,8 @@ class UpdateCollection extends BaseCollection {
     if (Meteor.isServer) {
       const instance = this;
 
-      // if volunteer, only see updates that includes 'volunteer' in roles field array
-      Meteor.publish(updatePublications.updateVolunteer, function publish() {
-        if (this.userId && Roles.userIsInRole(this.userId, 'volunteer')) {
-          return instance._collection.find({ roles: ['admin', 'volunteer'] });
-        }
-        return this.ready();
-      });
-
-      // if admin, see all updates
-      Meteor.publish(updatePublications.updateAdmin, function publish() {
-        if (this.userId && Roles.userIsInRole(this.userId, 'admin')) {
+      Meteor.publish(updatePublications.updateAdminVolunteer, function publish() {
+        if (this.userId && Roles.userIsInRole(this.userId, ['admin', 'volunteer'])) {
           return instance._collection.find();
         }
         return this.ready();
@@ -82,16 +72,9 @@ class UpdateCollection extends BaseCollection {
     }
   }
 
-  subscribeUpdateVolunteer() {
+  subscribeUpdates() {
     if (Meteor.isClient) {
-      return Meteor.subscribe(updatePublications.updateVolunteer);
-    }
-    return null;
-  }
-
-  subscribeUpdateAdmin() {
-    if (Meteor.isClient) {
-      return Meteor.subscribe(updatePublications.updateAdmin);
+      return Meteor.subscribe(updatePublications.updateAdminVolunteer);
     }
     return null;
   }
