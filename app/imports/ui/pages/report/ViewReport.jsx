@@ -7,35 +7,37 @@ import ReportItem from '../../components/report/ReportItem';
 import Maps from '../../components/report/Maps';
 
 const ViewReport = () => {
-  const listLoading = useTracker(() => {
-    const handle = Reports.subscribeReportAdmin();
-    return handle.ready();
+  const { ready, allReports } = useTracker(() => {
+    const r = Reports.subscribeReportAdmin().ready();
+    const a = Reports.getCurrentReports();
+    return {
+      ready: r,
+      allReports: a,
+    };
   }, []);
-  const allReports = useTracker(() => Reports.getCurrentReports());
-  let filter = allReports;
   const [finalAnimal, setFinalAnimal] = useState('');
-
+  const [filter, setFilter] = useState(allReports);
+  console.log(allReports);
   const animalDropdown = [
     { value: 'Hawaiian Monk Seal', label: 'Hawaiian Monk Seal' },
     { value: 'Sea Turtles', label: 'Sea Turtles' },
     { value: 'Sea Birds', label: 'Sea Birds' },
   ];
 
-  console.log(filter);
   const animalChange = (animal) => {
     console.log(animal);
     setFinalAnimal(animal.value);
     console.log(finalAnimal);
     if (finalAnimal !== ' ') {
       const temp = allReports.filter((report) => report.animal === finalAnimal);
-      filter = temp;
+      setFilter(temp);
       console.log(filter);
     }
   };
 
   return (
   <Container>
-    { listLoading ?
+    { ready ?
     <div>
       <Form>
         <Form.Group widths='equal'>
