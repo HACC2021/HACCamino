@@ -40,10 +40,6 @@ const NavBar = () => {
               text='View Report'
               onClick={() => goToPage(isAdmin ? '/admin/viewReport' : '/volunteer/viewReport')}
             />
-            <Dropdown.Item
-            text='Search Report'
-            onClick={() => goToPage(isAdmin ? '/admin/searchReport' : '/volunteer/searchReport')}
-            />
           </Dropdown.Menu>
         </Menu.Item>
       ) : null}

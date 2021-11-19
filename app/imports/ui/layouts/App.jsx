@@ -12,7 +12,6 @@ import Landing from '../pages/Landing';
 import NotFound from '../components/NotFound';
 import CreateReport from '../pages/report/CreateReport';
 import ViewReport from '../pages/report/ViewReport';
-import SearchReport from '../pages/report/SearchReport';
 import ListVolunteers from '../pages/admin-exclusive/ListVolunteers';
 import CreateAccount from '../pages/admin-exclusive/CreateAccount';
 import SignIn from '../pages/SignIn';
@@ -39,11 +38,9 @@ const App = () => {
         <Switch>
           <ProtectedRoute path="/volunteer/dashboard" component={Dashboard}/>
           <ProtectedRoute path="/volunteer/viewReport" component={ViewReport}/>
-          <ProtectedRoute path="/volunteer/searchReport" component={SearchReport} />
           <AdminProtectedRoute path='/admin/export' component={Export} />
           <AdminProtectedRoute path="/admin/dashboard" component={Dashboard}/>
           <AdminProtectedRoute path="/admin/viewReport" component={ViewReport}/>
-          <AdminProtectedRoute path="/admin/searchReport" component={SearchReport}/>
           <AdminProtectedRoute path="/admin/volunteers-list" component={ListVolunteers}/>
           <AdminProtectedRoute path="/admin/allReports" component={AdminListReports}/>
           <AdminProtectedRoute path="/admin/staff-list" component={ListAdmins}/>
