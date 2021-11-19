@@ -1,10 +1,11 @@
 import React from 'react';
 import { Grid, Header } from 'semantic-ui-react';
 import CaseGraph from '../components/CaseGraph';
+import Export from './Export';
 
 const Dashboard = () => (
     <div className={'dash'}>
-      <Grid textAlign='center' divided>
+      <Grid textAlign='center' celled>
         <Grid.Row>
           <Grid.Column width={5} >
             <Header
@@ -23,6 +24,13 @@ const Dashboard = () => (
             <CaseGraph/>
           </Grid.Column>
         </Grid.Row>
+      <Grid.Row>
+        <Grid.Column celled>
+          <div className={'exporter'}>
+        <Export/>
+          </div>
+        </Grid.Column>
+      </Grid.Row>
       </Grid>
     </div>
 );
