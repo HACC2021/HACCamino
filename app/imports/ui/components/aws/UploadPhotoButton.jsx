@@ -53,7 +53,7 @@ const UploadPhotoButton = ({ parentCallback2 }) => {
 
     return (
         <>
-            <div><input type='file' multiple ref={fileInput} />
+        <div><input type='file' multiple ref={fileInput} accept={'.jpg, .jpeg, .png'}/>
               <Button type='submit' onClick={handleClick}>Upload</Button>
               <br/>
             </div>
