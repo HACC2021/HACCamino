@@ -64,6 +64,7 @@ const ViewReport = () => {
   <Container>
     { ready ?
     <div>
+      <h2>View Reports</h2>
       <Form>
         <Form.Group widths='equal'>
           <Form.Field width={4} required>
