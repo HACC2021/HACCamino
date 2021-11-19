@@ -45,7 +45,7 @@ const App = () => {
           <AdminProtectedRoute path="/admin/viewReport" component={ViewReport}/>
           <AdminProtectedRoute path="/admin/searchReport" component={SearchReport}/>
           <AdminProtectedRoute path="/admin/volunteers-list" component={ListVolunteers}/>
-          <AdminProtectedRoute path="/allReports" component={AdminListReports}/>
+          <AdminProtectedRoute path="/admin/allReports" component={AdminListReports}/>
           <AdminProtectedRoute path="/admin/staff-list" component={ListAdmins}/>
           <AdminProtectedRoute path="/admin/audit-log" component={AuditLog}/>
           <AdminProtectedRoute path="/admin/create-account" component={CreateAccount}/>

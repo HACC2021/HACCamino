@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Grid, Header, Loader, Table } from 'semantic-ui-react';
-import { Reports } from '../../../api/user/ReportCollection';
 import AdminActiveCases from './AdminActiveCases';
 import CustomPagination from './CustomPagination';
+import { Reports } from '../../api/report/ReportCollection';
 
 const AdminListReports = () => {
   const { ready, allReports } = useTracker(() => ({
-    ready: Reports.subscribeUserAdmin().ready(),
+    ready: Reports.subscribeReportAdmin().ready(),
     allReports: Reports.getCurrentReports(),
   }), []);
   const maxRows = 15;
@@ -15,6 +15,7 @@ const AdminListReports = () => {
   const handlePageCallback = (childRows) => {
     setRows(childRows);
   };
+  // console.log(allReports);
 
   return (ready ?
       <Grid container textAlign='center'>
