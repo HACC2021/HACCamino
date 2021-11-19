@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Container, Loader, Card, Form, Button } from 'semantic-ui-react';
+import { Container, Loader, Card, Form } from 'semantic-ui-react';
 import { useTracker } from 'meteor/react-meteor-data';
-import { Combobox, ComboboxInput, ComboboxOption, ComboboxPopover, ComboboxList } from '@reach/combobox';
 import Select from 'react-select';
 import { Reports } from '../../../api/report/ReportCollection';
 import ReportItem from '../../components/report/ReportItem';
@@ -20,12 +19,22 @@ const ViewReport = () => {
       allReportUpdates: u,
     };
   }, []);
+  const basic = { lat: 20.5, lng: -156.9 };
+  let center = ({ lat: 20.5, lng: -156.9 });
+  let zoom = (7.3);
+
+  const convert = (arr) => {
+    const selectList = [];
+    arr.forEach(function (element) {
+      selectList.push({ value: element, label: element._id });
+    });
+    return selectList;
+  };
+
+  const reportID = convert(allReports);
 
   const getUpdates = (id) => allReportUpdates.filter(update => update.reportID === id);
-  const [search, setSearch] = useState('');
-  const searchHandle = (address) => {
-    setSearch(address);
-  };
+  const [finalSearch, setFinalSearch] = useState({ value: '', label: '' });
   const [finalAnimal, setFinalAnimal] = useState({ value: 'All', label: 'All' });
   const [finalIsland, setFinalIsland] = useState({ value: 'All', label: 'All' });
   const [status, setStatus] = useState({ value: 'All', label: 'All' });
@@ -52,9 +61,12 @@ const ViewReport = () => {
     { value: 'pending', label: 'pending' },
     { value: 'approved', label: 'approved' },
   ];
-    if (search !== '') {
-      temp = allReports.filter((report) => report._id === search);
-    } else if (finalAnimal.value !== 'All') {
+    if (ready) {
+      if (finalSearch.label !== '') {
+        temp = allReports.filter((report) => report._id === finalSearch.label);
+        zoom = 13;
+        center = ({ lat: finalSearch.value.lat, lng: finalSearch.value.lng });
+      } else if (finalAnimal.value !== 'All') {
         let second = allReports.filter((report) => report.animal === finalAnimal.value);
         if (finalIsland.value !== 'All') {
           second = second.filter((report) => report.island === finalIsland.value);
@@ -65,6 +77,8 @@ const ViewReport = () => {
         temp = second;
       } else {
         let second = allReports;
+        zoom = 7.3;
+        center = basic;
         if (finalIsland.value !== 'All') {
           second = second.filter((report) => report.island === finalIsland.value);
         }
@@ -73,8 +87,9 @@ const ViewReport = () => {
         }
         temp = second;
       }
+    }
     const clearHandle = () => {
-      setSearch('');
+      setFinalSearch({ value: '', label: '' });
     };
   return (
   <Container>
@@ -83,7 +98,7 @@ const ViewReport = () => {
       <h2>View Reports</h2>
       <Form>
         <Form.Group widths='equal'>
-          <Form.Field width={4}>
+          <Form.Field width={3}>
             <label>Type Of Animal</label>
             <Select
             options={animalDropdown}
@@ -92,7 +107,7 @@ const ViewReport = () => {
             defaultValue={finalAnimal}
             />
           </Form.Field>
-          <Form.Field width={4}>
+          <Form.Field width={3}>
             <label>Island</label>
             <Select
             options={islandDropdown}
@@ -101,7 +116,7 @@ const ViewReport = () => {
             defaultValue={finalIsland}
             />
           </Form.Field>
-          <Form.Field width={4}>
+          <Form.Field width={3}>
             <label>Status</label>
             <Select
             options={approvedDropdown}
@@ -110,28 +125,21 @@ const ViewReport = () => {
             defaultValue={status}
             />
           </Form.Field>
-        </Form.Group>
-        <Form.Group>
-          <Form.Field width={8}>
+          <Form.Field width={4}>
             <label>Search By ID</label>
-            <Combobox onSelect={searchHandle}>
-              <ComboboxInput id='search-css' value={search} onChange={(e) => {
-                setSearch(e.target.value);
-              }}
-                             placeholder='Search Report'
-              />
-              <ComboboxPopover>
-                <ComboboxList>
-                  { allReports.map((report) => (<ComboboxOption
-                  key={report._id} value={report._id} />))}
-                </ComboboxList>
-              </ComboboxPopover>
-            </Combobox>
-            <Button onClick={clearHandle} style={{ marginBottom: '10px' }}>Clear Search</Button>
+            <Select
+            options={reportID}
+            name='id'
+            onChange={setFinalSearch}
+            value={finalSearch}
+            />
+          </Form.Field>
+          <Form.Field width={3}>
+            <Form.Button onClick={clearHandle} style={{ marginTop: '25px' }}>Clear Search</Form.Button>
           </Form.Field>
         </Form.Group>
       </Form>
-      <Maps allReports={temp} />
+      <Maps allReports={temp} zoom={zoom} center={center} />
          <Card.Group style={{ paddingTop: '10px' }}>
            {temp.map((report) => <ReportItem
              report={report}
