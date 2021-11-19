@@ -10,11 +10,6 @@ const containerStyle = {
   height: '500px',
 };
 
-const center = {
-  lat: 20.5,
-  lng: -156.9,
-};
-
 const options = {
   styles: mapStyle,
   disableDefaultUI: true,
@@ -23,7 +18,7 @@ const options = {
 
 const libraries = ['places'];
 
-const Maps = ({ allReports }) => {
+const Maps = ({ allReports, center, zoom }) => {
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: '',
     libraries,
@@ -35,7 +30,7 @@ const Maps = ({ allReports }) => {
       <GoogleMap
       mapContainerStyle={containerStyle}
       center={center}
-      zoom={7.3}
+      zoom={zoom}
       options={options}
       >
         {allReports.map(marker => <Marker
@@ -62,6 +57,8 @@ const Maps = ({ allReports }) => {
 
 Maps.propTypes = {
   allReports: PropTypes.array.isRequired,
+  center: PropTypes.object.isRequired,
+  zoom: PropTypes.number.isRequired,
 };
 
 export default Maps;
