@@ -69,14 +69,14 @@ const CompareReports = ({ report, oreport }) => {
       </Card>
     }
     >
-      <Modal.Header>{oreport.title} vs. {report.title}</Modal.Header>
+      <Modal.Header>{oreport.name} vs. {report.name}</Modal.Header>
       <Modal.Content>
         <Table celled>
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell />
-              <Table.HeaderCell>{oreport.title}</Table.HeaderCell>
-              <Table.HeaderCell>{report.title}</Table.HeaderCell>
+              <Table.HeaderCell>{oreport.name}</Table.HeaderCell>
+              <Table.HeaderCell>{report.name}</Table.HeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>

@@ -16,7 +16,7 @@ const AdminActiveCases = ({ reportObj }) => {
 
   const triggerComponent = (
           <Table.Row style={{ cursor: 'pointer' }}>
-            <Table.Cell>{reportObj.name}</Table.Cell>
+            <Table.Cell>{reportObj.name[0]}</Table.Cell>
             <Table.Cell>{reportObj.location}</Table.Cell>
             <Table.Cell>{reportObj.status}</Table.Cell>
             <Table.Cell>{reportObj.animal}</Table.Cell>

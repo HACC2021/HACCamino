@@ -42,13 +42,9 @@ const CaseGraph = () => {
             options={{
               maintainAspectRatio: false,
               scales: {
-                yAxes: [
-                  {
-                    ticks: {
-                      beginAtZero: true,
-                    },
+                y: {
+                    beginAtZero: true,
                   },
-                ],
               },
             }}
         />

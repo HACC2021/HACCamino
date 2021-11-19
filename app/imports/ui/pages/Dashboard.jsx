@@ -21,7 +21,7 @@ const Dashboard = () => (
           </Grid.Column>
         </Grid.Row>
       <Grid.Row>
-        <Grid.Column celled>
+        <Grid.Column>
             <Export/>
         </Grid.Column>
       </Grid.Row>
