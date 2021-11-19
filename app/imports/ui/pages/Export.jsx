@@ -132,7 +132,7 @@ const Export = () => {
             {listLoading ?
                 <Container>
                     <Grid>
-                        <Grid.Row>
+                        <Grid.Row centered>
                             <DateRangePicker
                                 onChange={item => setState([item.selection])}
                                 showSelectionPreview={true}

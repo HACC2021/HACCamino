@@ -26,9 +26,7 @@ const Dashboard = () => (
         </Grid.Row>
       <Grid.Row>
         <Grid.Column celled>
-          <div className={'exporter'}>
-        <Export/>
-          </div>
+            <Export/>
         </Grid.Column>
       </Grid.Row>
       </Grid>
