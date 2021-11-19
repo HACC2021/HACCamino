@@ -81,9 +81,9 @@ export const SignIn = () => {
                 'success').then(() => {
                 setError('');
                 if (isAdmin) {
-                  goToPage('/admin/viewReport');
+                  goToPage('/admin/dashboard');
                 } else {
-                  goToPage('/volunteer/viewReport');
+                  goToPage('/volunteer/dashboard');
                 }
               });
             }

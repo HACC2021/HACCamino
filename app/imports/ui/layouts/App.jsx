@@ -53,7 +53,7 @@ const App = () => {
           <Route path="/sign-out" component={SignOut}/>
           <Route exact path="/">
             {isLogged ?
-              <Redirect to={isAdmin ? '/admin/viewReport' : '/volunteer/viewReport'}/>
+              <Redirect to={isAdmin ? '/admin/dashboard' : '/volunteer/dashboard'}/>
               : <Redirect to={'/public-landing'}/>
             }
           </Route>

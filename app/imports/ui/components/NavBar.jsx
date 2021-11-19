@@ -25,7 +25,7 @@ const NavBar = () => {
   const menuStyle = { marginBottom: '10px', borderRadius: 0 };
   return (
     <Menu style={menuStyle} attached="top" borderless inverted stackable>
-      <Menu.Item as={NavLink} activeClassName="" exact to="" key='landing'>
+      <Menu.Item as={NavLink} activeClassName="" exact to="/" key='landing'>
         <Image src='https://h-mar.org/wp-content/uploads/2020/04/favicon-32x32-1.png
 ' size='mini' />
       </Menu.Item>
@@ -46,10 +46,6 @@ const NavBar = () => {
       {Roles.userIsInRole(Meteor.userId(), 'admin') ? ( // admin-exclusive
         <Menu.Item as={Dropdown} item text='Admin'>
             <Dropdown.Menu>
-              <Dropdown.Item
-                  text='Dashboard'
-                  onClick={() => goToPage('/admin/dashboard')}
-              />
               <Dropdown.Item
                 text='Volunteers'
                 onClick={() => goToPage('/admin/volunteers-list')}
