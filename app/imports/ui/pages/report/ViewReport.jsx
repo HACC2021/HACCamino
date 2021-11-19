@@ -15,26 +15,17 @@ const ViewReport = () => {
       allReports: a,
     };
   }, []);
-  const [finalAnimal, setFinalAnimal] = useState('');
+  const [finalAnimal, setFinalAnimal] = useState({ value: 'All', label: 'All' });
   const [filter, setFilter] = useState(allReports);
-  console.log(allReports);
   const animalDropdown = [
     { value: 'Hawaiian Monk Seal', label: 'Hawaiian Monk Seal' },
     { value: 'Sea Turtles', label: 'Sea Turtles' },
     { value: 'Sea Birds', label: 'Sea Birds' },
   ];
-
-  const animalChange = (animal) => {
-    console.log(animal);
-    setFinalAnimal(animal.value);
-    console.log(finalAnimal);
-    if (finalAnimal !== ' ') {
-      const temp = allReports.filter((report) => report.animal === finalAnimal);
-      setFilter(temp);
-      console.log(filter);
-    }
+  const changeAnimal = async (e) => {
+    await setFinalAnimal(e.value);
+    await console.log(finalAnimal);
   };
-
   return (
   <Container>
     { ready ?
@@ -46,7 +37,7 @@ const ViewReport = () => {
             <Select
             options={animalDropdown}
             name='animal'
-            onChange={animalChange}
+            onChange={changeAnimal}
             defaultValue={finalAnimal}
             />
           </Form.Field>
