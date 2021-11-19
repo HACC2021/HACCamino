@@ -8,7 +8,7 @@ import { Users } from '../../../api/user/UserCollection';
 
 const AuditLog = () => {
   const { ready, allLogs, allUsers } = useTracker(() => ({
-    ready: Updates.subscribeUpdateAdmin().ready()
+    ready: Updates.subscribeUpdates().ready()
     && Users.subscribeUserAdmin().ready(),
     allLogs: Updates.getAllUpdatesAdmin(),
     allUsers: Users.getAllUsers(),
