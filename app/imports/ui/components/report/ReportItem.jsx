@@ -7,8 +7,9 @@ import ReviewButton from './ReviewButton';
 import DeleteButton from './DeleteButton';
 import CompareReports from './CompareReports';
 import ImageItem from './ImageItem';
+import ReportUpdateLog from './ReportUpdateLog';
 
-const ReportItem = ({ report }) => {
+const ReportItem = ({ report, updates }) => {
   const [firstOpen, setFirstOpen] = useState(false);
   const [secondOpen, setSecondOpen] = useState(false);
   const relatedReport = Reports.getRelatedReports(report);
@@ -68,7 +69,7 @@ const ReportItem = ({ report }) => {
     }
     >
       <Modal.Header>{report.location} - {report.animal}</Modal.Header>
-      <Modal.Content>
+      <Modal.Content scrolling>
         <Modal.Description>
           <h3>Report(s)</h3>
           <Tab menu={{ secondary: true, pointing: true }} panes={panes} />
@@ -83,9 +84,12 @@ const ReportItem = ({ report }) => {
           </Image.Group>
           <br/>
           <h3>Related Reports</h3>
-          <Card.Group style={{ paddingTop: '10px' }}>
+          {relatedReport.length === 0 ? 'None'
+            : <Card.Group style={{ paddingTop: '10px' }}>
             {relatedReport.map((reports) => <CompareReports report={reports} key={reports._id} oreport={report} />)}
-          </Card.Group>
+          </Card.Group>}
+          <h3>Update Log</h3>
+          <ReportUpdateLog updates={updates}/>
         </Modal.Description>
       </Modal.Content>
       <Modal.Actions>
@@ -117,6 +121,7 @@ const ReportItem = ({ report }) => {
 
 ReportItem.propTypes = {
   report: PropTypes.object.isRequired,
+  updates: PropTypes.array.isRequired,
 };
 
 export default ReportItem;
