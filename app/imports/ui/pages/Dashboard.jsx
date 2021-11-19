@@ -5,10 +5,10 @@ import AdminListReports from '../components/AdminListReports';
 
 const Dashboard = () => (
     <div className={'dash'}>
-      <Grid textAlign='center' divided>
+      <Grid textAlign='center'>
+        <AdminListReports/>
         <Grid.Row>
-          <AdminListReports />
-          <Grid.Column width={11}>
+          <Grid.Column>
             <Header
                 as="h2"
                 textAlign="center"
