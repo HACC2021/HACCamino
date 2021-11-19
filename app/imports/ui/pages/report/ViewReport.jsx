@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { Container, Loader, Card, Form } from 'semantic-ui-react';
+import { Container, Loader, Card, Form, Button } from 'semantic-ui-react';
 import { useTracker } from 'meteor/react-meteor-data';
+import { Combobox, ComboboxInput, ComboboxOption, ComboboxPopover, ComboboxList } from '@reach/combobox';
 import Select from 'react-select';
 import { Reports } from '../../../api/report/ReportCollection';
 import ReportItem from '../../components/report/ReportItem';
@@ -15,6 +16,10 @@ const ViewReport = () => {
       allReports: a,
     };
   }, []);
+  const [search, setSearch] = useState('');
+  const searchHandle = (address) => {
+    setSearch(address);
+  };
   const [finalAnimal, setFinalAnimal] = useState({ value: 'All', label: 'All' });
   const [finalIsland, setFinalIsland] = useState({ value: 'All', label: 'All' });
   const [status, setStatus] = useState({ value: 'All', label: 'All' });
@@ -41,25 +46,30 @@ const ViewReport = () => {
     { value: 'pending', label: 'pending' },
     { value: 'approved', label: 'approved' },
   ];
-    if (finalAnimal.value !== 'All') {
-      let second = allReports.filter((report) => report.animal === finalAnimal.value);
-      if (finalIsland.value !== 'All') {
-        second = second.filter((report) => report.island === finalIsland.value);
+    if (search !== '') {
+      temp = allReports.filter((report) => report._id === search);
+    } else if (finalAnimal.value !== 'All') {
+        let second = allReports.filter((report) => report.animal === finalAnimal.value);
+        if (finalIsland.value !== 'All') {
+          second = second.filter((report) => report.island === finalIsland.value);
+        }
+        if (status.value !== 'All') {
+          second = second.filter((report) => report.status === status.value);
+        }
+        temp = second;
+      } else {
+        let second = allReports;
+        if (finalIsland.value !== 'All') {
+          second = second.filter((report) => report.island === finalIsland.value);
+        }
+        if (status.value !== 'All') {
+          second = second.filter((report) => report.status === status.value);
+        }
+        temp = second;
       }
-      if (status.value !== 'All') {
-        second = second.filter((report) => report.status === status.value);
-      }
-      temp = second;
-    } else {
-      let second = allReports;
-      if (finalIsland.value !== 'All') {
-        second = second.filter((report) => report.island === finalIsland.value);
-      }
-      if (status.value !== 'All') {
-        second = second.filter((report) => report.status === status.value);
-      }
-      temp = second;
-    }
+    const clearHandle = () => {
+      setSearch('');
+    };
   return (
   <Container>
     { ready ?
@@ -67,7 +77,7 @@ const ViewReport = () => {
       <h2>View Reports</h2>
       <Form>
         <Form.Group widths='equal'>
-          <Form.Field width={4} required>
+          <Form.Field width={4}>
             <label>Type Of Animal</label>
             <Select
             options={animalDropdown}
@@ -76,7 +86,7 @@ const ViewReport = () => {
             defaultValue={finalAnimal}
             />
           </Form.Field>
-          <Form.Field width={4} required>
+          <Form.Field width={4}>
             <label>Island</label>
             <Select
             options={islandDropdown}
@@ -85,7 +95,7 @@ const ViewReport = () => {
             defaultValue={finalIsland}
             />
           </Form.Field>
-          <Form.Field width={4} required>
+          <Form.Field width={4}>
             <label>Status</label>
             <Select
             options={approvedDropdown}
@@ -93,6 +103,25 @@ const ViewReport = () => {
             onChange={setStatus}
             defaultValue={status}
             />
+          </Form.Field>
+        </Form.Group>
+        <Form.Group>
+          <Form.Field width={8}>
+            <label>Search By ID</label>
+            <Combobox onSelect={searchHandle}>
+              <ComboboxInput id='search-css' value={search} onChange={(e) => {
+                setSearch(e.target.value);
+              }}
+                             placeholder='Search Report'
+              />
+              <ComboboxPopover>
+                <ComboboxList>
+                  { allReports.map((report) => (<ComboboxOption
+                  key={report._id} value={report._id} />))}
+                </ComboboxList>
+              </ComboboxPopover>
+            </Combobox>
+            <Button onClick={clearHandle} style={{ marginBottom: '10px' }}>Clear Search</Button>
           </Form.Field>
         </Form.Group>
       </Form>
