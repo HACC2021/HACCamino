@@ -159,7 +159,8 @@ const CreateReport = () => {
         }
         Swal.fire('Error', errorMessage, 'error');
       } else {
-        Swal.fire('Success', 'Report Added Successfully', 'success');
+        Swal.fire('Success', 'Report Added Successfully and Sent To HMAR Staff!', 'success');
+        // Disclaimer: Email Functionality Is Still Work In Progress;
         setFinalAnimal('');
         setFinalName('');
         setFinalLocation('');
