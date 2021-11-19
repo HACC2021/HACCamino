@@ -22,6 +22,7 @@ import Dashboard from '../pages/Dashboard';
 import Resources from '../pages/Resources';
 import SignOut from '../pages/SignOut';
 import Export from '../pages/Export';
+import AdminListReports from '../components/AdminListReports';
 
 /** Top-level layout component for this application. Called in imports/startup/client/startup.jsx. */
 const App = () => {
@@ -44,6 +45,7 @@ const App = () => {
           <AdminProtectedRoute path="/admin/viewReport" component={ViewReport}/>
           <AdminProtectedRoute path="/admin/searchReport" component={SearchReport}/>
           <AdminProtectedRoute path="/admin/volunteers-list" component={ListVolunteers}/>
+          <AdminProtectedRoute path="/allReports" component={AdminListReports}/>
           <AdminProtectedRoute path="/admin/staff-list" component={ListAdmins}/>
           <AdminProtectedRoute path="/admin/audit-log" component={AuditLog}/>
           <AdminProtectedRoute path="/admin/create-account" component={CreateAccount}/>
