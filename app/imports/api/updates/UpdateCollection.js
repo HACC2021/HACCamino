@@ -32,10 +32,7 @@ class UpdateCollection extends BaseCollection {
         type: String,
         optional: true,
       },
-      updatedTypes: {
-        type: Array,
-      },
-      'updatedTypes.$': { type: String },
+      updatedType: { type: String },
       creator: {
         type: String,
         optional: true,
@@ -43,14 +40,14 @@ class UpdateCollection extends BaseCollection {
     }));
   }
 
-  define({ date, roles, collectionName, reportID, userOwner, updatedTypes, creator }) {
+  define({ date, roles, collectionName, reportID, userOwner, updatedType, creator }) {
     const docID = this._collection.insert({
       date,
       roles,
       collectionName,
       reportID,
       userOwner,
-      updatedTypes,
+      updatedType,
       creator,
     });
     return docID;
@@ -104,7 +101,7 @@ class UpdateCollection extends BaseCollection {
   }
 
   getAllUpdatesAdmin() {
-    return this._collection.find({ roles: ['admin'] }, { sort: { date: -1 } }).fetch();
+    return this._collection.find({}, { sort: { date: -1 } }).fetch();
   }
 }
 

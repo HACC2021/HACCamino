@@ -3,7 +3,9 @@ import PropTypes from 'prop-types';
 import { Button, Container, Form, Modal } from 'semantic-ui-react';
 import Select from 'react-select';
 import Swal from 'sweetalert2';
+import { Meteor } from 'meteor/meteor';
 import { reportUpdateMethod } from '../../../api/report/ReportCollection.methods';
+import { updatedTypes } from '../../../api/utilities/utilities';
 
 const EditButton = ({ report }) => {
   const [finalLocation, setFinalLocation] = useState(report.location);
@@ -51,6 +53,8 @@ const EditButton = ({ report }) => {
       updateData.island = finalIsland;
     }
     updateData.accessKey = report.accessKey;
+    updateData.updatedType = updatedTypes.updateReport;
+    updateData.creator = Meteor.user().username;
     reportUpdateMethod.call(updateData,
     error => {
       if (error) {

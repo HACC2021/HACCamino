@@ -3,6 +3,8 @@ import SimpleSchema from 'simpl-schema';
 import { check } from 'meteor/check';
 import { Roles } from 'meteor/alanning:roles';
 import BaseCollection from '../base/BaseCollection';
+import { Updates } from '../updates/UpdateCollection';
+import { updatedTypes } from '../utilities/utilities';
 
 export const reportPublications = {
   reportAdminVolunteer: 'ReportAdminVolunteer',
@@ -63,7 +65,7 @@ class ReportCollection extends BaseCollection {
 
   define({ name, date, accessKey, animal,
            location, animalCharacteristics, lat, lng,
-           people, phoneNumber, notes, animalBehavior, link, status, island }) {
+           people, phoneNumber, notes, animalBehavior, link, status, island, creator }) {
     // add duplicate verifier here, create a new method/function if you have to
     const docID = this._collection.insert({
       name,
@@ -82,11 +84,21 @@ class ReportCollection extends BaseCollection {
       animal,
       island,
     });
+
+    Updates.define({
+      date: new Date(),
+      roles: ['admin', 'volunteer'],
+      collectionName: 'report',
+      reportID: docID,
+      updatedType: updatedTypes.createReport,
+      creator: creator || 'general-public',
+    });
     return docID;
   }
 
   update(docID, { name, accessKey, animal, date, link,
-    location, animalCharacteristics, people, phoneNumber, notes, animalBehavior, status, island }) {
+    location, animalCharacteristics, people, phoneNumber, notes, animalBehavior,
+    status, island, updatedType, creator }) {
     const updateData = {};
 
     if (name) {
@@ -129,6 +141,15 @@ class ReportCollection extends BaseCollection {
       updateData.island = island;
     }
     this._collection.update(docID, { $set: updateData });
+
+    Updates.define({
+      date: new Date(),
+      roles: ['admin', 'volunteer'],
+      collectionName: 'report',
+      reportID: docID,
+      updatedType: updatedType,
+      creator: creator || 'hacccamino@gmail.com',
+    });
   }
 
   /**
@@ -226,6 +247,12 @@ class ReportCollection extends BaseCollection {
     && (report.lng >= minLng && report.lng <= maxLng) && (report._id !== userReport._id));
   }
 
+  getReportsFromDateRange(start, end) {
+    const reports = this.getCurrentReports();
+    return reports.filter(report => (report.animal === 'Hawaiian Monk Seal')
+        && (report.date >= start)
+        && (report.date <= end));
+  }
 }
 
 /**

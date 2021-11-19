@@ -5,6 +5,7 @@ import { GoogleMap, Marker, InfoWindow, useLoadScript } from '@react-google-maps
 import Swal from 'sweetalert2';
 import { Combobox, ComboboxInput, ComboboxOption, ComboboxPopover, ComboboxList } from '@reach/combobox';
 import usePlacesAutocomplete, { getGeocode, getLatLng } from 'use-places-autocomplete';
+import { Meteor } from 'meteor/meteor';
 import { reportDefineMethod } from '../../../api/report/ReportCollection.methods';
 import '@reach/combobox/styles.css';
 import mapStyle from '../../components/report/googleMapStyle';
@@ -144,6 +145,7 @@ const CreateReport = () => {
     definitionData.accessKey = temp[0];
     definitionData.status = 'pending';
     definitionData.animal = finalAnimal.value;
+    definitionData.creator = Meteor.user().username;
     reportDefineMethod.call(definitionData,
     error => {
       if (error) {

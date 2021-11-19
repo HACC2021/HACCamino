@@ -51,6 +51,10 @@ const NavBar = () => {
         <Menu.Item as={Dropdown} item text='Admin'>
             <Dropdown.Menu>
               <Dropdown.Item
+                  text='Dashboard'
+                  onClick={() => goToPage('/admin/dashboard')}
+              />
+              <Dropdown.Item
                 text='Volunteers'
                 onClick={() => goToPage('/admin/volunteers-list')}
               />
