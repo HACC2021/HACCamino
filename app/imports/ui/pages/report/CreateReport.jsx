@@ -145,7 +145,9 @@ const CreateReport = () => {
     definitionData.accessKey = temp[0];
     definitionData.status = 'pending';
     definitionData.animal = finalAnimal.value;
-    definitionData.creator = Meteor.user().username;
+    if (Meteor.user()?.username) {
+      definitionData.creator = Meteor.user()?.username;
+    }
     reportDefineMethod.call(definitionData,
     error => {
       if (error) {
