@@ -265,6 +265,43 @@ class ReportCollection extends BaseCollection {
     return selectList;
   }
 
+  getDates() {
+    const reports = this.getCurrentReports();
+    const selectList = [0, 0, 0, 0, 0, 0, 0, 0];
+    reports.forEach(function (element) {
+      console.log(element.date[0].substring(0, 2));
+      switch (element.date.substring(0, 2)) {
+        case 'Oʻahu':
+          selectList[0]++;
+          break;
+        case 'Maui':
+          selectList[1]++;
+          break;
+        case 'Hawaiʻi':
+          selectList[2]++;
+          break;
+        case 'Kauaʻi':
+          selectList[3]++;
+          break;
+        case 'Molokaʻi':
+          selectList[4]++;
+          break;
+        case 'Lānaʻi':
+          selectList[5]++;
+          break;
+        case 'Niʻihau':
+          selectList[6]++;
+          break;
+        case 'Kahoʻolawe':
+          selectList[7]++;
+          break;
+        default:
+
+      }
+    });
+    return selectList;
+  }
+
   getRelatedReports(userReport) {
     let reports = ' ';
     if (userReport.animal === 'Hawaiian Monk Seal') {

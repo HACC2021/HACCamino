@@ -13,6 +13,8 @@ const CaseGraph = () => {
   const turtleCase = Reports.getTurtleReports();
   const birdsCase = Reports.getBirdReports();
   const islandData = Reports.getIslands();
+  const dateData = Reports.getDates();
+  console.log(dateData);
   const islandLabel = ['Oʻahu', 'Maui', 'Hawaiʻi', 'Kauaʻi', 'Molokaʻi', 'Lānaʻi', 'Niʻihau', 'Kahoʻolawe'];
 
   const data1 = [sealCase.length, turtleCase.length, birdsCase.length];
