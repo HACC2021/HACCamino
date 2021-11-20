@@ -21,7 +21,7 @@ const AdminListReports = () => {
       <Grid container textAlign='center'>
         <Grid.Row>
           <Grid.Column>
-            <Header as="h2" textAlign="center" content={'List of Reports'}/>
+            <Header as="h2" textAlign="center" style={{ paddingTop: '5px' }} content={'List of Reports'}/>
           </Grid.Column>
         </Grid.Row>
         <Grid.Row>

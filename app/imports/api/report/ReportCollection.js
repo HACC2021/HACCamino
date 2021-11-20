@@ -229,6 +229,90 @@ class ReportCollection extends BaseCollection {
     return reports.filter(report => report.animal === 'Sea Birds');
   }
 
+  getIslands() {
+    const reports = this.getCurrentReports();
+    const selectList = [0, 0, 0, 0, 0, 0, 0, 0];
+    reports.forEach(function (element) {
+      switch (element.island) {
+        case 'Oʻahu':
+          selectList[0]++;
+          break;
+        case 'Maui':
+          selectList[1]++;
+          break;
+        case 'Hawaiʻi':
+          selectList[2]++;
+          break;
+        case 'Kauaʻi':
+          selectList[3]++;
+          break;
+        case 'Molokaʻi':
+          selectList[4]++;
+          break;
+        case 'Lānaʻi':
+          selectList[5]++;
+          break;
+        case 'Niʻihau':
+          selectList[6]++;
+          break;
+        case 'Kahoʻolawe':
+          selectList[7]++;
+          break;
+        default:
+
+      }
+    });
+    return selectList;
+  }
+
+  getDates() {
+    const reports = this.getCurrentReports();
+    const selectList = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    reports.forEach(function (element) {
+      switch (element.date[0].substring(0, 2)) {
+        case '1':
+          selectList[0]++;
+          break;
+        case '2':
+          selectList[1]++;
+          break;
+        case '3':
+          selectList[2]++;
+          break;
+        case '4':
+          selectList[3]++;
+          break;
+        case '5':
+          selectList[4]++;
+          break;
+        case '6':
+          selectList[5]++;
+          break;
+        case '7':
+          selectList[6]++;
+          break;
+        case '8':
+          selectList[7]++;
+          break;
+        case '9':
+          selectList[8]++;
+          break;
+        case '10':
+          selectList[9]++;
+          break;
+        case '11':
+          selectList[10]++;
+          break;
+        case '12':
+          selectList[11]++;
+          break;
+        default:
+
+      }
+    });
+    return selectList;
+  }
+
   getRelatedReports(userReport) {
     let reports = ' ';
     if (userReport.animal === 'Hawaiian Monk Seal') {
