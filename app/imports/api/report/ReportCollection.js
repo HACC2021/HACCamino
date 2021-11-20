@@ -267,33 +267,44 @@ class ReportCollection extends BaseCollection {
 
   getDates() {
     const reports = this.getCurrentReports();
-    const selectList = [0, 0, 0, 0, 0, 0, 0, 0];
+    const selectList = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     reports.forEach(function (element) {
-      console.log(element.date[0].substring(0, 2));
-      switch (element.date.substring(0, 2)) {
-        case 'Oʻahu':
+      switch (element.date[0].substring(0, 2)) {
+        case '1':
           selectList[0]++;
           break;
-        case 'Maui':
+        case '2':
           selectList[1]++;
           break;
-        case 'Hawaiʻi':
+        case '3':
           selectList[2]++;
           break;
-        case 'Kauaʻi':
+        case '4':
           selectList[3]++;
           break;
-        case 'Molokaʻi':
+        case '5':
           selectList[4]++;
           break;
-        case 'Lānaʻi':
+        case '6':
           selectList[5]++;
           break;
-        case 'Niʻihau':
+        case '7':
           selectList[6]++;
           break;
-        case 'Kahoʻolawe':
+        case '8':
           selectList[7]++;
+          break;
+        case '9':
+          selectList[8]++;
+          break;
+        case '10':
+          selectList[9]++;
+          break;
+        case '11':
+          selectList[10]++;
+          break;
+        case '12':
+          selectList[11]++;
           break;
         default:
 
