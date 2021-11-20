@@ -60,7 +60,6 @@ const ReportItem = ({ report, updates }) => {
     }
   };
   const finalColor = colorReport(report.animal);
-  console.log(finalColor);
   return (
   <>
     <Modal

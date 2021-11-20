@@ -61,6 +61,45 @@ const ViewReport = () => {
     { value: 'pending', label: 'pending' },
     { value: 'approved', label: 'approved' },
   ];
+  const islandPane = (island) => {
+    switch (island) {
+      case 'Oʻahu':
+        zoom = 10;
+        center = ({ lat: 21.4389, lng: -158.0001 });
+        break;
+      case 'Maui':
+        zoom = 10;
+        center = ({ lat: 20.798363, lng: -156.3319 });
+        break;
+      case 'Hawaiʻi':
+        zoom = 9;
+        center = ({ lat: 19.5429, lng: -155.6659 });
+        break;
+      case 'Kauaʻi':
+        zoom = 10;
+        center = ({ lat: 22.0964, lng: -159.5261 });
+        break;
+      case 'Molokaʻi':
+        zoom = 10;
+        center = ({ lat: 21.1444, lng: -157.0226 });
+        break;
+      case 'Lānaʻi':
+        zoom = 10;
+        center = ({ lat: 20.8166, lng: -156.9273 });
+        break;
+      case 'Niʻihau':
+        zoom = 10;
+        center = ({ lat: 21.8921, lng: -160.1575 });
+        break;
+      case 'Kahoʻolawe':
+        zoom = 10;
+        center = ({ lat: 20.5580, lng: -156.6057 });
+        break;
+      default:
+        zoom = 7.3;
+        center = basic;
+    }
+  };
     if (ready) {
       if (finalSearch.label !== '') {
         temp = allReports.filter((report) => report._id === finalSearch.label);
@@ -70,6 +109,7 @@ const ViewReport = () => {
         let second = allReports.filter((report) => report.animal === finalAnimal.value);
         if (finalIsland.value !== 'All') {
           second = second.filter((report) => report.island === finalIsland.value);
+          islandPane(finalIsland.value);
         }
         if (status.value !== 'All') {
           second = second.filter((report) => report.status === status.value);
@@ -81,6 +121,7 @@ const ViewReport = () => {
         center = basic;
         if (finalIsland.value !== 'All') {
           second = second.filter((report) => report.island === finalIsland.value);
+          islandPane(finalIsland.value);
         }
         if (status.value !== 'All') {
           second = second.filter((report) => report.status === status.value);
