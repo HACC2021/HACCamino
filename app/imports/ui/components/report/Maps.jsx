@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { Container, Loader } from 'semantic-ui-react';
+import { useTracker } from 'meteor/react-meteor-data';
 import PropTypes from 'prop-types';
 import { GoogleMap, Marker, InfoWindow, useLoadScript } from '@react-google-maps/api';
 import ReportItem from './ReportItem';
 import mapStyle from './googleMapStyle';
+import { Updates } from '../../../api/updates/UpdateCollection';
 
 const containerStyle = {
   width: '100%',
@@ -19,10 +21,18 @@ const options = {
 const libraries = ['places'];
 
 const Maps = ({ allReports, center, zoom }) => {
+  const { allReportUpdates } = useTracker(() => {
+    Updates.subscribeUpdates();
+    const u = Updates.getAllUpdatesVolunteer();
+    return {
+      allReportUpdates: u,
+    };
+  }, []);
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: '',
     libraries,
   });
+  const getUpdates = (id) => allReportUpdates.filter(update => update.reportID === id);
   const [selected, setSelected] = useState(null);
   const sealReports = allReports.filter((report) => report.animal === 'Hawaiian Monk Seal');
   const birdReports = allReports.filter((report) => report.animal === 'Sea Birds');
@@ -69,7 +79,7 @@ const Maps = ({ allReports, center, zoom }) => {
         onCloseClick={() => { setSelected(null); }}
         >
           <div>
-            <ReportItem key={selected._id} report={selected}/>
+            <ReportItem key={selected._id} updates={getUpdates(selected._id)} report={selected}/>
           </div>
         </InfoWindow>
           ) : null }
