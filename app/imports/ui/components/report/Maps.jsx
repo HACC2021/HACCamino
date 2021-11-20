@@ -24,6 +24,9 @@ const Maps = ({ allReports, center, zoom }) => {
     libraries,
   });
   const [selected, setSelected] = useState(null);
+  const sealReports = allReports.filter((report) => report.animal === 'Hawaiian Monk Seal');
+  const birdReports = allReports.filter((report) => report.animal === 'Sea Birds');
+  const turtleReports = allReports.filter((report) => report.animal === 'Sea Turtles');
   return (
     <Container>
       { isLoaded ?
@@ -33,9 +36,31 @@ const Maps = ({ allReports, center, zoom }) => {
       zoom={zoom}
       options={options}
       >
-        {allReports.map(marker => <Marker
+        {sealReports.map(marker => <Marker
         key={marker.lat + marker.lng}
         position={{ lat: marker.lat, lng: marker.lng }}
+        icon={{
+          url: 'images/blueMarker.png',
+          scale: 2,
+        }}
+        onClick={() => { setSelected(marker); }}
+        />)}
+        {birdReports.map(marker => <Marker
+        key={marker.lat + marker.lng}
+        position={{ lat: marker.lat, lng: marker.lng }}
+        icon={{
+          url: 'images/tanMarker.png',
+          scale: 2,
+        }}
+        onClick={() => { setSelected(marker); }}
+        />)}
+        {turtleReports.map(marker => <Marker
+        key={marker.lat + marker.lng}
+        position={{ lat: marker.lat, lng: marker.lng }}
+        icon={{
+          url: 'images/greenMarker.png',
+          scale: 2,
+        }}
         onClick={() => { setSelected(marker); }}
         />)}
         {selected ? (
