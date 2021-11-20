@@ -8,7 +8,7 @@ import PreReportModalHotline from '../components/pre-report-modals/PreReportModa
 const Landing = () => (
       <Grid centered container style={ { margin: 'auto' } }>
         <Grid.Row>
-          <Image size='small' src='images/landing-page/hmar_logo.png' />
+          <Image size='small' src='images/hmarcamino.png' />
         </Grid.Row>
         <Grid.Row >
           <PreReportModalHotline/>
