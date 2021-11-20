@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Grid, Header, Message } from 'semantic-ui-react';
+import { Button, Form, Grid, Header, Message } from 'semantic-ui-react';
 import { useHistory } from 'react-router-dom';
 import Swal from 'sweetalert2';
 import { Meteor } from 'meteor/meteor';
 import { defineAccountRoleUser } from '../../../api/user/UserCollection.methods';
+import UploadPhotoModal from '../../components/aws/UploadPhotoModal';
 
 const roleOptions = [
   { key: 'a', text: 'Admin', value: 'admin' },
@@ -17,6 +18,11 @@ const CreateAccount = () => {
   const [role, setRole] = useState('');
   const [error, setError] = useState('');
   const [showMessage, setShowMessage] = useState(false);
+  // aws hosting
+  const [data, setData] = useState([]);
+  const handleCallback = (childData) => {
+    setData(arr => [...arr, childData]);
+  };
 
   const history = useHistory();
   const goToPage = (pageLink) => {
@@ -42,6 +48,7 @@ const CreateAccount = () => {
     definitionData.owner = email;
     definitionData.role = role;
     definitionData.creator = Meteor.user().username;
+    definitionData.photoAWSKey = (data.length === 0 ? 'default-photo.png' : data[0][0]);
     defineAccountRoleUser.call({ email, role, definitionData },
       (err) => {
         if (err) {
@@ -87,7 +94,7 @@ const CreateAccount = () => {
 
       <Grid.Row>
         <Grid.Column>
-          <Form onSubmit={handleSubmit}>
+          <Form>
             <Form.Select
               required
               label='Role'
@@ -121,8 +128,17 @@ const CreateAccount = () => {
               value={email}
               onChange={handleChange}
             />
-            <Form.Button content="Submit"/>
+            <Form.Field>
+              <label>Upload ID Photo</label>
+              <UploadPhotoModal parentCallback={handleCallback}/>
+            </Form.Field>
           </Form>
+        </Grid.Column>
+      </Grid.Row>
+
+      <Grid.Row>
+        <Grid.Column>
+          <Button content="Submit" onClick={handleSubmit}/>
         </Grid.Column>
       </Grid.Row>
 

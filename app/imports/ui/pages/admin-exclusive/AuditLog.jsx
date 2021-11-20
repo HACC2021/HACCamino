@@ -46,7 +46,7 @@ const AuditLog = () => {
       <Grid.Row>
         <Grid.Column>
           <Feed>
-            {rows.map((row) => <UpdateFeedEvent
+            {rows.length === 0 ? null : rows.map((row) => <UpdateFeedEvent
               key={row._id}
               updateObj={row}
               usersArray={getUsers(row)}
