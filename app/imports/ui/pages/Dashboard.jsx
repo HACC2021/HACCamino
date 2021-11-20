@@ -11,6 +11,9 @@ const Dashboard = () => (
           <AdminListReports/>
         </Grid.Row>
         <Grid.Row>
+          <Export/>
+        </Grid.Row>
+        <Grid.Row>
           <Grid.Column>
             <Header
                 as="h2"
@@ -20,11 +23,6 @@ const Dashboard = () => (
             <CaseGraph/>
           </Grid.Column>
         </Grid.Row>
-      <Grid.Row>
-        <Grid.Column>
-            <Export/>
-        </Grid.Column>
-      </Grid.Row>
       </Grid>
     </div>
 );

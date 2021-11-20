@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Container, Loader, Grid } from 'semantic-ui-react';
+import { Button, Container, Loader, Grid, Modal } from 'semantic-ui-react';
 import { useTracker } from 'meteor/react-meteor-data';
 import { addDays } from 'date-fns';
 import { DateRangePicker } from 'react-date-range';
@@ -11,6 +11,7 @@ import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; // theme css file
 
 const Export = () => {
+  const [open, setOpen] = useState(false);
     const listLoading = useTracker(() => {
         const handle = Reports.subscribeReportAdmin();
         return handle.ready();
@@ -126,30 +127,37 @@ const Export = () => {
             download(headerData);
         }
     };
-
     return (
-        <Container>
-            {listLoading ?
-                <Container>
-                    <Grid>
-                        <Grid.Row centered>
-                            <DateRangePicker
-                                onChange={item => setState([item.selection])}
-                                showSelectionPreview={true}
-                                moveRangeOnFirstSelection={false}
-                                months={2}
-                                ranges={state}
-                                direction="horizontal"
-                            />
-                        </Grid.Row>
-                        <Grid.Row>
-                            <Button id='export-button' onClick={getReport}>Export csv</Button>
-                        </Grid.Row>
-                    </Grid>
-                </Container>
-                :
-                <Loader>Loading</Loader>}
+    <Modal
+    size='large'
+    onClose={() => setOpen(false)}
+    onOpen={() => setOpen(true)}
+    open={open}
+    trigger={<Button>Export CSV</Button>}
+    >
+      <Container>
+        {listLoading ?
+        <Container style={{ margin: '10px 0px' }}>
+          <Grid>
+            <Grid.Row centered>
+              <DateRangePicker
+              onChange={item => setState([item.selection])}
+              showSelectionPreview={true}
+              moveRangeOnFirstSelection={false}
+              months={2}
+              ranges={state}
+              direction="horizontal"
+              />
+            </Grid.Row>
+            <Grid.Row>
+              <Button id='export-button' onClick={getReport}>Export CSV</Button>
+            </Grid.Row>
+          </Grid>
         </Container>
+        :
+        <Loader>Loading</Loader>}
+      </Container>
+    </Modal>
     );
 };
 
