@@ -87,12 +87,12 @@ const NavBar = () => {
                 exact to='/admin/staff-list'
               />
               <Menu.Item
-                content='Volunteers'
+                content='Create Account'
                 as={NavLink}
                 exact to='/admin/create-account'
               />
               <Menu.Item
-                content='Volunteers'
+                content='Audit Log'
                 as={NavLink}
                 exact to='/admin/audit-log'
               />
