@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Header } from 'semantic-ui-react';
+import { Grid } from 'semantic-ui-react';
 import CaseGraph from '../components/CaseGraph';
 import AdminListReports from '../components/AdminListReports';
 import Export from './Export';
@@ -15,11 +15,7 @@ const Dashboard = () => (
         </Grid.Row>
         <Grid.Row>
           <Grid.Column>
-            <Header
-                as="h2"
-                textAlign="center"
-                content={'Cases by SubType'}
-            />
+            <h2>Report Analytics</h2>
             <CaseGraph/>
           </Grid.Column>
         </Grid.Row>

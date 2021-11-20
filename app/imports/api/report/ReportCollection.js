@@ -229,6 +229,42 @@ class ReportCollection extends BaseCollection {
     return reports.filter(report => report.animal === 'Sea Birds');
   }
 
+  getIslands() {
+    const reports = this.getCurrentReports();
+    const selectList = [0, 0, 0, 0, 0, 0, 0, 0];
+    reports.forEach(function (element) {
+      switch (element.island) {
+        case 'Oʻahu':
+          selectList[0]++;
+          break;
+        case 'Maui':
+          selectList[1]++;
+          break;
+        case 'Hawaiʻi':
+          selectList[2]++;
+          break;
+        case 'Kauaʻi':
+          selectList[3]++;
+          break;
+        case 'Molokaʻi':
+          selectList[4]++;
+          break;
+        case 'Lānaʻi':
+          selectList[5]++;
+          break;
+        case 'Niʻihau':
+          selectList[6]++;
+          break;
+        case 'Kahoʻolawe':
+          selectList[7]++;
+          break;
+        default:
+
+      }
+    });
+    return selectList;
+  }
+
   getRelatedReports(userReport) {
     let reports = ' ';
     if (userReport.animal === 'Hawaiian Monk Seal') {
