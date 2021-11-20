@@ -47,6 +47,20 @@ const ReportItem = ({ report, updates }) => {
     );
     index++;
   });
+  const colorReport = (animal) => {
+    switch (animal) {
+      case 'Hawaiian Monk Seal':
+        return 'rgba(39, 125, 161, 0.5)';
+      case 'Sea Turtles':
+        return 'rgba(129, 178, 154, 0.5)';
+      case 'Sea Birds':
+        return 'rgba(242, 204, 143, 0.5)';
+      default:
+        return ' ';
+    }
+  };
+  const finalColor = colorReport(report.animal);
+  console.log(finalColor);
   return (
   <>
     <Modal
@@ -55,7 +69,7 @@ const ReportItem = ({ report, updates }) => {
     open={firstOpen}
     size='small'
     trigger={
-      <Card>
+      <Card style={{ backgroundColor: finalColor }}>
         <Card.Content>
           <Card.Header>{report.location} - {report.animal}</Card.Header>
           <Card.Description>
